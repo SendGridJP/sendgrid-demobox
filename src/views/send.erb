@@ -1,0 +1,172 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-md-3" for="to"><span class="text-danger">*</span>To</label>
+          <div class="col-md-9">
+            <input type="text" id="tos" class="form-control" placeholder="To">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3" for="from"><span class="text-danger">*</span>From</label>
+          <div class="col-md-9">
+            <input type="text" id="from" class="form-control" placeholder="From">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3" for="subject"><span class="text-danger">*</span>件名</label>
+          <div class="col-md-9">
+            <input type="text" id="subject" class="form-control" placeholder="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3" for="body"><span class="text-danger">*</span>本文</label>
+          <div class="col-md-9">
+            <textarea id="body" class="form-control" placeholder="本文" style="height:200px;"></textarea>
+          </div>
+        </div>
+
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="glyphicon glyphicon-chevron-right"></i>オプション</a>
+              </h4>
+            </div>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusesub" value="usesub">Substitution
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" id="subkey" class="form-control" placeholder="Key">
+                </div>
+                <div class="col-md-12">
+                  <input type="text" id="subval" class="form-control" placeholder="Value">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusebcc" value="usebcc">Bcc
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" id="bcc" class="form-control" placeholder="Bcc">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusecategory" value="usebcc">Category
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" id="category" class="form-control" placeholder="Category">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbuseunqargs" value="useuniqargs">Unique Args
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" id="unqargs" class="form-control" placeholder="Unique Args">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbuseclick" value="useclick">Click Tracking
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbuseopen" value="useopen">Open Tracking
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusesubscription" value="usesubscription">Subscription Tracking
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusetemplate" value="usesubscription">Template
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <div class="btn-group">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Template1 <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Template1</a></li>
+                      <li><a href="#">Template2</a></li>
+                      <li><a href="#">Template3</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="cbusefooter" value="usefooter">Footer
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="submit" value="送信" class="btn btn-primary center-block">
+        </div>
+      </form>
+
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="btn-group" data-toggle="buttons-radio"  style="margin-bottom:15px;">
+        <button class="btn btn-default active">Table</button>
+        <button class="btn btn-default">JSON</button>
+      </div>
+
+
+      <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr><th>ID</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>@taguchi</td><td>200</td></tr>
+          <tr><td>@fkoji</td><td>300</td></tr>
+          <tr><td>@dotinstall</td><td>240</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

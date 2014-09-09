@@ -24,8 +24,11 @@ module SendGridDemo
     # end
 
     get '/' do
-      erb :index
-      #'Hello999'
+      erb :send
+    end
+
+    get '/send' do
+      erb :send
     end
 
     get '/receive' do

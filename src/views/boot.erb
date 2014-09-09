@@ -9,6 +9,120 @@
   <body>
 
     <div class="container" style="padding:20px 0">
+      <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+        <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+        <li><a href="#about" data-toggle="tab">About</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">ホームだよー</div>
+        <div class="tab-pane" id="about">あばうとだよー</div>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".target">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="">Dotinstall</a>
+      </div>
+
+      <div class="collapse navbar-collapse target">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="">Link1</a></li>
+          <li><a href="">Link2</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="">Link3</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container" style="padding:20px 0">
+      <p><a href="#" data-toggle="tooltip" title="説明">this</a> and <a href="#" data-toggle="popover" title="説明" data-content="さらに詳細">that</a>.</p>
+
+    </div>
+
+    <div class="container" style="padding:20px 0">
+      <div class="progress">
+        <div class="progress-bar progress-bar-primary" style="width:60%"></div>
+      </div>
+      <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-primary" style="width:60%"></div>
+      </div>
+      <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-info" style="width:40%"></div>
+        <div class="progress-bar progress-bar-primary" style="width:30%"></div>
+        <div class="progress-bar progress-bar-warning" style="width:20%"></div>
+
+
+      </div>
+
+
+    </div>
+
+    <div class="container" style="padding:20px 0">
+      <p>Product A <span class="label label-primary">NEW!</span></p>
+      <p><span class="label label-primary">Important</span></p>
+      <p>Inbox <span class="badge">5</span></p>
+      <p>Inbox <span class="badge"></span></p>
+      <div class="alert alert-warning">
+        <button class="close" data-dismiss="alert">&times;</button>
+        お知らせ
+      </div>
+
+      <div class="panel panel-primary">
+        <button class="close" data-dismiss="alert">&times;</button>
+        <div class="panel-heading">
+          お知らせ
+        </div>
+        <div class="panel-body">
+          こんにちは
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container" style="padding:20px 0">
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Acction <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="">Action</a></li>
+          <li><a href="">Action</a></li>
+          <li class="divider"></li>
+          <li><a href="">Action</a></li>
+        </ul>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary">Action</button>
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">　
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="">Action</a></li>
+          <li><a href="">Action</a></li>
+          <li class="divider"></li>
+          <li><a href="">Action</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="container" style="padding:20px 0">
+      <p><i class="glyphicon glyphicon-book"></i> Book</p>
+
+      <div class="btn-group">
+        <button class="btn btn-primary">Push Me</button>
+        <button class="btn btn-success">Push Me</button>
+        <button class="btn btn-info">Push Me</button>
+      </div>
+    </div>
+
+    <div class="container" style="padding:20px 0">
       <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
           <tr><th>ID</th><th>Score</th></tr>
@@ -22,16 +136,49 @@
     </div>
 
     <div class="container" style="padding:20px 0">
-      <form>
-        <div class="form-group has-error">
-          <label class="control-label" for="email">Email</label>
+      <form class="form-inline" style="margin-bottom:15px;">
+        <div class="form-group">
+          <label class="sr-only control-label" for="email">Email</label>
           <input type="text" id="email" class="form-control" placeholder="email">
-          <span class="help-block">Error!</span>
         </div>
         <div class="form-group">
           <input type="submit" value="submit" class="btn btn-primary">
         </div>
       </form>
+
+      <form class="form-horizontal" style="margin-bottom:15px;">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email</label>
+          <div class="col-sm-4">
+            <input type="text" id="email" class="form-control" placeholder="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email</label>
+          <div class="col-sm-4">
+            <input type="text" id="email" class="form-control" placeholder="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email</label>
+          <div class="col-sm-4">
+            <input type="text" id="email" class="form-control" placeholder="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email</label>
+          <div class="col-sm-4">
+            <input type="text" id="email" class="form-control" placeholder="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm4">
+            <input type="submit" value="submit" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+
     </div>
     <div id="header" class="container" style="background:red;">header</div>
 
@@ -47,5 +194,13 @@
 
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(function(){
+        $("[data-toggle=tooltip]").tooltip({
+          placement: 'bottom'
+        });
+        $("[data-toggle=popover]").popover();
+      });
+    </script>
   </body>
 </html>
