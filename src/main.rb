@@ -3,7 +3,7 @@
 require 'sinatra/base'
 #require 'sinatra/reloader'
 #Sinatra.register Sinatra::Reloader
-#require 'json'
+require 'json'
 #require './lib/game_collection'
 #require './lib/addresses'
 #require './lib/mailer'
@@ -13,7 +13,9 @@ require 'sinatra/base'
 
 module SendGridDemo
   class Main < Sinatra::Base
-    # configure :production do
+
+    configure :production, :development do
+      enable :logging
     #   begin
     #     settings = Settings.new
     #     Configure.init_sendgrid(settings)
@@ -21,7 +23,7 @@ module SendGridDemo
     #     puts e.backtrace
     #     puts e.inspect
     #   end
-    # end
+    end
 
     get '/' do
       erb :send
@@ -33,6 +35,23 @@ module SendGridDemo
 
     get '/receive' do
       erb :receive
+    end
+
+    post '/send' do
+      logger.info "send"
+      request.body.rewind
+      body = request.body.read
+      logger.info "body: #{body}"
+      if body.length > 0 then
+
+
+        jjj = body.to_json
+        logger.info "jjj: #{jjj}"
+        data = JSON.parse(body)
+        #data = JSON.dump(body)
+        logger.info "data: #{data.inspect}"
+      end
+      #erb :send
     end
 
     get '/boot' do
