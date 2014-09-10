@@ -1,28 +1,48 @@
 # -*- encoding: utf-8 -*-
 
 require 'sinatra/base'
+require 'sinatra/rocketio'
 #require 'sinatra/reloader'
 #Sinatra.register Sinatra::Reloader
 require 'json'
+require "./src/mailer"
+require "./src/setting"
 #require './lib/game_collection'
 #require './lib/addresses'
 #require './lib/mailer'
 #require './lib/game'
-#require './lib/settings'
-#require './lib/configure'
+require './src/configure'
+
+# set :cometio, :timeout => 120, :post_interval => 2, :allow_crossdomain => false
+# set :websocketio, :port => 5001
+# set :rocketio, :websocket => true, :comet => true # enable WebSocket and Comet
 
 module SendGridDemo
   class Main < Sinatra::Base
 
     configure :production, :development do
-      enable :logging
-    #   begin
-    #     settings = Settings.new
-    #     Configure.init_sendgrid(settings)
-    #   rescue => e
-    #     puts e.backtrace
-    #     puts e.inspect
-    #   end
+      begin
+        enable :logging
+        # for RocketIO
+        @io = Sinatra::RocketIO
+        # init sendgrid
+        setting = Setting.new
+        Configure.init_sendgrid(setting)
+      rescue => e
+        puts e.backtrace
+        puts e.inspect
+      end
+    end
+
+    helpers do
+      # name=>valueの配列を連想配列に変換
+      def to_kv(data)
+        ret = {}
+        data.each do |kv|
+          ret[kv["name"]] = kv["value"]
+        end
+        ret
+      end
     end
 
     get '/' do
@@ -41,22 +61,40 @@ module SendGridDemo
       logger.info "send"
       request.body.rewind
       body = request.body.read
-      logger.info "body: #{body}"
       if body.length > 0 then
-
-
-        jjj = body.to_json
-        logger.info "jjj: #{jjj}"
         data = JSON.parse(body)
-        #data = JSON.dump(body)
         logger.info "data: #{data.inspect}"
+        mailer = Mailer.new
+        JSON.pretty_generate(mailer.send(to_kv(data)))
       end
       #erb :send
+    end
+
+    post '/event' do
+      begin
+        request.body.rewind
+        data = JSON.parse(request.body.read)
+        logger.info "/event data #{data.inspect}"
+        data.each{|event|
+          logger.info event['event']
+          @io.push :event, event['event']
+        }
+      rescue => e
+        logger.error e.backtrace
+        logger.error e.inspect
+      end
+
+      'Success'
     end
 
     get '/boot' do
       erb :boot
     end
+
+    get '/form' do
+      erb :form
+    end
+
     # post '/game' do
     #   begin
     #     # parse email address from request

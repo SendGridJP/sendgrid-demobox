@@ -2,30 +2,49 @@
   <div class="row">
     <div class="col-md-3">
 
-      <form class="form-horizontal" action="/send" method="post">
+      <form id="param" class="form-horizontal">
+
         <div class="form-group">
-          <label class="control-label col-md-3" for="to"><span class="text-danger">*</span>To</label>
-          <div class="col-md-9">
-            <input type="text" id="tos" class="form-control" placeholder="To">
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>To</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="tos" class="form-control"
+              placeholder="recipient1@address.com, recipient2@address.com"
+              value="awwa500@gmail.com,awwa502@gmail.com" />
           </div>
         </div>
 
         <div class="form-group">
-          <label class="control-label col-md-3" for="from"><span class="text-danger">*</span>From</label>
-          <div class="col-md-9">
-            <input type="text" id="from" class="form-control" placeholder="From">
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>From</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="from" class="form-control"
+              placeholder="your@address.com"
+              value="awwa500@gmail.com">
           </div>
         </div>
+
         <div class="form-group">
-          <label class="control-label col-md-3" for="subject"><span class="text-danger">*</span>件名</label>
-          <div class="col-md-9">
-            <input type="text" id="subject" class="form-control" placeholder="email">
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>件名</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="subject" class="form-control"
+              placeholder="-name-さんへ　テストメール"
+              value="-name-さんへ　テストメール">
           </div>
         </div>
+
         <div class="form-group">
-          <label class="control-label col-md-3" for="body"><span class="text-danger">*</span>本文</label>
-          <div class="col-md-9">
-            <textarea id="body" class="form-control" placeholder="本文" style="height:200px;"></textarea>
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>本文</label>
+          </div>
+          <div class="col-md-12">
+            <textarea name="body" class="form-control" style="height:100px;"
+              placeholder="-name-さんへ　テスト本文">-name-さんへ　テスト本文
+<a href="https://sendgrid.com">センドグリッド</a></textarea>
           </div>
         </div>
 
@@ -33,7 +52,9 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="glyphicon glyphicon-chevron-right"></i>オプション</a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  <i class="glyphicon glyphicon-chevron-right"></i>オプション
+                </a>
               </h4>
             </div>
           </div>
@@ -43,70 +64,63 @@
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbusesub" value="usesub">Substitution
+                    <input type="checkbox" id="usesub" name="usesub" value="true">Substitution
                   </label>
                 </div>
                 <div class="col-md-12">
-                  <input type="text" id="subkey" class="form-control" placeholder="Key">
+                  <input type="text" id="subkey" name="subkey" class="form-control"
+                    placeholder="-name-" value="-name-" disabled="true">
                 </div>
                 <div class="col-md-12">
-                  <input type="text" id="subval" class="form-control" placeholder="Value">
+                  <input type="text" id="subval" name="subval" class="form-control"
+                    placeholder="田中, 鈴木" value="田中, 鈴木" disabled="true">
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbusebcc" value="usebcc">Bcc
+                    <input type="checkbox" id="usebcc" name="usebcc" value="true">Bcc
                   </label>
                 </div>
                 <div class="col-md-12">
-                  <input type="text" id="bcc" class="form-control" placeholder="Bcc">
+                  <input type="text" id="bcc" name="bcc" class="form-control"
+                    placeholder="bcc@address.com" value="awwa501@gmail.com" disabled="true">
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbusecategory" value="usebcc">Category
+                    <input type="checkbox" id="usecategory" name="usecategory"
+                      value="true">Category
                   </label>
                 </div>
                 <div class="col-md-12">
-                  <input type="text" id="category" class="form-control" placeholder="Category">
+                  <input type="text" id="category" name="category" class="form-control"
+                    placeholder="sendgrid-demo" value="sendgrid-demo" disabled="true">
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbuseunqargs" value="useuniqargs">Unique Args
+                    <input type="checkbox" id="useuniqueargs" name="useuniqueargs"
+                      value="true">Unique Args
                   </label>
                 </div>
                 <div class="col-md-12">
-                  <input type="text" id="unqargs" class="form-control" placeholder="Unique Args">
+                  <input type="text" id="uniquekey" name="uniquekey" class="form-control"
+                    placeholder="emailtoken" value="emailtoken" disabled="true">
+                  <input type="text" id="uniqueval" name="uniqueval" class="form-control"
+                    placeholder="20140901123456" value="20140901123456" disabled="true">
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbuseclick" value="useclick">Click Tracking
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-md-12">
-                  <label>
-                    <input type="checkbox" id="cbuseopen" value="useopen">Open Tracking
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-md-12">
-                  <label>
-                    <input type="checkbox" id="cbusesubscription" value="usesubscription">Subscription Tracking
+                    <input type="checkbox" id="useclick" name="useclick" value="true">Click Tracking
                   </label>
                 </div>
               </div>
@@ -114,25 +128,41 @@
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbusetemplate" value="usesubscription">Template
+                    <input type="checkbox" id="useopen" name="useopen" value="true">Open Tracking
                   </label>
-                </div>
-                <div class="col-md-12">
-                  <div class="btn-group">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Template1 <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Template1</a></li>
-                      <li><a href="#">Template2</a></li>
-                      <li><a href="#">Template3</a></li>
-                    </ul>
-                  </div>
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-md-12">
                   <label>
-                    <input type="checkbox" id="cbusefooter" value="usefooter">Footer
+                    <input type="checkbox" id="usesubscription" name="usesubscription"
+                      value="true">Subscription Tracking
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="usetemplate" name="usetemplate"
+                      value="true">Template
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <select class="form-control" id="template" name="template" disabled="true">
+                    <option>Template1</option>
+                    <option>Template2</option>
+                    <option>Template3</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="usefooter" name="usefooter"
+                      value="true">Footer
                   </label>
                 </div>
               </div>
@@ -141,17 +171,17 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <input type="submit" value="送信" class="btn btn-primary center-block">
-        </div>
+        <button id="send" class="btn btn-primary center-block">送信</button>
+
       </form>
 
-<button id="send" class="btn btn-primary center-block">送信ajax</button>
+
+      <div id="result"></div>
     </div>
 
     <div class="col-md-9">
 
-      <div class="btn-group" data-toggle="buttons-radio"  style="margin-bottom:15px;">
+      <div class="btn-group" data-toggle="buttons-radio" style="margin-bottom:15px;">
         <button class="btn btn-default active">Table</button>
         <button class="btn btn-default">JSON</button>
       </div>
@@ -174,23 +204,73 @@
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="<%= rocketio_js %>"></script>
 <script>
   $(function(){
     // テスト用文字色変更処理（あとで消す）
-    $('label').css('color', 'red');
+    //$('label').css('color', 'red');
     // sendボタン処理
-    var data = {"hoge":"ho&&ge", "fuga":"fuga"};
-    $('#send').click(function(){
-        $.ajax({
-          type: "POST",
-          url: "/send",
-          dataType: 'json',
-          data: JSON.stringify(data),
-          success: function() {
-            alert('success');
+    alert('init');
+    io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
+    io.on("event", function(value){
+      alert("event");
+    });
+
+    $("#send").click(
+      function(){
+        // RocketIO テスト
+        io.push("hello", "world");
+
+        $("#result").html("sending...")
+        var param = $("#param").serializeArray();
+        $.post(
+          "/send",
+          JSON.stringify(param),
+          function(data) {
+            $("#result").html(data);
           }
-        });
+        );
       }
     );
+
+    $("#usesub").click(
+      function(){
+        var checked = $("#usesub:checked").val() == "true";
+        $("#subkey").attr("disabled", !checked);
+        $("#subval").attr("disabled", !checked);
+      }
+    );
+
+    $("#usebcc").click(
+      function(){
+        var checked = $("#usebcc:checked").val() == "true";
+        $("#bcc").attr("disabled", !checked);
+      }
+    );
+
+    $("#usecategory").click(
+      function(){
+        var checked = $("#usecategory:checked").val() == "true";
+        $("#category").attr("disabled", !checked);
+      }
+    );
+
+    $("#useuniqueargs").click(
+      function(){
+        var checked = $("#useuniqueargs:checked").val() == "true";
+        $("#uniquekey").attr("disabled", !checked);
+        $("#uniqueval").attr("disabled", !checked);
+      }
+    );
+
+    $("#usetemplate").click(
+      function(){
+        var checked = $("#usetemplate:checked").val() == "true";
+        $("#template").attr("disabled", !checked);
+      }
+    );
+
+
   });
 </script>

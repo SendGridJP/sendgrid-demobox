@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrapの練習</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+
+  <form id="my-form">
+    <input type="text" name="my-text" value="This is text." />
+    <select name="my-multi-select" size="3" multiple>
+      <option value="A">This is A</option>
+      <option value="B" selected>This is B</option>
+      <option value="C" selected>This is C</option>
+    </select>
+  </form>
+
+  <button id="get" class="btn btn-primary">Get</button>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(function(){
+        $('#get').click(
+          function(){
+            var $form = $('#my-form');
+            var query = $form.serialize();
+            var param = $form.serializeArray();
+            alert(query);
+            alert(param);
+          }
+        );
+      });
+    </script>
+  </body>
+</html>
