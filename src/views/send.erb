@@ -171,9 +171,9 @@
           </div>
         </div>
 
-        <button id="send" class="btn btn-primary center-block">送信</button>
-
       </form>
+
+      <button id="send" class="btn btn-primary center-block">送信</button>
 
 
       <div id="result"></div>
@@ -182,19 +182,40 @@
     <div class="col-md-9">
 
       <div class="btn-group" data-toggle="buttons-radio" style="margin-bottom:15px;">
-        <button class="btn btn-default active">Table</button>
-        <button class="btn btn-default">JSON</button>
+        <button class="btn btn-default" id="show-table">Table</button>
+        <button class="btn btn-default active" id="show-json">JSON</button>
       </div>
 
-
-      <table class="table table-striped table-bordered table-hover table-condensed">
+      <table class="table table-striped table-bordered table-condensed" id="event-table">
         <thead>
-          <tr><th>ID</th><th>Score</th></tr>
+          <tr>
+            <th>email</th>
+            <th>smtp-id</th>
+            <th>timestamp</th>
+            <th>response</th>
+            <th>sg_event_id</th>
+            <th>sg_message_id</th>
+            <th>event</th>
+            <th>useragent</th>
+            <th>ip</th>
+            <th>attempt</th>
+            <th>category</th>
+            <th>url</th>
+            <th>status</th>
+            <th>reason</th>
+            <th>type</th>
+            <th>send_at</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>@taguchi</td><td>200</td></tr>
-          <tr><td>@fkoji</td><td>300</td></tr>
-          <tr><td>@dotinstall</td><td>240</td></tr>
+        </tbody>
+      </table>
+
+      <table class="table table-striped table-bordered table-condensed" id="event-json">
+        <thead>
+          <tr><th>JSON</th><tr>
+        </thead>
+        <tbody>
         </tbody>
       </table>
     </div>
@@ -208,20 +229,65 @@
 <script src="<%= rocketio_js %>"></script>
 <script>
   $(function(){
-    // テスト用文字色変更処理（あとで消す）
-    //$('label').css('color', 'red');
-    // sendボタン処理
-    alert('init');
+
+    // 初期状態
+    $("#event-table").hide();
+    $("#nav-send").addClass("active");
+    $("#nav-receive").removeClass("active");
+
+    $("#test").click(
+      function(){
+        $("#event-json").prepend("<tr><td>test</td></tr>");
+      }
+    );
+
+    getRow = function(event){
+      var email = ("email" in event)? event["email"] : "";
+      var smtp_id = ("smtp-id" in event)? event["smtp-id"] : "";
+      var timestamp = ("timestamp" in event)? event["timesamp"] : "";
+      var response = ("response" in event)? event["response"] : "";
+      var sg_event_id = ("sg_event_id" in event)? event["sg_event_id"] : "";
+      var sg_message_id = ("sg_message_id" in event)? event["sg_message_id"] : "";
+      var event_type = ("event" in event)? event["event"] : "";
+      var useragent = ("useragent" in event)? event["useragent"] : "";
+      var ip = ("ip" in event)? event["ip"] : "";
+      var attempt = ("attempt" in event)? event["attempt"] : "";
+      var category = ("category" in event)? event["category"] : "";
+      var url = ("url" in event)? event["url"] : "";
+      var status = ("status" in event)? event["status"] : "";
+      var reason = ("reason" in event)? event["reason"] : "";
+      var type = ("type" in event)? event["type"] : "";
+      var send_at = ("send_at" in event)? event["send_at"] : "";
+      var row = "<tr>";
+      row += "<td>" + email + "</td>";
+      row += "<td>" + smtp_id + "</td>";
+      row += "<td>" + timestamp + "</td>";
+      row += "<td>" + response + "</td>";
+      row += "<td>" + sg_event_id + "</td>";
+      row += "<td>" + sg_message_id + "</td>";
+      row += "<td>" + event_type + "</td>";
+      row += "<td>" + useragent + "</td>";
+      row += "<td>" + ip + "</td>";
+      row += "<td>" + attempt + "</td>";
+      row += "<td>" + category + "</td>";
+      row += "<td>" + url + "</td>";
+      row += "<td>" + status + "</td>";
+      row += "<td>" + reason + "</td>";
+      row += "<td>" + type + "</td>";
+      row += "<td>" + send_at + "</td>";
+      row += "</tr>";
+      return row;
+    }
+
     io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
     io.on("event", function(value){
-      alert("event");
+      var event = JSON.parse(value);
+      $("#event-table").prepend(getRow(event));
+      $("#event-json").prepend("<tr><td>"+value+"</td></tr>");
     });
 
     $("#send").click(
       function(){
-        // RocketIO テスト
-        io.push("hello", "world");
-
         $("#result").html("sending...")
         var param = $("#param").serializeArray();
         $.post(
@@ -271,6 +337,21 @@
       }
     );
 
+    $("#show-table").click(
+      function(){
+        $("#event-table").show(200);
+        $("#event-json").hide();
+        $("#show-json").removeClass("active");
+      }
+    );
+
+    $("#show-json").click(
+      function(){
+        $("#event-table").hide();
+        $("#event-json").show(200);
+        $("#show-table").removeClass("active");
+      }
+    );
 
   });
 </script>

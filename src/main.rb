@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'sinatra/base'
-require 'sinatra/rocketio'
+#require 'sinatra/rocketio'
 #require 'sinatra/reloader'
 #Sinatra.register Sinatra::Reloader
 require 'json'
@@ -13,18 +13,15 @@ require "./src/setting"
 #require './lib/game'
 require './src/configure'
 
-# set :cometio, :timeout => 120, :post_interval => 2, :allow_crossdomain => false
-# set :websocketio, :port => 5001
-# set :rocketio, :websocket => true, :comet => true # enable WebSocket and Comet
-
 module SendGridDemo
   class Main < Sinatra::Base
+
+    register Sinatra::RocketIO
+    io = Sinatra::RocketIO
 
     configure :production, :development do
       begin
         enable :logging
-        # for RocketIO
-        @io = Sinatra::RocketIO
         # init sendgrid
         setting = Setting.new
         Configure.init_sendgrid(setting)
@@ -58,16 +55,21 @@ module SendGridDemo
     end
 
     post '/send' do
-      logger.info "send"
-      request.body.rewind
-      body = request.body.read
-      if body.length > 0 then
-        data = JSON.parse(body)
-        logger.info "data: #{data.inspect}"
-        mailer = Mailer.new
-        JSON.pretty_generate(mailer.send(to_kv(data)))
+      begin
+        logger.info "send"
+        request.body.rewind
+        body = request.body.read
+        if body.length > 0 then
+          data = JSON.parse(body)
+          logger.info "data: #{data.inspect}"
+          mailer = Mailer.new
+          JSON.pretty_generate(mailer.send(to_kv(data)))
+        end
+      rescue => e
+        logger.error e.backtrace
+        logger.error e.inspect
+        e.inspect
       end
-      #erb :send
     end
 
     post '/event' do
@@ -76,8 +78,8 @@ module SendGridDemo
         data = JSON.parse(request.body.read)
         logger.info "/event data #{data.inspect}"
         data.each{|event|
-          logger.info event['event']
-          @io.push :event, event['event']
+          logger.info JSON.generate(event)
+          io.push :event, JSON.generate(event)
         }
       rescue => e
         logger.error e.backtrace
