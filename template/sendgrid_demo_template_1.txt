@@ -1,0 +1,25 @@
+Airmail Welcome
+
+Company Name
+ (#)
+
+Welcome to Awesome Co!
+<%body%>
+
+Coupon code: 13448278949
+
+Hey {{ first_name }}, thanks for signing up
+
+We're really excited for you to join our community! You're just one click away from activate your account.
+
+Activate Account! (#)
+
+Thanks so much,
+
+Get in touch (#) if you have any questions or feedback
+
+Contact Us (#)  |  
+
+Facebook (#)  |  
+ Twitter (#)  |  
+ Support (#)

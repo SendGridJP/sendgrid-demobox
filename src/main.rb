@@ -19,6 +19,8 @@ module SendGridDemo
     register Sinatra::RocketIO
     io = Sinatra::RocketIO
 
+    attr_accessor :tmps
+
     configure :production, :development do
       begin
         enable :logging
@@ -55,28 +57,28 @@ module SendGridDemo
     end
 
     post '/send' do
+      res = ""
       begin
-        logger.info "send"
         request.body.rewind
         body = request.body.read
         if body.length > 0 then
           data = JSON.parse(body)
           logger.info "data: #{data.inspect}"
           mailer = Mailer.new
-          JSON.pretty_generate(mailer.send(to_kv(data)))
+          res = JSON.pretty_generate(mailer.send(to_kv(data)))
         end
       rescue => e
         logger.error e.backtrace
         logger.error e.inspect
-        e.inspect
+        res = e.inspect
       end
+      res
     end
 
     post '/event' do
       begin
         request.body.rewind
         data = JSON.parse(request.body.read)
-        logger.info "/event data #{data.inspect}"
         data.each{|event|
           logger.info JSON.generate(event)
           io.push :event, JSON.generate(event)
@@ -85,7 +87,6 @@ module SendGridDemo
         logger.error e.backtrace
         logger.error e.inspect
       end
-
       'Success'
     end
 
@@ -141,62 +142,6 @@ module SendGridDemo
     #   end
     #
     #   'Success'
-    # end
-
-    # post '/event' do
-    #   begin
-    #     request.body.rewind
-    #     data = JSON.parse(request.body.read)
-    #     data.each{|event|
-    #       begin
-    #         dba = GameCollection.new
-    #         # handle only click event
-    #         next if event['event'] != "click"
-    #         logger.info "got click event"
-    #         # requester address
-    #         email = event['email']
-    #         # parse the url clicked by user
-    #         event_data = Game.parse_cell_url(event['url'])
-    #         # validate the event data
-    #         game = dba.findById(BSON::ObjectId.from_string(event_data["obj_id"]))
-    #         if game == nil then
-    #           logger.info "Could not find valid game. The event was ignored."
-    #           break
-    #         end
-    #         if game.turn != event_data['turn'] then
-    #           logger.info "Invalid turn event."
-    #           break;
-    #         end
-    #         # handle turn
-    #         game = game.handle_turn(event_data['row'], event_data['col'])
-    #         # save the game
-    #         dba.update(game)
-    #
-    #         mailer = Mailer.new
-    #         if game.is_finish then
-    #           mailer.send_board(game.player_odd, game)
-    #           mailer.send_board(game.player_even, game)
-    #           dba.remove(game._id)
-    #         else
-    #           mailer.send(game)
-    #         end
-    #       rescue => e
-    #         logger.warn e.backtrace
-    #         logger.warn e.inspect
-    #       end
-    #     }
-    #   rescue => e
-    #     logger.error e.backtrace
-    #     logger.error e.inspect
-    #   end
-    #
-    #   'Success'
-    # end
-
-    # # Do not handle get event for security
-    # # User event is handled in post event
-    # get '/event' do
-    #   'Your request was accepted.'
     # end
 
   end

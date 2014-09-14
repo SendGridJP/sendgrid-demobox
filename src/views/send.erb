@@ -151,9 +151,9 @@
                 </div>
                 <div class="col-md-12">
                   <select class="form-control" id="template" name="template" disabled="true">
-                    <option>Template1</option>
-                    <option>Template2</option>
-                    <option>Template3</option>
+                    <option>sendgrid_demo_template_1</option>
+                    <option>sendgrid_demo_template_2</option>
+                    <option>sendgrid_demo_template_3</option>
                   </select>
                 </div>
               </div>
@@ -234,12 +234,6 @@
     $("#event-table").hide();
     $("#nav-send").addClass("active");
     $("#nav-receive").removeClass("active");
-
-    $("#test").click(
-      function(){
-        $("#event-json").prepend("<tr><td>test</td></tr>");
-      }
-    );
 
     getRow = function(event){
       var email = ("email" in event)? event["email"] : "";

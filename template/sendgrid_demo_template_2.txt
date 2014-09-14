@@ -1,0 +1,32 @@
+Go Welcome Email
+
+(#)
+
+(#)
+ (#)
+ (#)
+ (#)
+
+Thank you for signing up!
+
+Your new Awesome account is almost ready to use. Please verify your email by clicking the button below.
+
+<%body%>
+
+Activate Account (http://)
+
+Your account information:
+
+Account name: bob1031 (#)
+
+Email: bob@bob.com (#)
+
+Questions?
+
+Feel free to contact us (#) anytime for questions about your account.
+
+Sincerely,
+
+Your Awesome Team
+
+© 2014 All Rights Reserved

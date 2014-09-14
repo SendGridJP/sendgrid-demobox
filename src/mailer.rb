@@ -50,8 +50,9 @@ class Mailer
       email.add_filter("subscriptiontrack", "text/plain", "\r\n配信停止希望のかたはこちら。<% %>")
     end
     if data["usetemplate"] == "true" then
+      tmp = Configure.get_template(@setting, data["template"])
       email.add_filter("templates", "enable", 1)
-      email.add_filter("templates", "template_id", "aaaa")
+      email.add_filter("templates", "template_id", tmp.id)
     end
     if data["usefooter"] == "true" then
       email.add_filter("footer", "enable", 1)

@@ -1,0 +1,23 @@
+Skyline Welcome Email
+
+WELCOME TO AWESOME INC!
+
+We hope you will have
+ an Awesome time!
+<%body%>
+
+Free 20% off coupon code for signing-up!
+
+Code: 4562789498
+
+We are really excited for you to join our community. Just one click away from activating your account.
+
+Activate Now (#)
+
+(#)
+
+(#)
+
+(#)
+
+(#)
