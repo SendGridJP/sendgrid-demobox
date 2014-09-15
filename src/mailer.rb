@@ -61,10 +61,6 @@ class Mailer
     end
     @logger.info JSON.pretty_generate(email.to_web_format)
     email
-    #email.set_html(message)
-    #email.add_filter("templates", "enabled", 1)
-    #email.add_filter("templates", "template_id", @app_config.template_id_message)
-
 
   end
 

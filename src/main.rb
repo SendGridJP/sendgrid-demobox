@@ -98,51 +98,18 @@ module SendGridDemo
       erb :form
     end
 
-    # post '/game' do
-    #   begin
-    #     # parse email address from request
-    #     from = Addresses.get_address(params[:from])
-    #     to = Addresses.get_address(params[:subject])
-    #
-    #     # fail to parse address if it is nil
-    #     mailer = Mailer.new
-    #     if from != nil && to == nil then
-    #       logger.info "Failed to parse opponent player email address. Subject must include email address."
-    #       return 'Fail to parse to address'
-    #     end
-    #     logger.info "from: #{from} to: #{to}"
-    #     if from == nil && to == nil then
-    #       logger.info "Failed to parse email address. Please check the request."
-    #       logger.info "from: #{params[:from]}"
-    #       logger.info "subject: #{params[:subject]}"
-    #       return 'Fail to parse to and from address'
-    #     end
-    #     # get game data from DB
-    #     dba = GameCollection.new
-    #     game = dba.find(from, to)
-    #     # create game data if not exist
-    #     if game == nil then
-    #       game = Game.new
-    #       # odd:first move:black
-    #       game.player_odd = to
-    #       # even:second move:white
-    #       game.player_even = from
-    #       id = dba.insert(game)
-    #       game = dba.findById(id)
-    #       #puts "create new game"
-    #       logger.info "create new game"
-    #     end
-    #
-    #     # send email for each player
-    #     logger.info "game._id: #{game._id}"
-    #     mailer.send(game)
-    #   rescue => e
-    #     logger.error e.backtrace
-    #     logger.error e.inspect
-    #   end
-    #
-    #   'Success'
-    # end
+    post '/receive' do
+      begin
+        # push the received email to the clients
+        logger.info JSON.generate(params)
+        io.push :receive, JSON.generate(params)
+      rescue => e
+        logger.error e.backtrace
+        logger.error e.inspect
+      end
+
+      'Success'
+    end
 
   end
 

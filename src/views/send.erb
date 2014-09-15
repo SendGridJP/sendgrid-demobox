@@ -253,25 +253,29 @@
       var type = ("type" in event)? event["type"] : "";
       var send_at = ("send_at" in event)? event["send_at"] : "";
       var row = "<tr>";
-      row += "<td>" + email + "</td>";
-      row += "<td>" + smtp_id + "</td>";
-      row += "<td>" + timestamp + "</td>";
-      row += "<td>" + response + "</td>";
-      row += "<td>" + sg_event_id + "</td>";
-      row += "<td>" + sg_message_id + "</td>";
-      row += "<td>" + event_type + "</td>";
-      row += "<td>" + useragent + "</td>";
-      row += "<td>" + ip + "</td>";
-      row += "<td>" + attempt + "</td>";
-      row += "<td>" + category + "</td>";
-      row += "<td>" + url + "</td>";
-      row += "<td>" + status + "</td>";
-      row += "<td>" + reason + "</td>";
-      row += "<td>" + type + "</td>";
-      row += "<td>" + send_at + "</td>";
+      row += "<td>" + escapeHTML(email) + "</td>";
+      row += "<td>" + escapeHTML(smtp_id) + "</td>";
+      row += "<td>" + escapeHTML(timestamp) + "</td>";
+      row += "<td>" + escapeHTML(response) + "</td>";
+      row += "<td>" + escapeHTML(sg_event_id) + "</td>";
+      row += "<td>" + escapeHTML(sg_message_id) + "</td>";
+      row += "<td>" + escapeHTML(event_type) + "</td>";
+      row += "<td>" + escapeHTML(useragent) + "</td>";
+      row += "<td>" + escapeHTML(ip) + "</td>";
+      row += "<td>" + escapeHTML(attempt) + "</td>";
+      row += "<td>" + escapeHTML(category) + "</td>";
+      row += "<td>" + escapeHTML(url) + "</td>";
+      row += "<td>" + escapeHTML(status) + "</td>";
+      row += "<td>" + escapeHTML(reason) + "</td>";
+      row += "<td>" + escapeHTML(type) + "</td>";
+      row += "<td>" + escapeHTML(send_at) + "</td>";
       row += "</tr>";
       return row;
     }
+
+    var escapeHTML = function(val) {
+      return $('<div />').text(val).html();
+    };
 
     io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
     io.on("event", function(value){
