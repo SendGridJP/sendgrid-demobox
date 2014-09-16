@@ -10,7 +10,7 @@ $(function(){
   };
 
   decode = function(text, encode){
-    if (encode.toLowerCase() == "ISO-2022-JP".toLowerCase()) {
+    if (encode.toLowerCase() == "ISO-2022-JP".toLowerCase()) {  // あえて==で比較してみる
       orgArray = str2array(text);
       var convArray = Encoding.convert(orgArray, 'UNICODE', "JIS");
       return Encoding.codeToString(convArray);
