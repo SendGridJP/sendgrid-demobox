@@ -3,7 +3,6 @@
 require 'sendgrid_ruby'
 require 'sendgrid_ruby/version'
 require 'sendgrid_ruby/email'
-require 'logger'
 
 class Mailer
 

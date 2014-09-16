@@ -2,8 +2,6 @@
 
 require 'sendgrid_template_engine'
 require 'templates'
-require './src/sendgrid'
-require './src/configure'
 
 module Configure
 

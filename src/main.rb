@@ -1,18 +1,10 @@
 # -*- encoding: utf-8 -*-
 
-require 'sinatra/base'
-require 'json'
-require "./src/mailer"
-require "./src/setting"
-require './src/configure'
-
 module SendGridDemo
   class Main < Sinatra::Base
 
     register Sinatra::RocketIO
     io = Sinatra::RocketIO
-
-    attr_accessor :tmps
 
     configure :production, :development do
       begin
@@ -83,14 +75,6 @@ module SendGridDemo
       'Success'
     end
 
-    get '/boot' do
-      erb :boot
-    end
-
-    get '/form' do
-      erb :form
-    end
-
     post '/receive' do
       begin
         # push the received email to the clients
@@ -100,10 +84,8 @@ module SendGridDemo
         logger.error e.backtrace
         logger.error e.inspect
       end
-
       'Success'
     end
-
   end
 
 end

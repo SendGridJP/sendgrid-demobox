@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-require 'dotenv'
-
 class Setting
 
   attr_accessor :sendgrid_username, :sendgrid_password, :app_url, :parse_host
