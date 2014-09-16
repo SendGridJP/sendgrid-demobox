@@ -30,7 +30,8 @@ module SendGridDemo
     end
 
     get '/' do
-      erb :send
+      redirect to('/send')
+      #erb :send
     end
 
     get '/send' do
@@ -38,6 +39,8 @@ module SendGridDemo
     end
 
     get '/receive' do
+      setting = Setting.new
+      @receive_address = "demo@#{setting.parse_host}"
       erb :receive
     end
 
