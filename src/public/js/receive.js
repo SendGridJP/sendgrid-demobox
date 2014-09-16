@@ -11,9 +11,9 @@ $(function(){
 
   decode = function(text, encode){
     if (encode == "ISO-2022-JP") {
-      alert("iso");
-      var arr = Encoding.convert(text, 'JIS');
-      return Encoding.codeToString(arr);
+      orgArray = str2array(text);
+      var convArray = Encoding.convert(orgArray, 'UNICODE', "JIS");
+      return Encoding.codeToString(convArray);
     }
     return text;
   };
@@ -25,7 +25,8 @@ $(function(){
     var to = ("to" in receive)? decode(receive.to, cs.to) : "";
     var from = ("from" in receive)? decode(receive.from, cs.from) : "";
     var subject = ("subject" in receive)? decode(receive.subject, cs.subject) : "";
-    var text = ("text" in receive)? decode(str2array(receive.text), cs.text) : "";
+    var text = ("text" in receive)? decode(receive.text, cs.text) : "";
+    var html = ("html" in receive)? decode(receive.html, cs.html) : "";
     var attachments = ("attachments" in receive)? receive.attachments : "";
     var envelope = ("envelope" in receive)? receive.envelope : "";
     var sender_ip = ("sender_ip" in receive)? receive.sender_ip : "";
@@ -37,6 +38,7 @@ $(function(){
     row += "<td>" + escapeHTML(from) + "</td>";
     row += "<td>" + escapeHTML(subject) + "</td>";
     row += "<td>" + escapeHTML(text) + "</td>";
+    row += "<td>" + escapeHTML(html) + "</td>";
     row += "<td>" + escapeHTML(charsets) + "</td>";
     row += "<td>" + escapeHTML(attachments) + "</td>";
     row += "<td>" + escapeHTML(envelope) + "</td>";
