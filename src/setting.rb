@@ -15,7 +15,7 @@ class Setting
     @sendgrid_username = ENV["SENDGRID_USERNAME"]
     @sendgrid_password = ENV["SENDGRID_PASSWORD"]
     @app_url = ENV["APP_URL"]
-    #@parse_host = ENV["PARSE_HOST"]
+    @parse_host = ENV["PARSE_HOST"]
   end
 
 end

@@ -1,16 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 require 'sinatra/base'
-#require 'sinatra/rocketio'
-#require 'sinatra/reloader'
-#Sinatra.register Sinatra::Reloader
 require 'json'
 require "./src/mailer"
 require "./src/setting"
-#require './lib/game_collection'
-#require './lib/addresses'
-#require './lib/mailer'
-#require './lib/game'
 require './src/configure'
 
 module SendGridDemo
