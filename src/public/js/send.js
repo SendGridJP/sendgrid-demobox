@@ -23,22 +23,22 @@ $(function(){
     var type = ("type" in event)? event.type : "";
     var send_at = ("send_at" in event)? event.send_at : "";
     var row = "<tr>";
-    row += "<td>" + escapeHTML(email) + "</td>";
-    row += "<td>" + escapeHTML(smtp_id) + "</td>";
-    row += "<td>" + escapeHTML(timestamp) + "</td>";
-    row += "<td>" + escapeHTML(response) + "</td>";
-    row += "<td>" + escapeHTML(sg_event_id) + "</td>";
-    row += "<td>" + escapeHTML(sg_message_id) + "</td>";
-    row += "<td>" + escapeHTML(event_type) + "</td>";
-    row += "<td>" + escapeHTML(useragent) + "</td>";
-    row += "<td>" + escapeHTML(ip) + "</td>";
-    row += "<td>" + escapeHTML(attempt) + "</td>";
-    row += "<td>" + escapeHTML(category) + "</td>";
-    row += "<td>" + escapeHTML(url) + "</td>";
-    row += "<td>" + escapeHTML(status) + "</td>";
-    row += "<td>" + escapeHTML(reason) + "</td>";
-    row += "<td>" + escapeHTML(type) + "</td>";
-    row += "<td>" + escapeHTML(send_at) + "</td>";
+    row += "<td><div style='display:none'>" + escapeHTML(email) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(smtp_id) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(timestamp) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(response) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(sg_event_id) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(sg_message_id) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(event_type) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(useragent) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(ip) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(attempt) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(category) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(url) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(status) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(reason) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(type) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(send_at) + "</div></td>";
     row += "</tr>";
     return row;
   };
@@ -51,7 +51,9 @@ $(function(){
   io.on("event", function(value){
     var event = JSON.parse(value);
     $("#event-table").prepend(getRow(event));
-    $("#event-json").prepend("<tr><td>"+value+"</td></tr>");
+    $("#event-table td div").slideDown(500);
+    $("#event-json").prepend("<tr><td><div style='display:none'>"+value+"</div></td></tr>");
+    $("#event-json td div").slideDown(500);
   });
 
   $("#send").click(

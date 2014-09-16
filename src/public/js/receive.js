@@ -34,18 +34,18 @@ $(function(){
     var SPF = ("SPF" in receive)? receive.SPF : "";
     var headers = ("headers" in receive)? receive.headers : "";
     var row = "<tr>";
-    row += "<td>" + escapeHTML(to) + "</td>";
-    row += "<td>" + escapeHTML(from) + "</td>";
-    row += "<td>" + escapeHTML(subject) + "</td>";
-    row += "<td>" + escapeHTML(text) + "</td>";
-    row += "<td>" + escapeHTML(html) + "</td>";
-    row += "<td>" + escapeHTML(charsets) + "</td>";
-    row += "<td>" + escapeHTML(attachments) + "</td>";
-    row += "<td>" + escapeHTML(envelope) + "</td>";
-    row += "<td>" + escapeHTML(sender_ip) + "</td>";
-    row += "<td>" + escapeHTML(dkim) + "</td>";
-    row += "<td>" + escapeHTML(SPF) + "</td>";
-    row += "<td>" + escapeHTML(headers) + "</td>";
+    row += "<td><div style='display:none'>" + escapeHTML(to) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(from) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(subject) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(text) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(html) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(charsets) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(attachments) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(envelope) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(sender_ip) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(dkim) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(SPF) + "</div></td>";
+    row += "<td><div style='display:none'>" + escapeHTML(headers) + "</div></td>";
     row += "</tr>";
     return row;
   };
@@ -54,6 +54,7 @@ $(function(){
   io.on("receive", function(value){
     var receive = JSON.parse(value);
     $("#receive-table").prepend(getRow(receive));
+    $("#receive-table td div").slideDown(500);
   });
 
 });
