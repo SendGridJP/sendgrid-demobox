@@ -107,6 +107,13 @@ $(function(){
     }
   );
 
+  $("#usesendat").click(
+    function(){
+      var checked = $("#usesendat:checked").val() == "true";
+      $(".sendat" ).attr("disabled", !checked); // idでセレクトできないためclassでセレクトしている
+    }
+  );
+
   $("#show-table").click(
     function(){
       $("#event-table").show(200);
@@ -122,5 +129,7 @@ $(function(){
       $("#show-table").removeClass("active");
     }
   );
+
+  $('.clockpicker').clockpicker();
 
 });

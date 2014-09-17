@@ -31,10 +31,10 @@ module SendGridDemo
 
     get '/' do
       redirect to('/send')
-      #erb :send
     end
 
     get '/send' do
+      @now_time = Time.now.strftime("%H:%M")
       erb :send
     end
 

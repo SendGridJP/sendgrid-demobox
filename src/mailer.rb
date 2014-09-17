@@ -58,9 +58,22 @@ class Mailer
       email.add_filter("footer", "text/html", "<br>以上です")
       email.add_filter("footer", "text/plain", "\r\n以上です")
     end
+    if data["usesendat"] == "true" then
+      sendat = data["sendat"].split(":")
+      now_time = Time.now
+      sendat_time = Time.local(now_time.year, now_time.month, now_time.day, sendat[0].to_i, sendat[1].to_i, 0)
+      email.set_send_at(get_send_at(sendat_time, now_time))
+    end
     @logger.info JSON.pretty_generate(email.to_web_format)
     email
 
+  end
+
+  def get_send_at(sendat_time, now_time)
+    if sendat_time < now_time then
+      sendat_time = sendat_time + 24 * 60 * 60
+    end
+    sendat_time.to_i
   end
 
 end

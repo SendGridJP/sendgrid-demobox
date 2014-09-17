@@ -167,6 +167,22 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label>
+                    <input type="checkbox" id="usesendat" name="usesendat"
+                      value="true">Send at
+                  </label>
+                </div>
+                <div class="col-md-12">
+                  <div class="input-group clockpicker" id="clockpicker">
+                    <input type="text" name="sendat" class="form-control sendat" value="<%= @now_time %>" disabled="true">
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -174,7 +190,6 @@
       </form>
 
       <button id="send" class="btn btn-primary center-block">送信</button>
-
 
       <div id="result"></div>
     </div>
@@ -227,5 +242,6 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="<%= rocketio_js %>"></script>
+<script src="js/bootstrap-clockpicker.min.js"></script>
 <script src="js/common.js"></script>
 <script src="js/send.js"></script>
