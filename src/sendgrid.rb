@@ -15,6 +15,21 @@ class Sendgrid
     @debug_output = false
   end
 
+  def parse_delete(hostname)
+    form              = Hash.new
+    form['hostname']  = hostname
+    form['api_user']  = @username
+    form['api_key']   = @password
+
+    RestClient.log = $stderr if @debug_output
+
+    headers        = Hash.new
+    headers[:content_type] = :json
+    response = RestClient.post 'https://api.sendgrid.com/api/parse.delete.json', form, :content_type => :json, "User-Agent" => "sendgrid/#{SendgridRuby::VERSION};ruby"
+
+    JSON.parse(response.body)
+  end
+
   def parse_set(hostname, url, spam_check)
     form              = Hash.new
     form['hostname']  = hostname

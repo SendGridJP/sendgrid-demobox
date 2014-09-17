@@ -7,6 +7,13 @@ module Configure
 
   TEMP_NAME = ["sendgrid_demo_template_1", "sendgrid_demo_template_2", "sendgrid_demo_template_3"]
 
+  def get_url(app_url, basic_auth_username, basic_auth_password)
+    if basic_auth_username.length > 0 then
+      return app_url.sub("://", "://#{basic_auth_username}:#{basic_auth_password}@")
+    end
+    app_url
+  end
+
   def init_sendgrid(setting)
     Configure.init_apps(setting)
     Configure.init_parse_webhook(setting)
@@ -26,14 +33,15 @@ module Configure
     filter_eventnotify.params["open"] = 1
     filter_eventnotify.params["unsubscribe"] = 1
     filter_eventnotify.params["spamreport"] = 1
-    filter_eventnotify.params["url"] = setting.app_url + "/event"
+    filter_eventnotify.params["url"] = get_url(setting.app_url, setting.basic_auth_username, setting.basic_auth_password) + "/event"
     sendgrid.filter_setup(filter_eventnotify)
   end
 
   def init_parse_webhook(setting)
-    url = setting.app_url + "/receive"
+    url = get_url(setting.app_url, setting.basic_auth_username, setting.basic_auth_password) + "/receive"
     puts "init parse webhook: host: #{setting.parse_host}, url: #{url}"
     sendgrid = Sendgrid.new(setting.sendgrid_username, setting.sendgrid_password)
+    sendgrid.parse_delete(setting.parse_host)
     puts sendgrid.parse_set(setting.parse_host, url, 0)
   end
 
@@ -109,6 +117,7 @@ module Configure
   #   }
   # end
 
+  module_function :get_url
   module_function :init_sendgrid
   module_function :init_apps
   module_function :init_template
