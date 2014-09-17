@@ -38,6 +38,10 @@ module SendGridDemo
 
     get '/send' do
       @now_time = Time.now.strftime("%H:%M")
+      setting = Setting.new
+      @tos = setting.tos
+      @from = setting.from
+      @bcc = setting.bcc
       erb :send
     end
 

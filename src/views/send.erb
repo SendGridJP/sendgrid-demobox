@@ -11,7 +11,7 @@
           <div class="col-md-12">
             <input type="text" name="tos" class="form-control"
               placeholder="recipient1@address.com, recipient2@address.com"
-              value="awwa500@gmail.com,awwa502@gmail.com" />
+              value="<%= @tos %>" />
           </div>
         </div>
 
@@ -22,7 +22,7 @@
           <div class="col-md-12">
             <input type="text" name="from" class="form-control"
               placeholder="your@address.com"
-              value="awwa500@gmail.com">
+              value="<%= @from %>">
           </div>
         </div>
 
@@ -85,7 +85,7 @@
                 </div>
                 <div class="col-md-12">
                   <input type="text" id="bcc" name="bcc" class="form-control"
-                    placeholder="bcc@address.com" value="awwa501@gmail.com" disabled="true">
+                    placeholder="bcc@address.com" value="<%= @bcc %>" disabled="true">
                 </div>
               </div>
 
