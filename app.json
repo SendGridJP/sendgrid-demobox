@@ -5,47 +5,47 @@
   "repository": "https://github.com/SendGridJP/sendgrid-demo",
   "env": {
     "SENDGRID_USERNAME": {
-      "description": "SendGrid username",
+      "description": "SendGridユーザ名",
       "value": "",
       "required": true
     },
     "SENDGRID_PASSWORD": {
-      "description": "SendGrid password",
+      "description": "SendGridパスワード",
       "value": "",
       "required": true
     },
     "APP_URL": {
-      "description": "Application URL",
+      "description": "アプリケーションURL",
       "value": "http://awwa-sendgrid-demo.herokuapp.com",
       "required": true
     },
     "PARSE_HOST": {
-      "description": "Receive email domain",
+      "description": "「メールを受ける」でメール受信するドメイン",
       "value": "heroku-demo.awwa500.bymail.in",
       "required": true
     },
     "BASIC_AUTH_USERNAME": {
-      "description": "Basic auth username",
+      "description": "基本認証ユーザ名",
       "value": "admin",
       "required": false
     },
     "BASIC_AUTH_PASSWORD": {
-      "description": "Basic auth password",
+      "description": "基本認証パスワード",
       "value": "password",
       "required": false
     },
     "TOS": {
-      "description": "Default value of the recipient addresses",
+      "description": "「メールを送る」の宛先アドレス初期値",
       "value": "",
       "required": false
     },
     "FROM": {
-      "description": "Default value of the from address",
+      "description": "「メールを送る」の送信元アドレス初期値",
       "value": "",
       "required": false
     },
     "BCC": {
-      "description": "Default value of the bcc address",
+      "description": "「メールを送る」のBCCアドレス初期値",
       "value": "",
       "required": false
     }
