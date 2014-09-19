@@ -10,11 +10,13 @@ module SendGridDemo
       begin
         enable :logging
         setting = Setting.new
+
         if setting.basic_auth_username.length > 0 then
           use Rack::Auth::Basic do |username, password|
             username == setting.basic_auth_username && password == setting.basic_auth_password
           end
         end
+
         # init sendgrid
         Configure.init_sendgrid(setting)
       rescue => e
