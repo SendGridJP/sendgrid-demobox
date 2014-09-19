@@ -4,6 +4,16 @@
   "website": "https://github.com/SendGridJP/sendgrid-demo",
   "repository": "https://github.com/SendGridJP/sendgrid-demo",
   "env": {
+    "SENDGRID_USERNAME": {
+      "description": "SendGridユーザ名",
+      "value": "",
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "description": "SendGridパスワード",
+      "value": "",
+      "required": true
+    },
     "APP_URL": {
       "description": "アプリケーションURL",
       "value": "http://awwa-sendgrid-demo.herokuapp.com",
@@ -39,8 +49,5 @@
       "value": "",
       "required": false
     }
-  },
-  "addons": [
-    "sendgrid"
-  ]
+  }
 }
