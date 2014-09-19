@@ -16,7 +16,7 @@
     },
     "APP_URL": {
       "description": "Application URL",
-      "value": "http://awwa-sendgrid-demo.heroku.com",
+      "value": "http://awwa-sendgrid-demo.herokuapp.com",
       "required": true
     },
     "PARSE_HOST": {
