@@ -1,0 +1,53 @@
+{
+  "name": "sendgrid-demo",
+  "description": "sendgrid demo application",
+  "website": "https://github.com/SendGridJP/sendgrid-demo",
+  "repository": "https://github.com/SendGridJP/sendgrid-demo",
+  "env": {
+    "SENDGRID_USERNAME": {
+      "description": "SendGrid username",
+      "value": "",
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "description": "SendGrid password",
+      "value": "",
+      "required": true
+    },
+    "APP_URL": {
+      "description": "Application URL",
+      "value": "http://awwa-sendgrid-demo.heroku.com",
+      "required": true
+    },
+    "PARSE_HOST": {
+      "description": "Receive email domain",
+      "value": "heroku-demo.awwa500.bymail.in",
+      "required": true
+    },
+    "BASIC_AUTH_USERNAME": {
+      "description": "Basic auth username",
+      "value": "admin",
+      "required": false
+    },
+    "BASIC_AUTH_PASSWORD": {
+      "description": "Basic auth password",
+      "value": "password",
+      "required": false
+    },
+    "TOS": {
+      "description": "Default value of the recipient addresses",
+      "value": "",
+      "required": false
+    },
+    "FROM": {
+      "description": "Default value of the from address",
+      "value": "",
+      "required": false
+    },
+    "BCC": {
+      "description": "Default value of the bcc address",
+      "value": "",
+      "required": false
+    }
+  }
+}
