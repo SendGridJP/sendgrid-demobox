@@ -9,11 +9,13 @@ module SendGridDemo
     configure :production, :development do
       begin
         enable :logging
-        use Rack::Auth::Basic do |username, password|
-          username == ENV['BASIC_AUTH_USERNAME'] && password == ENV['BASIC_AUTH_PASSWORD']
+        setting = Setting.new
+        if setting.basic_auth_username.length > 0 then
+          use Rack::Auth::Basic do |username, password|
+            username == setting.basic_auth_username && password == setting.basic_auth_password
+          end
         end
         # init sendgrid
-        setting = Setting.new
         Configure.init_sendgrid(setting)
       rescue => e
         puts e.backtrace
