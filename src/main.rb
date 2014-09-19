@@ -42,6 +42,7 @@ module SendGridDemo
       @tos = setting.tos
       @from = setting.from
       @bcc = setting.bcc
+      @timezone = Time.now.strftime("%Z")
       erb :send
     end
 

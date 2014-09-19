@@ -171,7 +171,7 @@
                 <div class="col-md-12">
                   <label>
                     <input type="checkbox" id="usesendat" name="usesendat"
-                      value="true">Send at
+                      value="true">Send at(<%= @timezone %>)
                   </label>
                 </div>
                 <div class="col-md-12">
@@ -192,6 +192,7 @@
       <button id="send" class="btn btn-primary center-block">送信</button>
 
       <div id="result"></div>
+
     </div>
 
     <div class="col-md-9">
