@@ -35,6 +35,7 @@ module Configure
     filter_eventnotify.params["spamreport"] = 1
     filter_eventnotify.params["url"] = get_url(setting.app_url, setting.basic_auth_username, setting.basic_auth_password) + "/event"
     sendgrid.filter_setup(filter_eventnotify)
+    sendgrid.activate_app("eventnotify")
   end
 
   def init_parse_webhook(setting)
