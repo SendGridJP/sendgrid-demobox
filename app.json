@@ -5,12 +5,12 @@
   "repository": "https://github.com/SendGridJP/sendgrid-demobox",
   "env": {
     "APP_URL": {
-      "description": "アプリケーションURL",
+      "description": "アプリケーションURL(App Nameを指定することで確定するURL)",
       "value": "http://sample-demobox.herokuapp.com",
       "required": true
     },
     "PARSE_HOST": {
-      "description": "「メールを受ける」でメール受信するドメイン",
+      "description": "「メールを受ける」でメール受信するドメイン名。所有しているドメインを利用する場合、合わせてMXレコードを設定変更する必要あり。詳しくは：https://sendgrid.kke.co.jp/blog/?p=827",
       "value": "",
       "required": true
     },
@@ -25,7 +25,7 @@
       "required": false
     },
     "TOS": {
-      "description": "「メールを送る」の宛先アドレス初期値",
+      "description": "「メールを送る」の宛先アドレス初期値。カンマ区切りでアドレスを2つ以上指定。",
       "value": "",
       "required": false
     },
