@@ -1,17 +1,17 @@
 {
   "name": "DemoBox",
   "description": "sendgrid demo application",
-  "website": "https://github.com/SendGridJP/sendgrid-demo",
-  "repository": "https://github.com/SendGridJP/sendgrid-demo",
+  "website": "https://github.com/SendGridJP/sendgrid-demobox",
+  "repository": "https://github.com/SendGridJP/sendgrid-demobox",
   "env": {
     "APP_URL": {
       "description": "アプリケーションURL",
-      "value": "http://awwa-demobox.herokuapp.com",
+      "value": "http://sample-demobox.herokuapp.com",
       "required": true
     },
     "PARSE_HOST": {
       "description": "「メールを受ける」でメール受信するドメイン",
-      "value": "demobox.awwa500.bymail.in",
+      "value": "",
       "required": true
     },
     "BASIC_AUTH_USERNAME": {
