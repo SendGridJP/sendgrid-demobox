@@ -6,13 +6,13 @@ $(function(){
   $("#nav-receive").removeClass("active");
 
   getRow = function(event){
+    var timestamp = ("timestamp" in event)? event.timestamp : "";
+    var event_type = ("event" in event)? event.event : "";
     var email = ("email" in event)? event.email : "";
     var smtp_id = ("smtp-id" in event)? event["smtp-id"] : "";
-    var timestamp = ("timestamp" in event)? event.timesamp : "";
     var response = ("response" in event)? event.response : "";
     var sg_event_id = ("sg_event_id" in event)? event.sg_event_id : "";
     var sg_message_id = ("sg_message_id" in event)? event.sg_message_id : "";
-    var event_type = ("event" in event)? event.event : "";
     var useragent = ("useragent" in event)? event.useragent : "";
     var ip = ("ip" in event)? event.ip : "";
     var attempt = ("attempt" in event)? event.attempt : "";
@@ -23,22 +23,22 @@ $(function(){
     var type = ("type" in event)? event.type : "";
     var send_at = ("send_at" in event)? event.send_at : "";
     var row = "<tr>";
-    row += "<td><div style='display:none'>" + escapeHTML(email) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(smtp_id) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(timestamp) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(response) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(sg_event_id) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(sg_message_id) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(event_type) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(useragent) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(ip) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(attempt) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(category) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(url) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(status) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(reason) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(type) + "</div></td>";
-    row += "<td><div style='display:none'>" + escapeHTML(send_at) + "</div></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(timestamp) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(event_type) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(email) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(smtp_id) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(response) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(sg_event_id) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(sg_message_id) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(useragent) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(ip) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(attempt) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(category) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(url) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(status) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(reason) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(type) + "</div></small></td>";
+    row += "<td><small><div style='display:none'>" + escapeHTML(send_at) + "</div></small></td>";
     row += "</tr>";
     return row;
   };
@@ -52,7 +52,7 @@ $(function(){
     var event = JSON.parse(value);
     $("#event-table").prepend(getRow(event));
     $("#event-table td div").slideDown(500);
-    $("#event-json").prepend("<tr><td><div style='display:none'>"+value+"</div></td></tr>");
+    $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
     $("#event-json td div").slideDown(500);
   });
 
