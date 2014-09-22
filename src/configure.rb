@@ -40,7 +40,7 @@ module Configure
 
   def init_parse_webhook(setting)
     url = get_url(setting.app_url, setting.basic_auth_username, setting.basic_auth_password) + "/receive"
-    puts "init parse webhook: host: #{setting.parse_host}, url: #{url}"
+    puts "init parse webhook"
     sendgrid = Sendgrid.new(setting.sendgrid_username, setting.sendgrid_password)
     sendgrid.parse_delete(setting.parse_host)
     puts sendgrid.parse_set(setting.parse_host, url, 0)
