@@ -57,4 +57,11 @@ $(function(){
     $("#receive-table td div").slideDown(500);
   });
 
+  $("#clear").click(
+    function(){
+      $("#receive-table").find("tr:gt(0)").fadeOut( 500, function(){$(this).remove();} );
+    }
+  );
+
+
 });
