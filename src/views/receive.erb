@@ -1,10 +1,12 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="alert alert-warning">
-      Mailto: <a href="mailto:<%= @receive_address %>?subject=メール受信テスト&amp;body=メール受信テストの本文"><%= @receive_address %></a>
+    <div class="row">
+      <div class="alert alert-warning col-md-11">
+        Mailto: <a href="mailto:<%= @receive_address %>?subject=メール受信テスト&amp;body=メール受信テストの本文"><%= @receive_address %></a>
+      </div>
+      <button id="clear" class="btn btn-default" style="margin-left: 15px; margin-bottom: 15px;" >クリア</button>
     </div>
-    <button id="clear" class="btn btn-default" style="margin-bottom:15px;">クリア</button>
     <table id="receive-table" class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
