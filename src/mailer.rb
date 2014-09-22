@@ -55,8 +55,8 @@ class Mailer
     end
     if data["usefooter"] == "true" then
       email.add_filter("footer", "enable", 1)
-      email.add_filter("footer", "text/html", "<br>以上です")
-      email.add_filter("footer", "text/plain", "\r\n以上です")
+      email.add_filter("footer", "text/html", "<br><br><HR color='lightgray'><div style='background-color: lightgray;'>本メールの送信元はSendGrid DemoBoxです。</div>")
+      email.add_filter("footer", "text/plain", "\r\n\r\n------------------------------------\r\n本メールの送信元はSendGrid DemoBoxです。")
     end
     if data["usesendat"] == "true" then
       sendat = data["sendat"].split(":")
