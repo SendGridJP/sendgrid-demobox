@@ -132,11 +132,4 @@ $(function(){
 
   $('.clockpicker').clockpicker();
 
-  $("#clear").click(
-    function(){
-      $("#event-table").find("tr:gt(0)").fadeOut( 500, function(){$(this).remove();} );
-      $("#event-json").find("tr:gt(0)").fadeOut( 500, function(){$(this).remove();} );
-    }
-  );
-
 });
