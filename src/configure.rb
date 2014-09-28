@@ -89,12 +89,10 @@ module Configure
     client = SendGrid4r::Client.new(setting.sendgrid_username, setting.sendgrid_password)
     new_tmp = client.post_template(TEMP_NAME[index])
     # Create version
-    new_ver = SendGrid4r::REST::Templates::Version.new()
-    new_ver.name = TEMP_NAME[index]
-    new_ver.subject = "<%subject%>"
-    new_ver.html_content = open("./template/#{TEMP_NAME[index]}.html").read
-    new_ver.plain_content = open("./template/#{TEMP_NAME[index]}.txt").read
-    new_ver.active = 1
+    factory = SendGrid4r::VersionFactory.new
+    plain_content = open("./template/#{TEMP_NAME[index]}.txt").read
+    html_content = open("./template/#{TEMP_NAME[index]}.html").read
+    new_ver = factory.create(TEMP_NAME[index], "<%subject%>", html_content, plain_content, 1)
     client.post_version(new_tmp.id, new_ver)
     puts "create new template for #{index}: #{TEMP_NAME[index]}"
     new_tmp
