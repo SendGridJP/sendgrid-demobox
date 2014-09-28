@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/awwa/sendgrid4r.git
+  revision: 7d60d9b3a64bcf6edd54ae2f1abdb4bd3e9f3f71
+  specs:
+    sendgrid4r (0.0.1)
+      rest-client
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,8 +52,6 @@ GEM
     sendgrid_ruby (0.0.5)
       rest-client
       smtpapi
-    sendgrid_template_engine (0.0.2)
-      rest-client
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -98,8 +103,8 @@ DEPENDENCIES
   dotenv
   rack-test
   rspec
+  sendgrid4r!
   sendgrid_ruby
-  sendgrid_template_engine
   sinatra
   sinatra-contrib
   sinatra-rocketio

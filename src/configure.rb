@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require 'sendgrid_template_engine'
-require 'templates'
+require 'sendgrid4r'
 
 module Configure
 
@@ -48,8 +47,8 @@ module Configure
 
   def init_template(setting)
     # Retrieve template list
-    templates = SendgridTemplateEngine::Templates.new(setting.sendgrid_username, setting.sendgrid_password)
-    all_tmps = templates.get_all()
+    client = SendGrid4r::Client.new(setting.sendgrid_username, setting.sendgrid_password)
+    all_tmps = client.get_templates
     # Find templates by name
     exist = [false, false, false]
     tmps = [nil, nil, nil]
@@ -75,8 +74,8 @@ module Configure
 
   def get_template(setting, name)
     ret = nil
-    templates = SendgridTemplateEngine::Templates.new(setting.sendgrid_username, setting.sendgrid_password)
-    all_tmps = templates.get_all()
+    client = SendGrid4r::Client.new(setting.sendgrid_username, setting.sendgrid_password)
+    all_tmps = client.get_templates
     all_tmps.each {|tmp|
       if tmp.name == name then
         ret = tmp
@@ -87,17 +86,16 @@ module Configure
 
   def create_template(setting, index)
     # Create template
-    templates = SendgridTemplateEngine::Templates.new(setting.sendgrid_username, setting.sendgrid_password)
-    new_tmp = templates.post(TEMP_NAME[index])
+    client = SendGrid4r::Client.new(setting.sendgrid_username, setting.sendgrid_password)
+    new_tmp = client.post_template(TEMP_NAME[index])
     # Create version
-    new_ver = SendgridTemplateEngine::Version.new()
-    new_ver.set_name(TEMP_NAME[index])
-    new_ver.set_subject("<%subject%>")
-    new_ver.set_html_content(open("./template/#{TEMP_NAME[index]}.html").read)
-    new_ver.set_plain_content(open("./template/#{TEMP_NAME[index]}.txt").read)
-    new_ver.set_active(1)
-    versions = SendgridTemplateEngine::Versions.new(setting.sendgrid_username, setting.sendgrid_password)
-    versions.post(new_tmp.id, new_ver)
+    new_ver = SendGrid4r::REST::Templates::Version.new()
+    new_ver.name = TEMP_NAME[index]
+    new_ver.subject = "<%subject%>"
+    new_ver.html_content = open("./template/#{TEMP_NAME[index]}.html").read
+    new_ver.plain_content = open("./template/#{TEMP_NAME[index]}.txt").read
+    new_ver.active = 1
+    client.post_version(new_tmp.id, new_ver)
     puts "create new template for #{index}: #{TEMP_NAME[index]}"
     new_tmp
   end
