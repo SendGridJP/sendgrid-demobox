@@ -6,7 +6,7 @@ gem 'sinatra-contrib'
 gem 'sendgrid_ruby'
 gem 'dotenv'
 #gem 'sendgrid_template_engine'
-gem 'sendgrid4r', :github => 'awwa/sendgrid4r'
+gem 'sendgrid4r'
 gem 'sinatra-rocketio'
 gem 'thin'
 group :test do
