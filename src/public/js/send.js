@@ -58,12 +58,18 @@ $(function(){
 
   $("#send").click(
     function(){
+      $("#send").addClass("btn-default");
+      $("#send").removeClass("btn-primary");
+      $("#send").text("送信中");
       $("#result").html("sending...");
       var param = $("#param").serializeArray();
       $.post(
         "/send",
         JSON.stringify(param),
         function(data) {
+          $("#send").removeClass("btn-default");
+          $("#send").addClass("btn-primary");
+          $("#send").text("送信");
           $("#result").html(data);
         }
       );
