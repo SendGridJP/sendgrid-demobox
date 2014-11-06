@@ -5,6 +5,7 @@ class Setting
   attr_accessor :sendgrid_username, :sendgrid_password, :app_url, :parse_host
   attr_accessor :basic_auth_username, :basic_auth_password
   attr_accessor :tos, :from, :bcc
+  attr_accessor :mongo_url
 
   def initialize(file=nil)
     if file == nil
@@ -21,6 +22,7 @@ class Setting
     @tos = ENV["TOS"]
     @from = ENV["FROM"]
     @bcc = ENV["BCC"]
+    @mongo_url = ENV["MONGO_URL"] || ENV["MONGOHQ_URL"]
   end
 
 end

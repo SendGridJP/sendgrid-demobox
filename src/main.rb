@@ -89,11 +89,16 @@ class Main < Sinatra::Base
     'Success'
   end
 
+  # TODO fix return 500 if received mail has attachment from Gmail
   post '/receive' do
     begin
       # push the received email to the clients
       logger.info JSON.generate(params)
       io.push :receive, JSON.generate(params)
+      # insert to datastore
+      dba = MailCollection.new
+      mail = Mail.create_new(params)
+      dba.insert(mail.to_array)
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
