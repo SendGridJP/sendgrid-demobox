@@ -9,6 +9,8 @@ gem 'dotenv'
 gem 'sendgrid4r'
 gem 'sinatra-rocketio'
 gem 'thin'
+gem 'mongo'
+gem 'bson_ext'
 group :test do
   gem 'rspec'
   gem 'rack-test'

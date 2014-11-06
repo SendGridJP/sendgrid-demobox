@@ -2,6 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.6.1)
+    bson (1.11.1)
+    bson_ext (1.11.1)
+      bson (~> 1.11.1)
     daemons (1.1.9)
     diff-lcs (1.2.5)
     dotenv (0.11.1)
@@ -19,6 +22,8 @@ GEM
       multi_xml (>= 0.5.2)
     json (1.8.1)
     mime-types (2.3)
+    mongo (1.11.1)
+      bson (= 1.11.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     netrc (0.7.7)
@@ -95,7 +100,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   dotenv
+  mongo
   rack-test
   rspec
   sendgrid4r
