@@ -5,9 +5,10 @@ DemoBox
 
 ### 前提条件
 
+- SendGridアカウント
 - Ruby 2.0.0
 - Git
-- インバウンドポート（TCP 4567、TCP 22）
+- インバウンドポート（TCP 4567）
 
 ### セットアップ手順
 
@@ -77,7 +78,3 @@ http://x.x.x.x:4567
 ## Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-- TODO  
-  - Spec追加  
-  - README記載  
