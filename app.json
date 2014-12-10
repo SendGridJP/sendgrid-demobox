@@ -1,6 +1,5 @@
 {
   "name": "DemoBox",
-  "description": "sendgrid demo application",
   "addons": [
     "sendgrid",
     "mongohq"
