@@ -12,7 +12,7 @@
       "required": true
     },
     "PARSE_HOST": {
-      "description": "「メールを受ける」でメール受信するドメイン名。所有しているドメインを利用する場合、合わせてMXレコードを設定変更する必要あり。詳しくは：https://sendgrid.kke.co.jp/blog/?p=827",
+      "description": "「メールを受ける」でメール受信するドメイン名。",
       "value": "",
       "required": true
     },
