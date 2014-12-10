@@ -1,6 +1,7 @@
 {
   "name": "DemoBox",
   "addons": [
+    "mongohq"
   ],
   "env": {
   }
