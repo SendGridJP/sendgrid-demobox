@@ -6,5 +6,40 @@
     "mongohq"
   ],
   "env": {
+    "APP_URL": {
+      "description": "Application URL",
+      "value": "http://sample-demobox.herokuapp.com",
+      "required": true
+    },
+    "PARSE_HOST": {
+      "description": "The mail domain name. You receive an mail.",
+      "value": "",
+      "required": true
+    },
+    "BASIC_AUTH_USERNAME": {
+      "description": "Basic auth username(Empty if no need)",
+      "value": "admin",
+      "required": false
+    },
+    "BASIC_AUTH_PASSWORD": {
+      "description": "Basic auth password",
+      "value": "password",
+      "required": false
+    },
+    "TOS": {
+      "description": "The default value of tos.",
+      "value": "",
+      "required": false
+    },
+    "FROM": {
+      "description": "The default value of from",
+      "value": "",
+      "required": false
+    },
+    "BCC": {
+      "description": "The default value of bcc",
+      "value": "",
+      "required": false
+    }
   }
 }
