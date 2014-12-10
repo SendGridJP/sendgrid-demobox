@@ -41,7 +41,7 @@
     }
   },
   "addons": [
-    "sendgrid"
+    "sendgrid",
     "mongohq"
   ]
 }
