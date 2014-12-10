@@ -5,12 +5,5 @@
     "mongohq"
   ],
   "env": {
-    "APP_URL": "",
-    "PARSE_HOST": "",
-    "BASIC_AUTH_USERNAME": "",
-    "BASIC_AUTH_PASSWORD": "",
-    "TOS": "",
-    "FROM": "",
-    "BCC": ""
   }
 }
