@@ -1,0 +1,45 @@
+{
+  "name": "DemoBox",
+  "description": "sendgrid demo application",
+  "addons": [
+    "sendgrid",
+    "mongohq"
+  ],
+  "env": {
+    "APP_URL": {
+      "description": "アプリケーションURL(App Nameを指定することで確定するURL)",
+      "value": "http://sample-demobox.herokuapp.com",
+      "required": true
+    },
+    "PARSE_HOST": {
+      "description": "「メールを受ける」でメール受信するドメイン名。",
+      "value": "",
+      "required": true
+    },
+    "BASIC_AUTH_USERNAME": {
+      "description": "基本認証ユーザ名(基本認証なしの場合、空にする)",
+      "value": "admin",
+      "required": false
+    },
+    "BASIC_AUTH_PASSWORD": {
+      "description": "基本認証パスワード",
+      "value": "password",
+      "required": false
+    },
+    "TOS": {
+      "description": "「メールを送る」の宛先アドレス初期値。カンマ区切りでアドレスを2つ以上指定。",
+      "value": "",
+      "required": false
+    },
+    "FROM": {
+      "description": "「メールを送る」の送信元アドレス初期値",
+      "value": "",
+      "required": false
+    },
+    "BCC": {
+      "description": "「メールを送る」のBccアドレス初期値",
+      "value": "",
+      "required": false
+    }
+  }
+}
