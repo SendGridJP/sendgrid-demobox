@@ -1,8 +1,10 @@
 {
   "name": "DemoBox",
   "description": "sendgrid demo application",
-  "website": "https://github.com/SendGridJP/sendgrid-demobox",
-  "repository": "https://github.com/SendGridJP/sendgrid-demobox",
+  "addons": [
+    "sendgrid",
+    "mongohq"
+  ],
   "env": {
     "APP_URL": {
       "description": "アプリケーションURL(App Nameを指定することで確定するURL)",
@@ -39,9 +41,5 @@
       "value": "",
       "required": false
     }
-  },
-  "addons": [
-    "sendgrid",
-    "mongohq"
-  ]
+  }
 }
