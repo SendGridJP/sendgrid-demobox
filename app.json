@@ -1,7 +1,8 @@
 {
   "name": "DemoBox",
   "addons": [
-    "mongohq"
+    "mongohq",
+    "sendgrid"
   ],
   "env": {
   }
