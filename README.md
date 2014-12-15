@@ -73,8 +73,3 @@ MONGO_URL=
 ```text
 http://x.x.x.x:4567
 ```
-
-
-## Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
