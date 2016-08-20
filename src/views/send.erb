@@ -1,19 +1,9 @@
+<div class="container-fluid" id="content"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3">
 
       <form id="param" class="form-horizontal">
-
-        <div class="form-group">
-          <div class="col-md-12">
-            <label class="control-label"><span class="text-danger">*</span>To</label>
-          </div>
-          <div class="col-md-12">
-            <input type="text" name="tos" class="form-control"
-              placeholder="recipient1@address.com, recipient2@address.com"
-              value="<%= @tos %>" />
-          </div>
-        </div>
 
         <div class="form-group">
           <div class="col-md-12">
@@ -41,10 +31,58 @@
           <div class="col-md-12">
             <label class="control-label"><span class="text-danger">*</span>本文</label>
           </div>
-          <div class="col-md-12">
-            <textarea name="body" class="form-control" style="height:100px;"
-              placeholder="-name-さんへ　テスト本文">-name-さんへ　テスト本文
+
+          <div class="col-md-12" id="content0">
+            <div class="form-inline">
+              <span class="glyphicon glyphicon-minus" />
+              <select class="form-control" id="content-type0" name="content-type">
+                <option>text/plain</option>
+                <option>text/html</option>
+              </select>
+            </div>
+            <textarea name="body-plain" class="form-control" style="height:100px;"
+              placeholder="-name-さんへ　TEXT本文">-name-さんへ　TEXT本文
+SendGrid https://sendgrid.com</textarea>
+          </div>
+
+          <div class="col-md-12" id="content1">
+            <div class="form-inline">
+              <span class="glyphicon glyphicon-minus" />
+              <select class="form-control" id="content-type1" name="content-type">
+                <option>text/plain</option>
+                <option>text/html</option>
+              </select>
+            </div>
+            <textarea name="body-html" class="form-control" style="height:100px;"
+              placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;">&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
 &lt;a href="https://sendgrid.com"&gt;センドグリッド&lt;/a&gt;</textarea>
+          </div>
+          <div class="col-md-12">
+            <span class="glyphicon glyphicon-plus" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>Personalizations</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="tos" class="form-control"
+              placeholder="recipient1@address.com, recipient2@address.com"
+              value="<%= @tos %>" />
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <label class="control-label"><span class="text-danger">*</span>To</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="tos" class="form-control"
+              placeholder="recipient1@address.com, recipient2@address.com"
+              value="<%= @tos %>" />
           </div>
         </div>
 
@@ -240,11 +278,4 @@
 
   </div>
 </div>
-
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="<%= rocketio_js %>"></script>
-<script src="js/bootstrap-clockpicker.min.js"></script>
-<script src="js/common.js"></script>
-<script src="js/send.js"></script>
+<script type="text/babel" src="js/send-react.js"></script>

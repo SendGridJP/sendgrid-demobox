@@ -6,7 +6,7 @@ DemoBox
 ### 前提条件
 
 - SendGridアカウント
-- Ruby 2.0.0
+- Ruby 2.2
 - Git
 - インバウンドポート（TCP 4567）
 
@@ -15,7 +15,7 @@ DemoBox
 - 環境の確認
 ```bash
 # ruby -v
-ruby 2.0.0p353 (2013-11-22 [x86_64-linux])
+ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin14]
 # git --version
 git version 1.8.3.1
 ```

@@ -2,7 +2,7 @@
 
 class Setting
 
-  attr_accessor :sendgrid_username, :sendgrid_password, :app_url, :parse_host
+  attr_accessor :apikey, :app_url, :parse_host
   attr_accessor :basic_auth_username, :basic_auth_password
   attr_accessor :tos, :from, :bcc
   attr_accessor :mongo_url
@@ -13,8 +13,7 @@ class Setting
     else
       config = Dotenv.overload(file)
     end
-    @sendgrid_username = ENV["SENDGRID_USERNAME"]
-    @sendgrid_password = ENV["SENDGRID_PASSWORD"]
+    @sendgrid_username = ENV["APIKEY"]
     @app_url = ENV["APP_URL"]
     @parse_host = ENV["PARSE_HOST"]
     @basic_auth_username = ENV["BASIC_AUTH_USERNAME"]

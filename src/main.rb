@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require File.join(File.dirname(__FILE__), '.', 'demobox.rb')
 
 class Main < Sinatra::Base
 
@@ -17,7 +18,7 @@ class Main < Sinatra::Base
       end
 
       # init sendgrid
-      Configure.init_sendgrid(setting)
+      #Configure.init_sendgrid(setting)
     rescue => e
       puts e.backtrace
       puts e.inspect
@@ -63,8 +64,10 @@ class Main < Sinatra::Base
       if body.length > 0 then
         data = JSON.parse(body)
         logger.info "data: #{data.inspect}"
-        mailer = Mailer.new
-        res = JSON.pretty_generate(mailer.send(to_kv(data)))
+        sgc = SgClient.new
+        sgc.send(data)
+        # mailer = Mailer.new
+        # res = JSON.pretty_generate(mailer.send(to_kv(data)))
       end
     rescue => e
       logger.error e.backtrace
