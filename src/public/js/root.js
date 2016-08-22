@@ -198,39 +198,55 @@ var SendPage = React.createClass({
 });
 
 var SendForm = React.createClass({
-  _onSelectSend: function() {
-    var form = $('#param');
-    var param = {};
-    $(form.serializeArray()).each(function(i, v) {
-      param[v.name] = v.value;
-    });
-    console.log(param);
-    $.post(
-      "/send",
-      JSON.stringify(param),
-      function(data) {
-        console.log('送信完了');
-        // $("#send").removeClass("btn-default");
-        // $("#send").addClass("btn-primary");
-        // $("#send").text("送信");
-        // $("#result").html(data);
-      }
-    );
-  },
-  render: function() {
-    return (
-      <div>
+    getInitialState: function() {
+      return {
+        status: '',
+        request: '',
+        responseCode: '',
+        responseBody: ''
+      };
+    },
+    _onSelectSend: function() {
+      var form = $('#param');
+      var param = {};
+      $(form.serializeArray()).each(function(i, v) {
+        param[v.name] = v.value;
+      });
+      console.log(param);
+      this.setState({
+        status: '送信中...', request: '', responseCode: '', responseBody: ''
+      });
+      $.ajax({
+        url: '/send',
+        dataType: 'json',
+        type: 'POST',
+        data: JSON.stringify(param),
+        success: function(data) {
+          this.setState({
+            status: '送信完了',
+            request: data.request,
+            responseCode: data.responseCode,
+            responseBody: data.responseBody,
+          });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          this.setState({result: err.toString()});
+          console.error('/send', status, err.toString());
+        }.bind(this)
+      });
+    },
+    render: function() {
+      return (
+        <div>
 
-        <form id="param" className="form-horizontal">
+          <form id="param" className="form-horizontal">
 
-          <PersonalizationList />
+            <PersonalizationList />
 
-          <div className="form-group">
-            <div className="col-md-12">
-              <label className="control-label">
-                <span className="text-danger">*</span>From
-              </label>
+            <div className="form-group">
               <EmailForm
+                title="From"
+                required={true}
                 index={0}
                 paramName="from"
                 placeholderEmail="from@example.com"
@@ -238,14 +254,11 @@ var SendForm = React.createClass({
                 placeholderName="From Name"
                 valueName="From Name" />
             </div>
-          </div>
 
-          <div className="form-group">
-            <div className="col-md-12">
-              <label className="control-label">
-                Reply-to
-              </label>
+            <div className="form-group">
               <EmailForm
+                title="Reply-to"
+                required={false}
                 index={0}
                 paramName="reply-to"
                 placeholderEmail="reply-to@example.com"
@@ -253,210 +266,208 @@ var SendForm = React.createClass({
                 placeholderName="Reply-to Name"
                 valueName="Reply-to Name" />
             </div>
-          </div>
 
-          <div className="form-group">
-            <div className="col-md-12">
-              <label className="control-label">
-                <span className="text-danger">*</span>Subject
-              </label>
-            </div>
-            <div className="col-md-12">
-              <input type="text" name="subject" className="form-control"
+            <div className="form-group">
+              <SimpleTextForm
+                title="Subject"
+                required={true}
+                index={0}
+                paramName="subject"
                 placeholder="-name-さんへ　テストメール"
-                defaultValue="-name-さんへ　テストメール" />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <div className="col-md-12">
-              <label className="control-label">
-                <span className="text-danger">*</span>Contents
-              </label>
+                value="-name-さんへ　テストメール" />
             </div>
 
-            <div className="col-md-12" id="content0">
-              <label>text/plain</label>
-              <input type="hidden" name="content[0].type" defaultValue="text/plain" />
-              <textarea name="content[0].value" className="form-control"
-                placeholder="-name-さんへ　TEXT本文" defaultValue="-name-さんへ　TEXT本文 SendGrid https://sendgrid.com">
-              </textarea>
-            </div>
+            <div className="form-group">
+              <div className="col-md-12">
+                <label className="control-label">
+                  <span className="text-danger">*</span>Contents
+                </label>
+              </div>
 
-            <div className="col-md-12" id="content1">
-              <label>text/html</label>
-              <input type="hidden" name="content[1].type" defaultValue="text/html" />
-              <textarea name="content[1].value" className="form-control"
-                placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;"
-                defaultValue="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
-                &lt;a href='https://sendgrid.com'&gt;センドグリッド&lt;/a&gt;">
-              </textarea>
-            </div>
-          </div>
+              <div className="col-md-12" id="content0">
+                <label>text/plain</label>
+                <input type="hidden" name="content[0].type" defaultValue="text/plain" />
+                <textarea name="content[0].value" className="form-control"
+                  placeholder="-name-さんへ　TEXT本文" defaultValue="-name-さんへ　TEXT本文 SendGrid https://sendgrid.com">
+                </textarea>
+              </div>
 
-          <div className="panel-group" id="accordion">
-            <div className="panel panel-default">
-              <div className="panel-heading">
-                <h4 className="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion"
-                    href="#collapseOne">
-                    <i className="glyphicon glyphicon-chevron-right"></i>
-                    オプション
-                  </a>
-                </h4>
+              <div className="col-md-12" id="content1">
+                <label>text/html</label>
+                <input type="hidden" name="content[1].type" defaultValue="text/html" />
+                <textarea name="content[1].value" className="form-control"
+                  placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;"
+                  defaultValue="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
+                  &lt;a href='https://sendgrid.com'&gt;センドグリッド&lt;/a&gt;">
+                </textarea>
               </div>
             </div>
-            <div id="collapseOne" className="panel-collapse collapse">
-              <div className="panel-body">
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Substitution
-                    </label>
-                    <input type="checkbox" id="usesub" name="usesub" defaultValue="true" />
-                  </div>
-                  <div className="col-md-12">
-                    <input type="text" id="subkey" name="subkey" className="form-control"
-                      placeholder="-name-" defaultValue="-name-" disabled="true" />
-                  </div>
-                  <div className="col-md-12">
-                    <input type="text" id="subval" name="subval" className="form-control"
-                      placeholder="田中, 鈴木" defaultValue="田中, 鈴木" disabled="true" />
-                  </div>
+            <div className="panel-group" id="accordion">
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                      href="#collapseOne">
+                      <i className="glyphicon glyphicon-chevron-right"></i>
+                      オプション
+                    </a>
+                  </h4>
                 </div>
+              </div>
+              <div id="collapseOne" className="panel-collapse collapse">
+                <div className="panel-body">
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Bcc
-                    </label>
-                    <input type="checkbox" id="usebcc" name="usebcc" defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Substitution
+                      </label>
+                      <input type="checkbox" id="usesub" name="usesub" defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <input type="text" id="subkey" name="subkey" className="form-control"
+                        placeholder="-name-" defaultValue="-name-" disabled="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <input type="text" id="subval" name="subval" className="form-control"
+                        placeholder="田中, 鈴木" defaultValue="田中, 鈴木" disabled="true" />
+                    </div>
                   </div>
-                  <div className="col-md-12">
-                    <input type="text" id="bcc" name="bcc" className="form-control"
-                      placeholder="bcc@address.com" defaultValue="<%= @bcc %>" disabled="true" />
-                  </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Category
-                    </label>
-                    <input type="checkbox" id="usecategory" name="usecategory"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Bcc
+                      </label>
+                      <input type="checkbox" id="usebcc" name="usebcc" defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <input type="text" id="bcc" name="bcc" className="form-control"
+                        placeholder="bcc@address.com" defaultValue="<%= @bcc %>" disabled="true" />
+                    </div>
                   </div>
-                  <div className="col-md-12">
-                    <input type="text" id="category" name="category" className="form-control"
-                      placeholder="sendgrid-demo" defaultValue="sendgrid-demo" disabled="true" />
-                  </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Unique Args
-                    </label>
-                    <input type="checkbox" id="useuniqueargs" name="useuniqueargs"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Category
+                      </label>
+                      <input type="checkbox" id="usecategory" name="usecategory"
+                        defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <input type="text" id="category" name="category" className="form-control"
+                        placeholder="sendgrid-demo" defaultValue="sendgrid-demo" disabled="true" />
+                    </div>
                   </div>
-                  <div className="col-md-12">
-                    <input type="text" id="uniquekey" name="uniquekey" className="form-control"
-                      placeholder="emailtoken" defaultValue="emailtoken" disabled="true" />
-                    <input type="text" id="uniqueval" name="uniqueval" className="form-control"
-                      placeholder="20140901123456" defaultValue="20140901123456" disabled="true" />
-                  </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Click Tracking
-                    </label>
-                    <input type="checkbox" id="useclick" name="useclick" defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Unique Args
+                      </label>
+                      <input type="checkbox" id="useuniqueargs" name="useuniqueargs"
+                        defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <input type="text" id="uniquekey" name="uniquekey" className="form-control"
+                        placeholder="emailtoken" defaultValue="emailtoken" disabled="true" />
+                      <input type="text" id="uniqueval" name="uniqueval" className="form-control"
+                        placeholder="20140901123456" defaultValue="20140901123456" disabled="true" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Open Tracking
-                    </label>
-                    <input type="checkbox" id="useopen" name="useopen" defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Click Tracking
+                      </label>
+                      <input type="checkbox" id="useclick" name="useclick" defaultValue="true" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Subscription Tracking
-                    </label>
-                    <input type="checkbox" id="usesubscription" name="usesubscription"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Open Tracking
+                      </label>
+                      <input type="checkbox" id="useopen" name="useopen" defaultValue="true" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Template
-                    </label>
-                    <input type="checkbox" id="usetemplate" name="usetemplate"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Subscription Tracking
+                      </label>
+                      <input type="checkbox" id="usesubscription" name="usesubscription"
+                        defaultValue="true" />
+                    </div>
                   </div>
-                  <div className="col-md-12">
-                    <select className="form-control" id="template" name="template" disabled="true">
-                      <option>sendgrid_demo_template_1</option>
-                      <option>sendgrid_demo_template_2</option>
-                      <option>sendgrid_demo_template_3</option>
-                    </select>
-                  </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Footer
-                    </label>
-                    <input type="checkbox" id="usefooter" name="usefooter"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Template
+                      </label>
+                      <input type="checkbox" id="usetemplate" name="usetemplate"
+                        defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <select className="form-control" id="template" name="template" disabled="true">
+                        <option>sendgrid_demo_template_1</option>
+                        <option>sendgrid_demo_template_2</option>
+                        <option>sendgrid_demo_template_3</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <div className="col-md-12">
-                    <label>
-                      Send at timezone
-                    </label>
-                    <input type="checkbox" id="usesendat" name="usesendat"
-                      defaultValue="true" />
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Footer
+                      </label>
+                      <input type="checkbox" id="usefooter" name="usefooter"
+                        defaultValue="true" />
+                    </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="input-group clockpicker" id="clockpicker">
-                      <input type="text" name="sendat" className="form-control sendat" defaultValue="<%= @now_time %>" disabled="true" />
-                      <span className="input-group-addon">
-                        <span className="glyphicon glyphicon-time"></span>
-                      </span>
+
+                  <div className="form-group">
+                    <div className="col-md-12">
+                      <label>
+                        Send at timezone
+                      </label>
+                      <input type="checkbox" id="usesendat" name="usesendat"
+                        defaultValue="true" />
+                    </div>
+                    <div className="col-md-12">
+                      <div className="input-group clockpicker" id="clockpicker">
+                        <input type="text" name="sendat" className="form-control sendat" defaultValue="<%= @now_time %>" disabled="true" />
+                        <span className="input-group-addon">
+                          <span className="glyphicon glyphicon-time"></span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
 
-        <button
-          id="send"
-          className="btn btn-primary center-block"
-          onClick={this._onSelectSend}>
-          送信
-        </button>
-
-        <div id="result"></div>
-      </div>
-    );
-  }
+          <button
+            id="send"
+            className="btn btn-primary center-block"
+            onClick={this._onSelectSend}>
+            送信
+          </button>
+          <div>{this.state.status}</div>
+          <div>{this.state.request}</div>
+          <div>{this.state.responseCode}</div>
+          <div>{this.state.responseBody}</div>
+        </div>
+      );
+    }
 });
 
 var PersonalizationList = React.createClass({
@@ -468,108 +479,81 @@ var PersonalizationList = React.createClass({
             <span className="text-danger">*</span>Personalizations
           </label>
 
-          <div className="col-md-12">
-            <label className="control-label">
-              <span className="text-danger">*</span>To
-            </label>
-            <EmailForm
-              index={0}
-              paramName="personalizations[0].to[0]"
-              placeholderEmail="recipient@example.com"
-              valueEmail="recipient@example.com"
-              placeholderName="To Name"
-              valueName="To Name" />
-          </div>
+          <EmailForm
+            title="To"
+            required={true}
+            index={0}
+            paramName="personalizations[0].to[0]"
+            placeholderEmail="recipient@example.com"
+            valueEmail="recipient@example.com"
+            placeholderName="To Name"
+            valueName="To Name" />
 
-          <div className="col-md-12">
-            <label className="control-label">Cc</label>
-            <EmailForm
-              index={0}
-              paramName="personalizations[0].cc[0]"
-              placeholderEmail="cc@example.com"
-              valueEmail="cc@example.com"
-              placeholderName="Cc Name"
-              valueName="Cc Name" />
-          </div>
+          <EmailForm
+            title="Cc"
+            required={false}
+            index={0}
+            paramName="personalizations[0].cc[0]"
+            placeholderEmail="cc@example.com"
+            valueEmail="cc@example.com"
+            placeholderName="Cc Name"
+            valueName="Cc Name" />
 
-          <div className="col-md-12">
-            <label className="control-label">Bcc</label>
-            <EmailForm
-              index={0}
-              paramName="personalizations[0].bcc[0]"
-              placeholderEmail="bcc@example.com"
-              valueEmail="bcc@example.com"
-              placeholderName="Bcc Name"
-              valueName="Bcc Name" />
-          </div>
+          <EmailForm
+            title="Bcc"
+            required={false}
+            index={0}
+            paramName="personalizations[0].bcc[0]"
+            placeholderEmail="bcc@example.com"
+            valueEmail="bcc@example.com"
+            placeholderName="Bcc Name"
+            valueName="Bcc Name" />
 
-          <div className="col-md-12">
-            <label className="control-label">
-              <span className="text-danger">*</span>Subject
-            </label>
-            <div>
-              <input type="text" name="personalizations[0].subject"
-                className="form-control"
-                placeholder="Subject"
-                defaultValue="これは件名です" />
-            </div>
-          </div>
+          <SimpleTextForm
+            title="Subject"
+            required={true}
+            index={0}
+            paramName="personalizations[0].subject"
+            placeholder="Subject"
+            value="これは件名です" />
 
-          <div className="col-md-12">
-            <label className="control-label">Headers</label>
-            <div className="row">
-              <div className="col-md-6">
-                <input type="text" name="personalizations[0].headers[0].key"
-                  className="form-control"
-                  placeholder="header-key" />
-              </div>
-              <div className="col-md-6">
-                <input type="text" name="personalizations[0].headers[0].value"
-                  className="form-control"
-                  placeholder="header-value" />
-              </div>
-            </div>
-          </div>
+          <KeyValueForm
+            title="Headers"
+            required={false}
+            index={0}
+            paramName="personalizations[0].headers[0]"
+            placeholderKey="header-key"
+            valueKey="header-key"
+            placeholderValue="header-value"
+            valueValue="header-value" />
 
-          <div className="col-md-12">
-            <label className="control-label">Substitutions</label>
-            <div className="row">
-              <div className="col-md-6">
-                <input type="text"
-                  name="personalizations[0].substitutions[0].tag"
-                  className="form-control" placeholder="substitution-tag" />
-              </div>
-              <div className="col-md-6">
-                <input type="text"
-                  name="personalizations[0].substitutions[0].value"
-                  className="form-control" placeholder="substitution-value" />
-              </div>
-            </div>
-          </div>
+          <KeyValueForm
+            title="Substitutions"
+            required={false}
+            index={0}
+            paramName="personalizations[0].substitutions[0]"
+            placeholderKey="substitution-key"
+            valueKey="substitution-key"
+            placeholderValue="substitution-value"
+            valueValue="substitution-value" />
 
-          <div className="col-md-12">
-            <label className="control-label">Custom_args</label>
-            <div className="row">
-              <div className="col-md-6">
-                <input type="text"
-                  name="personalizations[0].custom_args[0].key"
-                  className="form-control" placeholder="custom-args-key" />
-              </div>
-              <div className="col-md-6">
-                <input type="text"
-                  name="personalizations[0].custom_args[0].value"
-                  className="form-control" placeholder="custom-args-value" />
-              </div>
-            </div>
-          </div>
+          <KeyValueForm
+            title="Custom_args"
+            required={false}
+            index={0}
+            paramName="personalizations[0].custom_args[0]"
+            placeholderKey="custom-args-key"
+            valueKey="custom-args-key"
+            placeholderValue="custom-args-value"
+            valueValue="custom-args-value" />
 
-          <div className="col-md-12">
-            <label className="control-label">Send_at</label>
-            <div>
-              <input type="text" name="personalizations[0].send_at"
-                className="form-control" placeholder="12345678" />
-            </div>
-          </div>
+          <SimpleTextForm
+            title="Send_at"
+            required={false}
+            index={0}
+            paramName="personalizations[0].send_at"
+            placeholder="12345678"
+            value="12345678" />
         </div>
       </div>
     );
@@ -578,6 +562,8 @@ var PersonalizationList = React.createClass({
 
 var EmailForm = React.createClass({
   propTypes: {
+    title: React.PropTypes.string.isRequired,
+    required: React.PropTypes.bool.isRequired,
     index: React.PropTypes.number.isRequired,
     paramName: React.PropTypes.string.isRequired,
     placeholderEmail: React.PropTypes.string.isRequired,
@@ -585,9 +571,31 @@ var EmailForm = React.createClass({
     placeholderName: React.PropTypes.string.isRequired,
     valueName: React.PropTypes.string.isRequired
   },
+  getInitialState: function() {
+    return {
+      disabled: true
+    };
+  },
+  _onChangeUse: function(e) {
+    this.setState({disabled: !e.target.checked});
+  },
+  _getDisabled: function() {
+    if (this.props.required) {
+      return false;
+    } else {
+      return this.state.disabled;
+    }
+  },
   render: function() {
+    var rq = '';
+    if (this.props.required) {
+      rq = <span className="text-danger">*</span>;
+    } else {
+      rq = <input type="checkbox" onChange={this._onChangeUse} />;
+    }
     return (
-      <div>
+      <div className="col-md-12">
+        <label className="control-label">{rq}{this.props.title}</label>
         <div className="row">
           <div className="col-md-6">
             <input
@@ -595,7 +603,8 @@ var EmailForm = React.createClass({
               name={this.props.paramName + '.email'}
               className="form-control"
               placeholder={this.props.placeholderEmail}
-              defaultValue={this.props.valueEmail} />
+              defaultValue={this.props.valueEmail}
+              disabled={this._getDisabled()} />
           </div>
           <div className="col-md-6">
             <input
@@ -603,9 +612,117 @@ var EmailForm = React.createClass({
               name={this.props.paramName + '.name'}
               className="form-control"
               placeholder={this.props.placeholderName}
-              defaultValue={this.props.valueName} />
+              defaultValue={this.props.valueName}
+              disabled={this._getDisabled()} />
           </div>
         </div>
+      </div>
+    );
+  }
+});
+
+var KeyValueForm = React.createClass({
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    required: React.PropTypes.bool.isRequired,
+    index: React.PropTypes.number.isRequired,
+    paramName: React.PropTypes.string.isRequired,
+    placeholderKey: React.PropTypes.string.isRequired,
+    valueKey: React.PropTypes.string.isRequired,
+    placeholderValue: React.PropTypes.string.isRequired,
+    valueValue: React.PropTypes.string.isRequired
+  },
+  getInitialState: function() {
+    return {
+      disabled: true
+    };
+  },
+  _onChangeUse: function(e) {
+    this.setState({disabled: !e.target.checked});
+  },
+  _getDisabled: function() {
+    if (this.props.required) {
+      return false;
+    } else {
+      return this.state.disabled;
+    }
+  },
+  render: function() {
+    var rq = '';
+    if (this.props.required) {
+      rq = <span className="text-danger">*</span>;
+    } else {
+      rq = <input type="checkbox" onChange={this._onChangeUse} />;
+    }
+    return (
+      <div className="col-md-12">
+        <label className="control-label">{rq}{this.props.title}</label>
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              type="text"
+              name={this.props.paramName + '.key'}
+              className="form-control"
+              placeholder={this.props.placeholderKey}
+              defaultValue={this.props.valueKey}
+              disabled={this._getDisabled()} />
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              name={this.props.paramName + '.value'}
+              className="form-control"
+              placeholder={this.props.placeholderValue}
+              defaultValue={this.props.valueValue}
+              disabled={this._getDisabled()} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
+var SimpleTextForm = React.createClass({
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    required: React.PropTypes.bool.isRequired,
+    index: React.PropTypes.number.isRequired,
+    paramName: React.PropTypes.string.isRequired,
+    placeholder: React.PropTypes.string.isRequired,
+    value: React.PropTypes.string.isRequired,
+  },
+  getInitialState: function() {
+    return {
+      disabled: true
+    };
+  },
+  _onChangeUse: function(e) {
+    this.setState({disabled: !e.target.checked});
+  },
+  _getDisabled: function() {
+    if (this.props.required) {
+      return false;
+    } else {
+      return this.state.disabled;
+    }
+  },
+  render: function() {
+    var rq = '';
+    if (this.props.required) {
+      rq = <span className="text-danger">*</span>;
+    } else {
+      rq = <input type="checkbox" onChange={this._onChangeUse} />;
+    }
+    return (
+      <div className="col-md-12">
+        <label className="control-label">{rq}{this.props.title}</label>
+        <input
+          type="text"
+          name={this.props.paramName}
+          className="form-control"
+          placeholder={this.props.placeholder}
+          defaultValue={this.props.value}
+          disabled={this._getDisabled()} />
       </div>
     );
   }

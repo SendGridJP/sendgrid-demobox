@@ -1,5 +1,5 @@
-# -*- encoding: utf-8 -*-
 require File.join(File.dirname(__FILE__), '.', 'demobox.rb')
+include SendGrid
 
 class Main < Sinatra::Base
 
@@ -57,24 +57,28 @@ class Main < Sinatra::Base
   end
 
   post '/send' do
-    res = ""
+    res = {}
     begin
       request.body.rewind
       body = request.body.read
       if body.length > 0 then
         data = JSON.parse(body)
         logger.info "data: #{data.inspect}"
-        sgc = SgClient.new
-        sgc.send(data)
-        # mailer = Mailer.new
-        # res = JSON.pretty_generate(mailer.send(to_kv(data)))
+        mail = MailFormParser.get_mail(data)
+        mail.mail_settings = MailFormParser.get_mail_settings(data)
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+        response = sg.client.mail._('send').post(request_body: mail.to_json)
+        res['request'] = mail.to_json.inspect
+        res['responseCode'] = response.status_code
+        res['responseBody'] = response.body
+        puts "MAIN/send #{res.inspect}"
       end
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
       res = e.inspect
     end
-    res
+    res.to_json
   end
 
   post '/event' do

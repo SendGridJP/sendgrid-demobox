@@ -136,8 +136,7 @@ DEPENDENCIES
   rspec
   sendgrid-ruby (~> 4.0)
   sinatra (~> 1.4)
-  sinatra-contrib (~> 1.4)
-  sinatra-rocketio
+  sinatra-rocketio (~> 0.3)
   thin
 
 RUBY VERSION
