@@ -18,12 +18,33 @@
     "tests"
   ],
   "dependencies": {
-    "jquery-clockpicker": "~0.0.7"
+    "jquery-clockpicker": "~0.0.7",
+    "bootstrap": "~3.3.7",
+    "react": "~15.2.1",
+    "babel": "~5.8.34",
+    "fluxxor": "^1.7.3"
   },
   "exportsOverride":{
+    "jquery": {
+      "js": "**/jquery*.js"
+    },
     "jquery-clockpicker": {
       "js": "**/jquery-clockpicker*.js",
       "css": "**/jquery-clockpicker*.css"
+    },
+    "bootstrap": {
+      "js": "**/bootstrap*.js",
+      "fonts": "**/glyphicons-halflings-regular*",
+      "css": "**/bootstrap*.css"
+    },
+    "react": {
+      "js": "**/react*.js"
+    },
+    "babel": {
+      "js": "**/browser*.js"
+    },
+    "fluxxor": {
+      "js": "**/fluxxor*.js"
     }
   }
 }
