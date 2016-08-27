@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/react/root.jsx',
+  entry: './src/client/root.jsx',
   output: {
     path: './src/public/js',
     filename: 'main.js'

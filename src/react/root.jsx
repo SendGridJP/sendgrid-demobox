@@ -1,5 +1,6 @@
 var Header = require('./header.jsx');
 var Article = require('./article.jsx');
+var Fluxxor = require("../public/js/fluxxor.js");
 
 var Root = React.createClass({
   _onSelectPage: function(pageId) {

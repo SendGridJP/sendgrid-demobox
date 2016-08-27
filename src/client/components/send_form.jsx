@@ -1,44 +1,35 @@
 var PersonalizationList = require('./personalization_list.jsx');
 var EmailForm = require('./email_form.jsx');
 var SimpleTextForm = require('./simple_text_form.jsx');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SendForm = React.createClass({
+    mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
     getInitialState: function() {
-      return {
-        status: '',
-        request: '',
-        responseCode: '',
-        responseBody: ''
-      };
+      return {};
     },
-    _onSelectSend: function() {
+
+    getStateFromFlux: function() {
+      var store = this.getFlux().store("DemoboxStore");
+      return {
+        status: store.status,
+        request: store.request,
+        responseCode: store.responseCode,
+        responseBody: store.responseBody
+      }
+    },
+
+    handleSendMail: function(e) {
+      e.preventDefault();
       var form = $('#param');
       var param = {};
       $(form.serializeArray()).each(function(i, v) {
         param[v.name] = v.value;
       });
       console.log(param);
-      this.setState({
-        status: '送信中...', request: '', responseCode: '', responseBody: ''
-      });
-      $.ajax({
-        url: '/send',
-        dataType: 'json',
-        type: 'POST',
-        data: JSON.stringify(param),
-        success: function(data) {
-          this.setState({
-            status: '送信完了',
-            request: data.request,
-            responseCode: data.responseCode,
-            responseBody: data.responseBody,
-          });
-        }.bind(this),
-        error: function(xhr, status, err) {
-          this.setState({result: err.toString()});
-          console.error('/send', status, err.toString());
-        }.bind(this)
-      });
+      this.getFlux().actions.sendMail(param);
     },
     render: function() {
       return (
@@ -263,7 +254,7 @@ var SendForm = React.createClass({
           <button
             id="send"
             className="btn btn-primary center-block"
-            onClick={this._onSelectSend}>
+            onClick={this.handleSendMail}>
             送信
           </button>
           <div>{this.state.status}</div>

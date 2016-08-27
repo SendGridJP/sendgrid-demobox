@@ -46,14 +46,44 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
+	var DemoboxStore = __webpack_require__(12);
+	var DemoboxActions = __webpack_require__(14);
+
+	var stores = {
+	  DemoboxStore: new DemoboxStore()
+	};
+	var actions = DemoboxActions;
+	var flux = new Fluxxor.Flux(stores, actions);
+
+	flux.on("dispatch", function (type, payload) {
+	  if (console && console.log) {
+	    console.log("[Dispatch]", type, payload);
+	  }
+	});
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var Root = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
 	  _onSelectPage: function (pageId) {
 	    this.setState({ activePage: pageId });
 	  },
+
 	  getInitialState: function () {
 	    return { activePage: 'send' };
 	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      sending: store.sending,
+	      error: store.error,
+	      result: store.result
+	    };
+	  },
+
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -66,7 +96,7 @@
 	  }
 	});
 
-	ReactDOM.render(React.createElement(Root, null), document.getElementById('root'));
+	ReactDOM.render(React.createElement(Root, { flux: flux }), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -471,44 +501,35 @@
 	var PersonalizationList = __webpack_require__(7);
 	var EmailForm = __webpack_require__(8);
 	var SimpleTextForm = __webpack_require__(9);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var SendForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
 	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
 	    return {
-	      status: '',
-	      request: '',
-	      responseCode: '',
-	      responseBody: ''
+	      status: store.status,
+	      request: store.request,
+	      responseCode: store.responseCode,
+	      responseBody: store.responseBody
 	    };
 	  },
-	  _onSelectSend: function () {
+
+	  handleSendMail: function (e) {
+	    e.preventDefault();
 	    var form = $('#param');
 	    var param = {};
 	    $(form.serializeArray()).each(function (i, v) {
 	      param[v.name] = v.value;
 	    });
 	    console.log(param);
-	    this.setState({
-	      status: '送信中...', request: '', responseCode: '', responseBody: ''
-	    });
-	    $.ajax({
-	      url: '/send',
-	      dataType: 'json',
-	      type: 'POST',
-	      data: JSON.stringify(param),
-	      success: function (data) {
-	        this.setState({
-	          status: '送信完了',
-	          request: data.request,
-	          responseCode: data.responseCode,
-	          responseBody: data.responseBody
-	        });
-	      }.bind(this),
-	      error: function (xhr, status, err) {
-	        this.setState({ result: err.toString() });
-	        console.error('/send', status, err.toString());
-	      }.bind(this)
-	    });
+	    this.getFlux().actions.sendMail(param);
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -850,7 +871,7 @@
 	        {
 	          id: 'send',
 	          className: 'btn btn-primary center-block',
-	          onClick: this._onSelectSend },
+	          onClick: this.handleSendMail },
 	        '送信'
 	      ),
 	      React.createElement(
@@ -1214,6 +1235,137 @@
 	  }
 	});
 	module.exports = ReceivePage;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var constants = __webpack_require__(13);
+
+	var BuzzwordStore = Fluxxor.createStore({
+	  initialize: function () {
+	    this.status = '';
+	    this.request = '';
+	    this.reponseCode = '';
+	    this.responseBody = '';
+	    this.error = null;
+	    this.result = "";
+
+	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail);
+	  },
+
+	  onSendMail: function () {
+	    this.status = '送信中...';
+	    this.request = '';
+	    this.responseCode = '';
+	    this.responseBody = '';
+	    this.emit("change");
+	  },
+
+	  onSendMailSuccess: function (payload) {
+	    this.status = '送信完了';
+	    this.request = payload.result.request;
+	    this.responseCode = payload.result.responseCode;
+	    this.responseBody = payload.result.responseBody;
+	    this.emit("change");
+	  },
+
+	  onSendMailFail: function (payload) {
+	    console.log('DemoboxStore.onSendMailFail() ' + payload.detail);
+	    this.status = '送信失敗';
+	    this.responseCode = payload.responseCode;
+	    this.responseBody = payload.responseBody;
+	    // this.error = payload.error;
+	    this.emit("change");
+	  }
+
+	  // onAddBuzz: function(payload) {
+	  //   var word = {id: payload.id, word: payload.word, status: "ADDING"};
+	  //   this.words[payload.id] = word;
+	  //   this.emit("change");
+	  // },
+	  //
+	  // onAddBuzzSuccess: function(payload) {
+	  //   this.words[payload.id].status = "OK";
+	  //   this.emit("change");
+	  // },
+	  //
+	  // onAddBuzzFail: function(payload) {
+	  //   this.words[payload.id].status = "ERROR";
+	  //   this.words[payload.id].error = payload.error;
+	  //   this.emit("change");
+	  // }
+	});
+
+	module.exports = BuzzwordStore;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	var constants = {
+	  SEND_MAIL: "SEND_MAIL",
+	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
+	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL"
+	};
+
+	module.exports = constants;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var constants = __webpack_require__(13);
+	var DemoboxClient = __webpack_require__(15);
+
+	var actions = {
+	  sendMail: function (param) {
+	    var requestParam = JSON.stringify(param);
+	    this.dispatch(constants.SEND_MAIL);
+	    DemoboxClient.sendMail(requestParam, function (result) {
+	      this.dispatch(constants.SEND_MAIL_SUCCESS, { result: result });
+	    }.bind(this), function (xhr, status, err) {
+	      this.dispatch(constants.SEND_MAIL_FAIL, {
+	        responseCode: xhr.status,
+	        responseBody: err.message
+	      });
+	    }.bind(this));
+	  }
+	};
+
+	module.exports = actions;
+
+	// $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
+	// $("#textStatus").html("textStatus : " + textStatus);
+	// $("#errorThrown").html("errorThrown : " + errorThrown.message);
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	var DemoboxClient = {
+	  sendMail: function (requestParam, success, failure) {
+	    console.log('DemoClient.sendMail()');
+	    $.ajax({
+	      url: '/sendhoge',
+	      dataType: 'json',
+	      type: 'POST',
+	      data: requestParam,
+	      success: success,
+	      // function(data) {
+	      //   this.setState({
+	      //     status: '送信完了',
+	      //     request: data.request,
+	      //     responseCode: data.responseCode,
+	      //     responseBody: data.responseBody,
+	      //   });
+	      // }.bind(this),
+	      error: failure
+	    });
+	  }
+	};
+
+	module.exports = DemoboxClient;
 
 /***/ }
 /******/ ]);
