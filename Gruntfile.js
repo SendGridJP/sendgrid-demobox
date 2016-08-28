@@ -25,6 +25,24 @@ module.exports = function(grunt) {
         }
       },
     },
+    npmcopy: {
+      // Javascript
+      // libs: {
+      //   options: {
+      //       destPrefix: './src/public/js'
+      //   },
+      //   files: {
+      //     'react.*.js': 'react/dist/react.*.js',
+      //     'ReactRouter.js': 'react-router/umd/ReactRouter.js',
+      //     'ReactRouter.min.js': 'react-router/umd/ReactRouter.min.js'
+      //   },
+        glog: {
+          files: {
+            './src/public/js/react': 'react/dist/*.js',
+            './src/public/js/react-router': 'react-router/umd/*.js',
+          }
+        },
+    }
     // uglify: {
     //   options: {
     //     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -42,5 +60,6 @@ module.exports = function(grunt) {
   // Default task(s).
   //grunt.registerTask('default', ['uglify']);
   grunt.loadNpmTasks('grunt-bower-task');
-  grunt.registerTask('default', ['bower:install']);
+  grunt.loadNpmTasks('grunt-npmcopy');
+  grunt.registerTask('default', ['bower:install'], ['npmcopy']);
 };
