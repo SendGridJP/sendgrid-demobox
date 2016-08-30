@@ -1271,30 +1271,11 @@
 	  },
 
 	  onSendMailFail: function (payload) {
-	    console.log('DemoboxStore.onSendMailFail() ' + payload.detail);
 	    this.status = '送信失敗';
 	    this.responseCode = payload.responseCode;
 	    this.responseBody = payload.responseBody;
-	    // this.error = payload.error;
 	    this.emit("change");
 	  }
-
-	  // onAddBuzz: function(payload) {
-	  //   var word = {id: payload.id, word: payload.word, status: "ADDING"};
-	  //   this.words[payload.id] = word;
-	  //   this.emit("change");
-	  // },
-	  //
-	  // onAddBuzzSuccess: function(payload) {
-	  //   this.words[payload.id].status = "OK";
-	  //   this.emit("change");
-	  // },
-	  //
-	  // onAddBuzzFail: function(payload) {
-	  //   this.words[payload.id].status = "ERROR";
-	  //   this.words[payload.id].error = payload.error;
-	  //   this.emit("change");
-	  // }
 	});
 
 	module.exports = BuzzwordStore;
@@ -1335,10 +1316,6 @@
 
 	module.exports = actions;
 
-	// $("#XMLHttpRequest").html("XMLHttpRequest : " + XMLHttpRequest.status);
-	// $("#textStatus").html("textStatus : " + textStatus);
-	// $("#errorThrown").html("errorThrown : " + errorThrown.message);
-
 /***/ },
 /* 15 */
 /***/ function(module, exports) {
@@ -1347,19 +1324,11 @@
 	  sendMail: function (requestParam, success, failure) {
 	    console.log('DemoClient.sendMail()');
 	    $.ajax({
-	      url: '/sendhoge',
+	      url: '/send',
 	      dataType: 'json',
 	      type: 'POST',
 	      data: requestParam,
 	      success: success,
-	      // function(data) {
-	      //   this.setState({
-	      //     status: '送信完了',
-	      //     request: data.request,
-	      //     responseCode: data.responseCode,
-	      //     responseBody: data.responseBody,
-	      //   });
-	      // }.bind(this),
 	      error: failure
 	    });
 	  }

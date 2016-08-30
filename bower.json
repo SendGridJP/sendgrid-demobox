@@ -20,9 +20,9 @@
   "dependencies": {
     "jquery-clockpicker": "~0.0.7",
     "bootstrap": "~3.3.7",
-    "react": "~15.2.1",
     "babel": "~5.8.34",
-    "fluxxor": "^1.7.3",
+    "fluxxor": "~1.7.3",
+    "react": "~15.3.1"
   },
   "exportsOverride":{
     "jquery": {
@@ -42,6 +42,9 @@
     },
     "fluxxor": {
       "js": "**/fluxxor*.js"
+    },
+    "react": {
+      "js": "**/react*.js"
     }
   }
 }

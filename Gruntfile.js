@@ -24,42 +24,30 @@ module.exports = function(grunt) {
           cleanBowerDir: false
         }
       },
-    },
-    npmcopy: {
-      // Javascript
-      // libs: {
-      //   options: {
-      //       destPrefix: './src/public/js'
-      //   },
-      //   files: {
-      //     'react.*.js': 'react/dist/react.*.js',
-      //     'ReactRouter.js': 'react-router/umd/ReactRouter.js',
-      //     'ReactRouter.min.js': 'react-router/umd/ReactRouter.min.js'
-      //   },
-        glog: {
-          files: {
-            './src/public/js/react': 'react/dist/*.js',
-            './src/public/js/react-router': 'react-router/umd/*.js',
-          }
-        },
     }
-    // uglify: {
-    //   options: {
-    //     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-    //   },
-    //   build: {
-    //     src: 'src/<%= pkg.name %>.js',
-    //     dest: 'build/<%= pkg.name %>.min.js'
+    // npmcopy: {
+    //   // Javascript
+    //   libs: {
+    //     options: {
+    //         destPrefix: './src/public/js'
+    //     },
+    //     files: {
+    //       'react.js': 'react/dist/react.js',
+    //       'react.min.js': 'react/dist/react.min.js',
+    //       'react-with-addons.js': 'react/dist/react-with-addons.js',
+    //       'react-with-addons.min.js': 'react/dist/react-with-addons.min.js',
+    //       'ReactRouter.js': 'react-router/umd/ReactRouter.js',
+    //       'ReactRouter.min.js': 'react-router/umd/ReactRouter.min.js'
+    //     }
     //   }
-    // },
+    // }
   });
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default task(s).
-  //grunt.registerTask('default', ['uglify']);
   grunt.loadNpmTasks('grunt-bower-task');
-  grunt.loadNpmTasks('grunt-npmcopy');
-  grunt.registerTask('default', ['bower:install'], ['npmcopy']);
+//  grunt.loadNpmTasks('grunt-npmcopy');
+  grunt.registerTask('default', ['bower:install']);
 };
