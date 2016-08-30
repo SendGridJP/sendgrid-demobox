@@ -50,6 +50,15 @@ var Root = React.createClass({
   }
 });
 
+var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
+io.on("event", function(value){
+  // var event = JSON.parse(value);
+  // $("#event-table").prepend(getRow(event));
+  // $("#event-table td div").slideDown(500);
+  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
+  // $("#event-json td div").slideDown(500);
+});
+
 ReactDOM.render(
   <Root flux={flux} />,
   document.getElementById('root')

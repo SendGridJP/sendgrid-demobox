@@ -35,13 +35,13 @@
     "bootstrap": {
       "js": "**/bootstrap*.js",
       "fonts": "**/glyphicons-halflings-regular*",
-      "css": "**/bootstrap*.css"
+      "css": "**/bootstrap*.css*"
     },
     "babel": {
       "js": "**/browser*.js"
     },
     "fluxxor": {
-      "js": "**/fluxxor*.js"
+      "js": "**/fluxxor*.js*"
     },
     "react": {
       "js": "**/react*.js"

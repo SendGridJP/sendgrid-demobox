@@ -20,6 +20,10 @@ var actions = {
         );
       }.bind(this)
     );
+  },
+
+  toggleShowEvent: function(buttonId) {
+    this.dispatch(constants.TOGGLE_SHOW_EVENT, {buttonId: buttonId});
   }
 };
 

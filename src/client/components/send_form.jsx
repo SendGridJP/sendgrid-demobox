@@ -31,6 +31,7 @@ var SendForm = React.createClass({
       console.log(param);
       this.getFlux().actions.sendMail(param);
     },
+
     render: function() {
       return (
         <div>

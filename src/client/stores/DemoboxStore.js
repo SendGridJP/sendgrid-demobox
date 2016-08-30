@@ -1,6 +1,6 @@
 var constants = require("../constants.js");
 
-var BuzzwordStore = Fluxxor.createStore({
+var DemoboxStore = Fluxxor.createStore({
   initialize: function() {
     this.status = '';
     this.request = '';
@@ -9,10 +9,14 @@ var BuzzwordStore = Fluxxor.createStore({
     this.error = null;
     this.result = "";
 
+    this.showEvent = "json";
+
     this.bindActions(
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
-      constants.SEND_MAIL_FAIL, this.onSendMailFail
+      constants.SEND_MAIL_FAIL, this.onSendMailFail,
+
+      constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent
     );
   },
 
@@ -37,7 +41,13 @@ var BuzzwordStore = Fluxxor.createStore({
     this.responseCode = payload.responseCode;
     this.responseBody = payload.responseBody;
     this.emit("change");
+  },
+
+  onToggleShowEvent: function(payload) {
+    console.log("DemoboxStore.onToggleShowEvent: " + payload.buttonId);
+    this.showEvent = payload.buttonId;
+    this.emit("change");
   }
 });
 
-module.exports = BuzzwordStore;
+module.exports = DemoboxStore;

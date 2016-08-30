@@ -46,8 +46,8 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var DemoboxStore = __webpack_require__(12);
-	var DemoboxActions = __webpack_require__(14);
+	var DemoboxStore = __webpack_require__(14);
+	var DemoboxActions = __webpack_require__(16);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -94,6 +94,15 @@
 	      React.createElement(Article, { activePage: this.state.activePage })
 	    );
 	  }
+	});
+
+	var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
+	io.on("event", function (value) {
+	  // var event = JSON.parse(value);
+	  // $("#event-table").prepend(getRow(event));
+	  // $("#event-table td div").slideDown(500);
+	  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
+	  // $("#event-json td div").slideDown(500);
 	});
 
 	ReactDOM.render(React.createElement(Root, { flux: flux }), document.getElementById('root'));
@@ -252,7 +261,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(11);
+	var ReceivePage = __webpack_require__(13);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -273,220 +282,25 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
+	var EventsPain = __webpack_require__(11);
 
 	var SendPage = React.createClass({
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "container-fluid" },
+	      'div',
+	      { className: 'container-fluid' },
 	      React.createElement(
-	        "div",
-	        { className: "row" },
+	        'div',
+	        { className: 'row' },
 	        React.createElement(
-	          "div",
-	          { className: "col-md-3" },
+	          'div',
+	          { className: 'col-md-3' },
 	          React.createElement(SendForm, null)
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "col-md-9" },
-	          React.createElement(
-	            "div",
-	            { className: "btn-toolbar" },
-	            React.createElement(
-	              "div",
-	              { className: "btn-group", "data-toggle": "buttons-radio" },
-	              React.createElement(
-	                "button",
-	                { className: "btn btn-default", id: "show-table" },
-	                "Table"
-	              ),
-	              React.createElement(
-	                "button",
-	                { className: "btn btn-default active", id: "show-json" },
-	                "JSON"
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            "table",
-	            { className: "table table-striped table-bordered table-condensed", id: "event-table" },
-	            React.createElement(
-	              "thead",
-	              null,
-	              React.createElement(
-	                "tr",
-	                null,
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "timestamp"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "event"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "email"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "smtp-id"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "response"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "sg_event_id"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "sg_message_id"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "useragent"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "ip"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "attempt"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "category"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "url"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "status"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "reason"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "type"
-	                  )
-	                ),
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "send_at"
-	                  )
-	                )
-	              )
-	            ),
-	            React.createElement("tbody", null)
-	          ),
-	          React.createElement(
-	            "table",
-	            { className: "table table-striped table-bordered table-condensed", id: "event-json" },
-	            React.createElement(
-	              "thead",
-	              null,
-	              React.createElement(
-	                "tr",
-	                null,
-	                React.createElement(
-	                  "th",
-	                  null,
-	                  React.createElement(
-	                    "small",
-	                    null,
-	                    "JSON"
-	                  )
-	                )
-	              )
-	            ),
-	            React.createElement("tbody", null)
-	          )
+	          'div',
+	          { className: 'col-md-9' },
+	          React.createElement(EventsPain, null)
 	        )
 	      )
 	    );
@@ -531,6 +345,7 @@
 	    console.log(param);
 	    this.getFlux().actions.sendMail(param);
 	  },
+
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -1223,6 +1038,266 @@
 
 /***/ },
 /* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ShowButton = __webpack_require__(12);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var EventsPain = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
+	    return {
+	      showEvent: store.showEvent
+	    };
+	  },
+
+	  handleShowButton: function (buttonId) {
+	    console.log("handleShowButton: " + buttonId);
+	    this.getFlux().actions.toggleShowEvent(buttonId);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "div",
+	        { className: "btn-toolbar" },
+	        React.createElement(
+	          "div",
+	          { className: "btn-group", "data-toggle": "buttons-radio" },
+	          React.createElement(ShowButton, {
+	            buttonId: "table",
+	            text: "Table",
+	            active: this.state.showEvent,
+	            onClick: this.handleShowButton }),
+	          React.createElement(ShowButton, {
+	            buttonId: "json",
+	            text: "JSON",
+	            active: this.state.showEvent,
+	            onClick: this.handleShowButton })
+	        )
+	      ),
+	      React.createElement(
+	        "table",
+	        { className: "table table-striped table-bordered table-condensed", id: "event-table" },
+	        React.createElement(
+	          "thead",
+	          null,
+	          React.createElement(
+	            "tr",
+	            null,
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "timestamp"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "event"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "email"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "smtp-id"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "response"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "sg_event_id"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "sg_message_id"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "useragent"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "ip"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "attempt"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "category"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "url"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "status"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "reason"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "type"
+	              )
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "send_at"
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement("tbody", null)
+	      ),
+	      React.createElement(
+	        "table",
+	        { className: "table table-striped table-bordered table-condensed", id: "event-json" },
+	        React.createElement(
+	          "thead",
+	          null,
+	          React.createElement(
+	            "tr",
+	            null,
+	            React.createElement(
+	              "th",
+	              null,
+	              React.createElement(
+	                "small",
+	                null,
+	                "JSON"
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement("tbody", null)
+	      )
+	    );
+	  }
+	});
+	module.exports = EventsPain;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	var ShowButton = React.createClass({
+	  propTypes: {
+	    buttonId: React.PropTypes.string.isRequired,
+	    text: React.PropTypes.string.isRequired,
+	    active: React.PropTypes.string.isRequired,
+	    onClick: React.PropTypes.func.isRequired
+	  },
+	  handleSelect: function () {
+	    this.props.onClick(this.props.buttonId);
+	  },
+	  getActive: function (buttonId, active) {
+	    if (buttonId === active) return 'btn btn-default active';else return 'btn btn-default';
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'button',
+	      {
+	        className: this.getActive(this.props.buttonId, this.props.active),
+	        id: '{this.props.buttonId',
+	        onClick: this.handleSelect },
+	      this.props.text
+	    );
+	  }
+	});
+	module.exports = ShowButton;
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -1237,12 +1312,12 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(13);
+	var constants = __webpack_require__(15);
 
-	var BuzzwordStore = Fluxxor.createStore({
+	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
 	    this.status = '';
 	    this.request = '';
@@ -1251,7 +1326,9 @@
 	    this.error = null;
 	    this.result = "";
 
-	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail);
+	    this.showEvent = "json";
+
+	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent);
 	  },
 
 	  onSendMail: function () {
@@ -1275,29 +1352,37 @@
 	    this.responseCode = payload.responseCode;
 	    this.responseBody = payload.responseBody;
 	    this.emit("change");
+	  },
+
+	  onToggleShowEvent: function (payload) {
+	    console.log("DemoboxStore.onToggleShowEvent: " + payload.buttonId);
+	    this.showEvent = payload.buttonId;
+	    this.emit("change");
 	  }
 	});
 
-	module.exports = BuzzwordStore;
+	module.exports = DemoboxStore;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var constants = {
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
-	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL"
+	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
+
+	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT"
 	};
 
 	module.exports = constants;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(13);
-	var DemoboxClient = __webpack_require__(15);
+	var constants = __webpack_require__(15);
+	var DemoboxClient = __webpack_require__(17);
 
 	var actions = {
 	  sendMail: function (param) {
@@ -1311,13 +1396,17 @@
 	        responseBody: err.message
 	      });
 	    }.bind(this));
+	  },
+
+	  toggleShowEvent: function (buttonId) {
+	    this.dispatch(constants.TOGGLE_SHOW_EVENT, { buttonId: buttonId });
 	  }
 	};
 
 	module.exports = actions;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
