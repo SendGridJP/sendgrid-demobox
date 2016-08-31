@@ -1043,6 +1043,7 @@
 	var ShowButton = __webpack_require__(12);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var EventsPain = React.createClass({
 	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
@@ -1055,12 +1056,216 @@
 	    };
 	  },
 
+	  getTable: function (showEvent) {
+	    var table = '';
+	    if (showEvent == "table") {
+	      table = React.createElement(
+	        ReactCSSTransitionGroup,
+	        {
+	          transitionName: "example", transitionAppear: true,
+	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
+	          transitionLeaveTimeout: 300 },
+	        React.createElement(
+	          "table",
+	          { className: "table table-striped table-bordered table-condensed", id: "event-table" },
+	          React.createElement(
+	            "thead",
+	            null,
+	            React.createElement(
+	              "tr",
+	              null,
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "timestamp"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "event"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "email"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "smtp-id"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "response"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "sg_event_id"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "sg_message_id"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "useragent"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "ip"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "attempt"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "category"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "url"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "status"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "reason"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "type"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "send_at"
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement("tbody", null)
+	        )
+	      );
+	    }
+
+	    if (showEvent == "json") {
+	      table = React.createElement(
+	        ReactCSSTransitionGroup,
+	        {
+	          transitionName: "example", transitionAppear: true,
+	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
+	          transitionLeaveTimeout: 300 },
+	        React.createElement(
+	          "table",
+	          { className: "table table-striped table-bordered table-condensed", id: "event-json" },
+	          React.createElement(
+	            "thead",
+	            null,
+	            React.createElement(
+	              "tr",
+	              null,
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "JSON"
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement("tbody", null)
+	        )
+	      );
+	    }
+	    return table;
+	  },
+
 	  handleShowButton: function (buttonId) {
 	    console.log("handleShowButton: " + buttonId);
 	    this.getFlux().actions.toggleShowEvent(buttonId);
 	  },
 
 	  render: function () {
+
 	    return React.createElement(
 	      "div",
 	      null,
@@ -1082,185 +1287,7 @@
 	            onClick: this.handleShowButton })
 	        )
 	      ),
-	      React.createElement(
-	        "table",
-	        { className: "table table-striped table-bordered table-condensed", id: "event-table" },
-	        React.createElement(
-	          "thead",
-	          null,
-	          React.createElement(
-	            "tr",
-	            null,
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "timestamp"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "event"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "email"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "smtp-id"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "response"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "sg_event_id"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "sg_message_id"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "useragent"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "ip"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "attempt"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "category"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "url"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "status"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "reason"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "type"
-	              )
-	            ),
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "send_at"
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement("tbody", null)
-	      ),
-	      React.createElement(
-	        "table",
-	        { className: "table table-striped table-bordered table-condensed", id: "event-json" },
-	        React.createElement(
-	          "thead",
-	          null,
-	          React.createElement(
-	            "tr",
-	            null,
-	            React.createElement(
-	              "th",
-	              null,
-	              React.createElement(
-	                "small",
-	                null,
-	                "JSON"
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement("tbody", null)
-	      )
+	      this.getTable(this.state.showEvent)
 	    );
 	  }
 	});

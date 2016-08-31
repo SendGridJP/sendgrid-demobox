@@ -1,6 +1,7 @@
 var ShowButton = require('./show_button.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var EventsPain = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
@@ -13,31 +14,13 @@ var EventsPain = React.createClass({
     }
   },
 
-
-
-  handleShowButton: function(buttonId) {
-    console.log("handleShowButton: " + buttonId);
-    this.getFlux().actions.toggleShowEvent(buttonId);
-  },
-
-  render: function() {
-    return (
-      <div>
-        <div className="btn-toolbar">
-          <div className="btn-group" data-toggle="buttons-radio">
-            <ShowButton
-              buttonId="table"
-              text="Table"
-              active={this.state.showEvent}
-              onClick={this.handleShowButton} />
-            <ShowButton
-              buttonId="json"
-              text="JSON"
-              active={this.state.showEvent}
-              onClick={this.handleShowButton} />
-          </div>
-        </div>
-
+  getTable: function(showEvent) {
+    var table = '';
+    if (showEvent == "table") {
+      table = <ReactCSSTransitionGroup
+        transitionName="example" transitionAppear={true}
+        transitionAppearTimeout={500} transitionEnterTimeout={500}
+        transitionLeaveTimeout={300}>
         <table className="table table-striped table-bordered table-condensed" id="event-table">
           <thead>
             <tr>
@@ -62,7 +45,14 @@ var EventsPain = React.createClass({
           <tbody>
           </tbody>
         </table>
+      </ReactCSSTransitionGroup>;
+    }
 
+    if (showEvent == "json") {
+      table = <ReactCSSTransitionGroup
+        transitionName="example" transitionAppear={true}
+        transitionAppearTimeout={500} transitionEnterTimeout={500}
+        transitionLeaveTimeout={300}>
         <table className="table table-striped table-bordered table-condensed" id="event-json">
           <thead>
             <tr><th><small>JSON</small></th></tr>
@@ -70,6 +60,35 @@ var EventsPain = React.createClass({
           <tbody>
           </tbody>
         </table>
+      </ReactCSSTransitionGroup>;
+    }
+    return table;
+  },
+
+  handleShowButton: function(buttonId) {
+    console.log("handleShowButton: " + buttonId);
+    this.getFlux().actions.toggleShowEvent(buttonId);
+  },
+
+  render: function() {
+
+    return (
+      <div>
+        <div className="btn-toolbar">
+          <div className="btn-group" data-toggle="buttons-radio">
+            <ShowButton
+              buttonId="table"
+              text="Table"
+              active={this.state.showEvent}
+              onClick={this.handleShowButton} />
+            <ShowButton
+              buttonId="json"
+              text="JSON"
+              active={this.state.showEvent}
+              onClick={this.handleShowButton} />
+          </div>
+        </div>
+        {this.getTable(this.state.showEvent)}
       </div>
     );
   }
