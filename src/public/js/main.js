@@ -46,20 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var DemoboxStore = __webpack_require__(14);
-	var DemoboxActions = __webpack_require__(16);
-
-	var stores = {
-	  DemoboxStore: new DemoboxStore()
-	};
-	var actions = DemoboxActions;
-	var flux = new Fluxxor.Flux(stores, actions);
-
-	flux.on("dispatch", function (type, payload) {
-	  if (console && console.log) {
-	    console.log("[Dispatch]", type, payload);
-	  }
-	});
+	var flux = __webpack_require__(16);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -94,15 +81,6 @@
 	      React.createElement(Article, { activePage: this.state.activePage })
 	    );
 	  }
-	});
-
-	var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
-	io.on("event", function (value) {
-	  // var event = JSON.parse(value);
-	  // $("#event-table").prepend(getRow(event));
-	  // $("#event-table td div").slideDown(500);
-	  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
-	  // $("#event-json td div").slideDown(500);
 	});
 
 	ReactDOM.render(React.createElement(Root, { flux: flux }), document.getElementById('root'));
@@ -261,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(13);
+	var ReceivePage = __webpack_require__(15);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -1041,6 +1019,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var ShowButton = __webpack_require__(12);
+	var EventItemTable = __webpack_require__(13);
+	var EventItemJson = __webpack_require__(14);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1051,176 +1031,195 @@
 	  getStateFromFlux: function () {
 	    var store = this.getFlux().store("DemoboxStore");
 	    console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
+	    console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
 	    return {
-	      showEvent: store.showEvent
+	      showEvent: store.showEvent,
+	      events: store.events
 	    };
 	  },
 
-	  getTable: function (showEvent) {
+	  // handleAddEvent: function(value) {
+	  //   console.log("EventsPain#handleAddEvent");
+	  //   this.getFlux().actions.addEvent(value);
+	  // },
+	  //
+	  // handleToggleShowEvent: function(value) {
+	  //   console.log("EventsPain#handleToggleShowEvent");
+	  //   this.getFlux().actions.toggleShowEvent(value);
+	  // },
+
+	  getTable: function (showEvent, events) {
 	    var table = '';
+	    console.log('getTable(): ' + JSON.stringify(events));
 	    if (showEvent == "table") {
 	      table = React.createElement(
 	        ReactCSSTransitionGroup,
 	        {
-	          transitionName: "example", transitionAppear: true,
+	          transitionName: 'example', transitionAppear: true,
 	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
 	          transitionLeaveTimeout: 300 },
 	        React.createElement(
-	          "table",
-	          { className: "table table-striped table-bordered table-condensed", id: "event-table" },
+	          'table',
+	          { className: 'table table-striped table-bordered table-condensed', id: 'event-table', key: 'event-table' },
 	          React.createElement(
-	            "thead",
+	            'thead',
 	            null,
 	            React.createElement(
-	              "tr",
+	              'tr',
 	              null,
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "timestamp"
+	                  'timestamp'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "event"
+	                  'event'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "email"
+	                  'email'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "smtp-id"
+	                  'smtp-id'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "response"
+	                  'response'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "sg_event_id"
+	                  'sg_event_id'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "sg_message_id"
+	                  'sg_message_id'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "useragent"
+	                  'useragent'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "ip"
+	                  'ip'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "attempt"
+	                  'attempt'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "category"
+	                  'category'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "url"
+	                  'url'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "status"
+	                  'status'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "reason"
+	                  'reason'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "type"
+	                  'type'
 	                )
 	              ),
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "send_at"
+	                  'send_at'
 	                )
 	              )
 	            )
 	          ),
-	          React.createElement("tbody", null)
+	          React.createElement(
+	            'tbody',
+	            null,
+	            events.map(function (event) {
+	              return React.createElement(EventItemTable, { event: event });
+	            }, this)
+	          )
 	        )
 	      );
 	    }
@@ -1229,30 +1228,36 @@
 	      table = React.createElement(
 	        ReactCSSTransitionGroup,
 	        {
-	          transitionName: "example", transitionAppear: true,
+	          transitionName: 'example', transitionAppear: true,
 	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
 	          transitionLeaveTimeout: 300 },
 	        React.createElement(
-	          "table",
-	          { className: "table table-striped table-bordered table-condensed", id: "event-json" },
+	          'table',
+	          { className: 'table table-striped table-bordered table-condensed', id: 'event-json', key: 'event-json' },
 	          React.createElement(
-	            "thead",
+	            'thead',
 	            null,
 	            React.createElement(
-	              "tr",
+	              'tr',
 	              null,
 	              React.createElement(
-	                "th",
+	                'th',
 	                null,
 	                React.createElement(
-	                  "small",
+	                  'small',
 	                  null,
-	                  "JSON"
+	                  'JSON'
 	                )
 	              )
 	            )
 	          ),
-	          React.createElement("tbody", null)
+	          React.createElement(
+	            'tbody',
+	            null,
+	            events.map(function (event) {
+	              return React.createElement(EventItemJson, { event: event });
+	            }, this)
+	          )
 	        )
 	      );
 	    }
@@ -1267,30 +1272,55 @@
 	  render: function () {
 
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "div",
-	        { className: "btn-toolbar" },
+	        'div',
+	        { className: 'btn-toolbar' },
 	        React.createElement(
-	          "div",
-	          { className: "btn-group", "data-toggle": "buttons-radio" },
+	          'div',
+	          { className: 'btn-group', 'data-toggle': 'buttons-radio' },
 	          React.createElement(ShowButton, {
-	            buttonId: "table",
-	            text: "Table",
+	            buttonId: 'table',
+	            text: 'Table',
 	            active: this.state.showEvent,
 	            onClick: this.handleShowButton }),
 	          React.createElement(ShowButton, {
-	            buttonId: "json",
-	            text: "JSON",
+	            buttonId: 'json',
+	            text: 'JSON',
 	            active: this.state.showEvent,
 	            onClick: this.handleShowButton })
 	        )
 	      ),
-	      this.getTable(this.state.showEvent)
+	      this.getTable(this.state.showEvent, this.state.events)
 	    );
 	  }
 	});
+
+	////
+	// var stores = {
+	//   DemoboxStore: new DemoboxStore()
+	// };
+	// var actions = DemoboxActions;
+	// var flux = new Fluxxor.Flux(stores, actions);
+
+	// var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
+	// io.on("event", function(value){
+	//   console.log("EventsPain event: " + value);
+	//   EventsPain.handleAddEvent(value);
+	//   // var event = JSON.parse(value);
+	//   // $("#event-table").prepend(getRow(event));
+	//   // $("#event-table td div").slideDown(500);
+	//   // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
+	//   // $("#event-json td div").slideDown(500);
+	// });
+	//
+	// io.on("toggle", function(value){
+	//   console.log("EventsPain toggle: " + value);
+	//   EventsPain.handleToggleShowEvent(value);
+	// });
+	////
+
 	module.exports = EventsPain;
 
 /***/ },
@@ -1315,7 +1345,7 @@
 	      'button',
 	      {
 	        className: this.getActive(this.props.buttonId, this.props.active),
-	        id: '{this.props.buttonId',
+	        id: this.props.buttonId,
 	        onClick: this.handleSelect },
 	      this.props.text
 	    );
@@ -1325,6 +1355,195 @@
 
 /***/ },
 /* 13 */
+/***/ function(module, exports) {
+
+	var EventItemTable = React.createClass({
+	  propTypes: {
+	    event: React.PropTypes.object.isRequired
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "tr",
+	      null,
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.timestamp
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.event
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.email
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event["smtp-id"]
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.response
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.sg_event_id
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.sg_message_id
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.useragent
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.ip
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.attempt
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.category
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.url
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.status
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.reason
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.type
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.event.send_at
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = EventItemTable;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	var EventItemJson = React.createClass({
+	  propTypes: {
+	    event: React.PropTypes.object.isRequired
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "tr",
+	      null,
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          JSON.stringify(this.props.event)
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = EventItemJson;
+
+/***/ },
+/* 15 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -1339,10 +1558,47 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(15);
+	var DemoboxStore = __webpack_require__(17);
+	var DemoboxActions = __webpack_require__(19);
+
+	var stores = {
+	  DemoboxStore: new DemoboxStore()
+	};
+	var actions = DemoboxActions;
+	var flux = new Fluxxor.Flux(stores, actions);
+
+	flux.on("dispatch", function (type, payload) {
+	  if (console && console.log) {
+	    console.log("[Dispatch]", type, payload);
+	  }
+	});
+
+	var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
+	io.on("event", function (value) {
+	  console.log("RocketIOReceiver event: " + value);
+	  flux.actions.addEvent(value);
+	  // var event = JSON.parse(value);
+	  // $("#event-table").prepend(getRow(event));
+	  // $("#event-table td div").slideDown(500);
+	  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
+	  // $("#event-json td div").slideDown(500);
+	});
+
+	io.on("toggle", function (value) {
+	  console.log("RocketIOReceiver toggle: " + value);
+	  flux.actions.toggleShowEvent(value);
+	});
+
+	module.exports = flux;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var constants = __webpack_require__(18);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -1355,7 +1611,9 @@
 
 	    this.showEvent = "json";
 
-	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent);
+	    this.events = [];
+
+	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENT, this.onAddEvent);
 	  },
 
 	  onSendMail: function () {
@@ -1382,8 +1640,17 @@
 	  },
 
 	  onToggleShowEvent: function (payload) {
-	    console.log("DemoboxStore.onToggleShowEvent: " + payload.buttonId);
+	    console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
 	    this.showEvent = payload.buttonId;
+	    this.emit("change");
+	  },
+
+	  onAddEvent: function (payload) {
+	    console.log("DemoboxStore#onAddEvent()1: " + payload.event);
+	    var event = JSON.parse(payload.event);
+	    console.log("DemoboxStore#onAddEvent()2: " + event);
+	    this.events.push(JSON.parse(event));
+	    console.log(this.events);
 	    this.emit("change");
 	  }
 	});
@@ -1391,25 +1658,25 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var constants = {
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
-
-	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT"
+	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
+	  ADD_EVENT: "ADD_EVENT"
 	};
 
 	module.exports = constants;
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(15);
-	var DemoboxClient = __webpack_require__(17);
+	var constants = __webpack_require__(18);
+	var DemoboxClient = __webpack_require__(20);
 
 	var actions = {
 	  sendMail: function (param) {
@@ -1426,14 +1693,20 @@
 	  },
 
 	  toggleShowEvent: function (buttonId) {
+	    console.log("DemoboxAction#toggleShowEvent() " + buttonId);
 	    this.dispatch(constants.TOGGLE_SHOW_EVENT, { buttonId: buttonId });
+	  },
+
+	  addEvent: function (event) {
+	    console.log("DemoboxAction#addEvent() " + event);
+	    this.dispatch(constants.ADD_EVENT, { event: event });
 	  }
 	};
 
 	module.exports = actions;
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {

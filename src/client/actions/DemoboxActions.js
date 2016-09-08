@@ -23,7 +23,13 @@ var actions = {
   },
 
   toggleShowEvent: function(buttonId) {
+    console.log("DemoboxAction#toggleShowEvent() " + buttonId);
     this.dispatch(constants.TOGGLE_SHOW_EVENT, {buttonId: buttonId});
+  },
+
+  addEvent: function(event) {
+    console.log("DemoboxAction#addEvent() " + event);
+    this.dispatch(constants.ADD_EVENT, {event: event});
   }
 };
 

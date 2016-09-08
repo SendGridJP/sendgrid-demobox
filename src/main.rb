@@ -72,6 +72,10 @@ class Main < Sinatra::Base
         res['responseCode'] = response.status_code
         res['responseBody'] = response.body
         puts "MAIN/send #{res.inspect}"
+        # debug
+        event = '[{"timestamp": 1234567890}]'
+        io.push :event, JSON.generate(event)
+        # debug
       end
     rescue => e
       logger.error e.backtrace
@@ -111,5 +115,15 @@ class Main < Sinatra::Base
       logger.error e.inspect
     end
     'Success'
+  end
+
+  get '/eventtest' do
+    io.push :event, JSON.generate('{"timestamp": "from eventtest"}')
+    'hello'
+  end
+
+  get '/toggletest' do
+    io.push :toggle, JSON.generate('{"timestamp": "from eventtest"}')
+    'hello'
   end
 end

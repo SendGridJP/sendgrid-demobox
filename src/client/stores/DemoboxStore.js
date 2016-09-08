@@ -11,12 +11,16 @@ var DemoboxStore = Fluxxor.createStore({
 
     this.showEvent = "json";
 
+    this.events = [];
+
     this.bindActions(
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
 
-      constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent
+      constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent,
+
+      constants.ADD_EVENT, this.onAddEvent
     );
   },
 
@@ -44,8 +48,17 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onToggleShowEvent: function(payload) {
-    console.log("DemoboxStore.onToggleShowEvent: " + payload.buttonId);
+    console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
     this.showEvent = payload.buttonId;
+    this.emit("change");
+  },
+
+  onAddEvent: function(payload) {
+    console.log("DemoboxStore#onAddEvent()1: " + payload.event);
+    var event = JSON.parse(payload.event);
+    console.log("DemoboxStore#onAddEvent()2: " + event);
+    this.events.push(JSON.parse(event));
+    console.log(this.events);
     this.emit("change");
   }
 });

@@ -16,7 +16,7 @@ var ShowButton = React.createClass({
     return(
       <button
         className={this.getActive(this.props.buttonId, this.props.active)}
-        id="{this.props.buttonId"
+        id={this.props.buttonId}
         onClick={this.handleSelect}>{this.props.text}</button>
     );
   }
