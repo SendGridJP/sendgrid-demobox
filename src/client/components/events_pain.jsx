@@ -5,8 +5,6 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-
-
 var EventsPain = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
 
@@ -20,16 +18,6 @@ var EventsPain = React.createClass({
       events: store.events
     }
   },
-
-  // handleAddEvent: function(value) {
-  //   console.log("EventsPain#handleAddEvent");
-  //   this.getFlux().actions.addEvent(value);
-  // },
-  //
-  // handleToggleShowEvent: function(value) {
-  //   console.log("EventsPain#handleToggleShowEvent");
-  //   this.getFlux().actions.toggleShowEvent(value);
-  // },
 
   getTable: function(showEvent, events) {
     var table = '';
@@ -81,9 +69,9 @@ var EventsPain = React.createClass({
             <tr><th><small>JSON</small></th></tr>
           </thead>
           <tbody>
-            {events.map(function(event) {
+            {events.map(function(event, index) {
               return (
-                <EventItemJson event={event} />
+                <EventItemJson event={event} firstRow={index == 0 ? true : false} />
               );
             }, this)}
           </tbody>
@@ -99,7 +87,6 @@ var EventsPain = React.createClass({
   },
 
   render: function() {
-
     return (
       <div>
         <div className="btn-toolbar">
@@ -121,29 +108,5 @@ var EventsPain = React.createClass({
     );
   }
 });
-
-////
-// var stores = {
-//   DemoboxStore: new DemoboxStore()
-// };
-// var actions = DemoboxActions;
-// var flux = new Fluxxor.Flux(stores, actions);
-
-// var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
-// io.on("event", function(value){
-//   console.log("EventsPain event: " + value);
-//   EventsPain.handleAddEvent(value);
-//   // var event = JSON.parse(value);
-//   // $("#event-table").prepend(getRow(event));
-//   // $("#event-table td div").slideDown(500);
-//   // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
-//   // $("#event-json td div").slideDown(500);
-// });
-//
-// io.on("toggle", function(value){
-//   console.log("EventsPain toggle: " + value);
-//   EventsPain.handleToggleShowEvent(value);
-// });
-////
 
 module.exports = EventsPain;

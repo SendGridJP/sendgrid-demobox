@@ -16,7 +16,7 @@ flux.on("dispatch", function(type, payload) {
 var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
 io.on("event", function(value){
   console.log("RocketIOReceiver event: " + value);
-  flux.actions.addEvent(value);
+  flux.actions.addEvents(value);
   // var event = JSON.parse(value);
   // $("#event-table").prepend(getRow(event));
   // $("#event-table td div").slideDown(500);

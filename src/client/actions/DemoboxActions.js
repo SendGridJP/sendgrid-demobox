@@ -27,9 +27,9 @@ var actions = {
     this.dispatch(constants.TOGGLE_SHOW_EVENT, {buttonId: buttonId});
   },
 
-  addEvent: function(event) {
-    console.log("DemoboxAction#addEvent() " + event);
-    this.dispatch(constants.ADD_EVENT, {event: event});
+  addEvents: function(events) {
+    console.log("DemoboxAction#addEvents() " + events);
+    this.dispatch(constants.ADD_EVENTS, {events: events});
   }
 };
 

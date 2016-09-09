@@ -20,7 +20,7 @@ var DemoboxStore = Fluxxor.createStore({
 
       constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent,
 
-      constants.ADD_EVENT, this.onAddEvent
+      constants.ADD_EVENTS, this.onAddEvents
     );
   },
 
@@ -53,12 +53,14 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onAddEvent: function(payload) {
-    console.log("DemoboxStore#onAddEvent()1: " + payload.event);
-    var event = JSON.parse(payload.event);
-    console.log("DemoboxStore#onAddEvent()2: " + event);
-    this.events.push(JSON.parse(event));
-    console.log(this.events);
+  onAddEvents: function(payload) {
+    console.log("DemoboxStore#onAddEvents()1: " + payload.events);
+    var events = JSON.parse(payload.events);
+    console.log("DemoboxStore#onAddEvents()2: " + events);
+    events.map(function(event) {
+      this.events.unshift(event);
+    }.bind(this));
+    console.log(JSON.stringify(this.events));
     this.emit("change");
   }
 });

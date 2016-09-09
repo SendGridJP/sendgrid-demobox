@@ -3,7 +3,7 @@ var constants = {
   SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
   SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
   TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
-  ADD_EVENT: "ADD_EVENT",
+  ADD_EVENTS: "ADD_EVENTS",
 };
 
 module.exports = constants;

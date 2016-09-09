@@ -1,12 +1,19 @@
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var EventItemJson = React.createClass({
   propTypes: {
-    event: React.PropTypes.object.isRequired
+    event: React.PropTypes.object.isRequired,
+    firstRow: React.PropTypes.bool.isRequired
   },
 
   render: function() {
     return (
       <tr>
-        <td><small>{JSON.stringify(this.props.event)}</small></td>
+        <td>
+          <div>
+            <small>{JSON.stringify(this.props.event)}</small>
+          </div>
+        </td>
       </tr>
     );
   }

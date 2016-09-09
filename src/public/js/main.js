@@ -1038,16 +1038,6 @@
 	    };
 	  },
 
-	  // handleAddEvent: function(value) {
-	  //   console.log("EventsPain#handleAddEvent");
-	  //   this.getFlux().actions.addEvent(value);
-	  // },
-	  //
-	  // handleToggleShowEvent: function(value) {
-	  //   console.log("EventsPain#handleToggleShowEvent");
-	  //   this.getFlux().actions.toggleShowEvent(value);
-	  // },
-
 	  getTable: function (showEvent, events) {
 	    var table = '';
 	    console.log('getTable(): ' + JSON.stringify(events));
@@ -1254,8 +1244,8 @@
 	          React.createElement(
 	            'tbody',
 	            null,
-	            events.map(function (event) {
-	              return React.createElement(EventItemJson, { event: event });
+	            events.map(function (event, index) {
+	              return React.createElement(EventItemJson, { event: event, firstRow: index == 0 ? true : false });
 	            }, this)
 	          )
 	        )
@@ -1270,7 +1260,6 @@
 	  },
 
 	  render: function () {
-
 	    return React.createElement(
 	      'div',
 	      null,
@@ -1296,30 +1285,6 @@
 	    );
 	  }
 	});
-
-	////
-	// var stores = {
-	//   DemoboxStore: new DemoboxStore()
-	// };
-	// var actions = DemoboxActions;
-	// var flux = new Fluxxor.Flux(stores, actions);
-
-	// var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
-	// io.on("event", function(value){
-	//   console.log("EventsPain event: " + value);
-	//   EventsPain.handleAddEvent(value);
-	//   // var event = JSON.parse(value);
-	//   // $("#event-table").prepend(getRow(event));
-	//   // $("#event-table td div").slideDown(500);
-	//   // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
-	//   // $("#event-json td div").slideDown(500);
-	// });
-	//
-	// io.on("toggle", function(value){
-	//   console.log("EventsPain toggle: " + value);
-	//   EventsPain.handleToggleShowEvent(value);
-	// });
-	////
 
 	module.exports = EventsPain;
 
@@ -1519,9 +1484,12 @@
 /* 14 */
 /***/ function(module, exports) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 	var EventItemJson = React.createClass({
 	  propTypes: {
-	    event: React.PropTypes.object.isRequired
+	    event: React.PropTypes.object.isRequired,
+	    firstRow: React.PropTypes.bool.isRequired
 	  },
 
 	  render: function () {
@@ -1532,9 +1500,13 @@
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          JSON.stringify(this.props.event)
+	          React.createElement(
+	            "small",
+	            null,
+	            JSON.stringify(this.props.event)
+	          )
 	        )
 	      )
 	    );
@@ -1579,17 +1551,12 @@
 	var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
 	io.on("event", function (value) {
 	  console.log("RocketIOReceiver event: " + value);
-	  flux.actions.addEvent(value);
+	  flux.actions.addEvents(value);
 	  // var event = JSON.parse(value);
 	  // $("#event-table").prepend(getRow(event));
 	  // $("#event-table td div").slideDown(500);
 	  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
 	  // $("#event-json td div").slideDown(500);
-	});
-
-	io.on("toggle", function (value) {
-	  console.log("RocketIOReceiver toggle: " + value);
-	  flux.actions.toggleShowEvent(value);
 	});
 
 	module.exports = flux;
@@ -1613,7 +1580,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENT, this.onAddEvent);
+	    this.bindActions(constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onSendMail: function () {
@@ -1645,12 +1612,14 @@
 	    this.emit("change");
 	  },
 
-	  onAddEvent: function (payload) {
-	    console.log("DemoboxStore#onAddEvent()1: " + payload.event);
-	    var event = JSON.parse(payload.event);
-	    console.log("DemoboxStore#onAddEvent()2: " + event);
-	    this.events.push(JSON.parse(event));
-	    console.log(this.events);
+	  onAddEvents: function (payload) {
+	    console.log("DemoboxStore#onAddEvents()1: " + payload.events);
+	    var events = JSON.parse(payload.events);
+	    console.log("DemoboxStore#onAddEvents()2: " + events);
+	    events.map(function (event) {
+	      this.events.unshift(event);
+	    }.bind(this));
+	    console.log(JSON.stringify(this.events));
 	    this.emit("change");
 	  }
 	});
@@ -1666,7 +1635,7 @@
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
 	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
-	  ADD_EVENT: "ADD_EVENT"
+	  ADD_EVENTS: "ADD_EVENTS"
 	};
 
 	module.exports = constants;
@@ -1697,9 +1666,9 @@
 	    this.dispatch(constants.TOGGLE_SHOW_EVENT, { buttonId: buttonId });
 	  },
 
-	  addEvent: function (event) {
-	    console.log("DemoboxAction#addEvent() " + event);
-	    this.dispatch(constants.ADD_EVENT, { event: event });
+	  addEvents: function (events) {
+	    console.log("DemoboxAction#addEvents() " + events);
+	    this.dispatch(constants.ADD_EVENTS, { events: events });
 	  }
 	};
 

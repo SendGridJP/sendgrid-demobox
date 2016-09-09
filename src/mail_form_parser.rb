@@ -74,7 +74,7 @@ module MailFormParser
 
   def self.get_mail_settings(data)
     mail_settings = MailSettings.new
-    mail_settings.sandbox_mode = SandBoxMode.new(enable: true)
+    mail_settings.sandbox_mode = SandBoxMode.new(enable: false)
     mail_settings
   end
 
