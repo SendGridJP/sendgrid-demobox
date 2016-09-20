@@ -71,3 +71,7 @@
   transition: position 500ms ease-in;
 }
 */
+
+.removeIcon{
+  padding-right: 0px;
+}

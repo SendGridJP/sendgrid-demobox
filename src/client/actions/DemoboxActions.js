@@ -2,6 +2,27 @@ var constants = require('../constants.js');
 var DemoboxClient = require('../libs/DemoboxClient.js');
 
 var actions = {
+  addPersonalization: function() {
+    this.dispatch(constants.ADD_PERSONALIZATION,
+    {
+      to: [{email: "", name: ""}]
+    });
+  },
+
+  delPersonalization: function(index) {
+    this.dispatch(constants.DEL_PERSONALIZATION, index);
+  },
+
+  addHeader: function(id, key, value) {
+    this.dispatch(
+      constants.ADD_HEADER,
+      {
+        personalization_id : id,
+        key: key,
+        value: value
+      });
+  },
+
   sendMail: function(param) {
     var requestParam = JSON.stringify(param);
     this.dispatch(constants.SEND_MAIL);

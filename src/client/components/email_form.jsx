@@ -32,27 +32,23 @@ var EmailForm = React.createClass({
       rq = <input type="checkbox" onChange={this._onChangeUse} />;
     }
     return (
-      <div className="col-md-12">
+      <div className="container-fluid">
         <label className="control-label">{rq}{this.props.title}</label>
-        <div className="row">
-          <div className="col-md-6">
-            <input
-              type="text"
-              name={this.props.paramName + '.email'}
-              className="form-control"
-              placeholder={this.props.placeholderEmail}
-              defaultValue={this.props.valueEmail}
-              disabled={this._getDisabled()} />
-          </div>
-          <div className="col-md-6">
-            <input
-              type="text"
-              name={this.props.paramName + '.name'}
-              className="form-control"
-              placeholder={this.props.placeholderName}
-              defaultValue={this.props.valueName}
-              disabled={this._getDisabled()} />
-          </div>
+        <div className="form-inline">
+          <input
+            type="text"
+            name={this.props.paramName + '.email'}
+            className="form-control"
+            placeholder={this.props.placeholderEmail}
+            defaultValue={this.props.valueEmail}
+            disabled={this._getDisabled()} />
+          <input
+            type="text"
+            name={this.props.paramName + '.name'}
+            className="form-control"
+            placeholder={this.props.placeholderName}
+            defaultValue={this.props.valueName}
+            disabled={this._getDisabled()} />
         </div>
       </div>
     );

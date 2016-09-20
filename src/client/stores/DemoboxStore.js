@@ -2,6 +2,9 @@ var constants = require("../constants.js");
 
 var DemoboxStore = Fluxxor.createStore({
   initialize: function() {
+    this.mailData = {
+      personalizations: [{to: {email: "", name: ""}}]
+    };
     this.status = '';
     this.request = '';
     this.reponseCode = '';
@@ -14,6 +17,9 @@ var DemoboxStore = Fluxxor.createStore({
     this.events = [];
 
     this.bindActions(
+      constants.ADD_PERSONALIZATION, this.onAddPersonalization,
+      constants.DEL_PERSONALIZATION, this.onDelPersonalization,
+      constants.ADD_HEADER, this.onAddHeader,
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
@@ -22,6 +28,20 @@ var DemoboxStore = Fluxxor.createStore({
 
       constants.ADD_EVENTS, this.onAddEvents
     );
+  },
+
+  onAddPersonalization: function() {
+    this.mailData.personalizations.push({to: {email: "", name: ""}});
+    this.emit("change");
+  },
+
+  onDelPersonalization: function(index) {
+    this.mailData.personalizations.splice(index, 1);
+    this.emit("change");
+  },
+
+  onAddHeader: function(payload) {
+
   },
 
   onSendMail: function() {

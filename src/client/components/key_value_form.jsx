@@ -28,31 +28,28 @@ var KeyValueForm = React.createClass({
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
-    } else {
-      rq = <input type="checkbox" onChange={this._onChangeUse} />;
     }
     return (
-      <div className="col-md-12">
+      <div className="container-fluid">
         <label className="control-label">{rq}{this.props.title}</label>
-        <div className="row">
-          <div className="col-md-6">
-            <input
-              type="text"
-              name={this.props.paramName + '.key'}
-              className="form-control"
-              placeholder={this.props.placeholderKey}
-              defaultValue={this.props.valueKey}
-              disabled={this._getDisabled()} />
-          </div>
-          <div className="col-md-6">
-            <input
-              type="text"
-              name={this.props.paramName + '.value'}
-              className="form-control"
-              placeholder={this.props.placeholderValue}
-              defaultValue={this.props.valueValue}
-              disabled={this._getDisabled()} />
-          </div>
+        <div className="form-inline">
+          <a href="javascript:void(0)" className="removeIcon">
+            <span className="glyphicon glyphicon-remove"></span>
+          </a>
+          <input
+            type="text"
+            name={this.props.paramName + '.key'}
+            className="form-control"
+            placeholder={this.props.placeholderKey}
+            defaultValue={this.props.valueKey}
+            disabled={this._getDisabled()} />
+          <input
+            type="text"
+            name={this.props.paramName + '.value'}
+            className="form-control"
+            placeholder={this.props.placeholderValue}
+            defaultValue={this.props.valueValue}
+            disabled={this._getDisabled()} />
         </div>
       </div>
     );
