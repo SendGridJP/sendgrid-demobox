@@ -11,8 +11,8 @@ var EventsPain = React.createClass({
 
   getStateFromFlux: function() {
     var store = this.getFlux().store("DemoboxStore");
-    console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
-    console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
+    // console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
+    // console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
     return {
       showEvent: store.showEvent,
       events: store.events
@@ -21,7 +21,7 @@ var EventsPain = React.createClass({
 
   getTable: function(showEvent, events) {
     var table = '';
-    console.log('getTable(): ' + JSON.stringify(events));
+    // console.log('getTable(): ' + JSON.stringify(events));
     if (showEvent == "table") {
       table = <ReactCSSTransitionGroup
         transitionName="example" transitionAppear={true}
@@ -82,7 +82,7 @@ var EventsPain = React.createClass({
   },
 
   handleShowButton: function(buttonId) {
-    console.log("handleShowButton: " + buttonId);
+    // console.log("handleShowButton: " + buttonId);
     this.getFlux().actions.toggleShowEvent(buttonId);
   },
 

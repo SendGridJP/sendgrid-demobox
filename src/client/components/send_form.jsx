@@ -28,7 +28,7 @@ var SendForm = React.createClass({
       $(form.serializeArray()).each(function(i, v) {
         param[v.name] = v.value;
       });
-      console.log(param);
+      // console.log(param);
       this.getFlux().actions.sendMail(param);
     },
 

@@ -3,7 +3,14 @@ var constants = require("../constants.js");
 var DemoboxStore = Fluxxor.createStore({
   initialize: function() {
     this.mailData = {
-      personalizations: [{to: {email: "", name: ""}}]
+      personalizations: [
+        {
+          to: [{email: "", name: ""}],
+          headers: [{"X-Header": "ValueValue"}],
+          substitutions: [],
+          custom_args: []
+        }
+      ]
     };
     this.status = '';
     this.request = '';
@@ -19,7 +26,8 @@ var DemoboxStore = Fluxxor.createStore({
     this.bindActions(
       constants.ADD_PERSONALIZATION, this.onAddPersonalization,
       constants.DEL_PERSONALIZATION, this.onDelPersonalization,
-      constants.ADD_HEADER, this.onAddHeader,
+      constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal,
+      constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal,
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
@@ -31,7 +39,14 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onAddPersonalization: function() {
-    this.mailData.personalizations.push({to: {email: "", name: ""}});
+    this.mailData.personalizations.push(
+      {
+        to: [{email: "", name: ""}],
+        headers: [],
+        substitutions: [],
+        custom_args: []
+      }
+    );
     this.emit("change");
   },
 
@@ -40,8 +55,16 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onAddHeader: function(payload) {
+  onAddHeaderInpersonal: function(index) {
+    this.mailData.personalizations[index].headers.push(
+      {"": ""}
+    );
+    this.emit("change");
+  },
 
+  onDelHeaderInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
+    this.emit("change");
   },
 
   onSendMail: function() {
@@ -68,19 +91,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onToggleShowEvent: function(payload) {
-    console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
+    // console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
     this.showEvent = payload.buttonId;
     this.emit("change");
   },
 
   onAddEvents: function(payload) {
-    console.log("DemoboxStore#onAddEvents()1: " + payload.events);
+    // console.log("DemoboxStore#onAddEvents()1: " + payload.events);
     var events = JSON.parse(payload.events);
-    console.log("DemoboxStore#onAddEvents()2: " + events);
+    // console.log("DemoboxStore#onAddEvents()2: " + events);
     events.map(function(event) {
       this.events.unshift(event);
     }.bind(this));
-    console.log(JSON.stringify(this.events));
+    // console.log(JSON.stringify(this.events));
     this.emit("change");
   }
 });

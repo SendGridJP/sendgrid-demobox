@@ -3,24 +3,25 @@ var DemoboxClient = require('../libs/DemoboxClient.js');
 
 var actions = {
   addPersonalization: function() {
-    this.dispatch(constants.ADD_PERSONALIZATION,
-    {
-      to: [{email: "", name: ""}]
-    });
+    this.dispatch(
+      constants.ADD_PERSONALIZATION,
+      {to: [{email: "", name: ""}]}
+    );
   },
 
   delPersonalization: function(index) {
     this.dispatch(constants.DEL_PERSONALIZATION, index);
   },
 
-  addHeader: function(id, key, value) {
+  addHeaderInpersonal: function(index) {
+    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
+  },
+
+  delHeaderInpersonal: function(parentIndex, index) {
     this.dispatch(
-      constants.ADD_HEADER,
-      {
-        personalization_id : id,
-        key: key,
-        value: value
-      });
+      constants.DEL_HEADER_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
   },
 
   sendMail: function(param) {
@@ -44,12 +45,12 @@ var actions = {
   },
 
   toggleShowEvent: function(buttonId) {
-    console.log("DemoboxAction#toggleShowEvent() " + buttonId);
+    // console.log("DemoboxAction#toggleShowEvent() " + buttonId);
     this.dispatch(constants.TOGGLE_SHOW_EVENT, {buttonId: buttonId});
   },
 
   addEvents: function(events) {
-    console.log("DemoboxAction#addEvents() " + events);
+    // console.log("DemoboxAction#addEvents() " + events);
     this.dispatch(constants.ADD_EVENTS, {events: events});
   }
 };

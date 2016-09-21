@@ -16,15 +16,24 @@ var PersonalizationItem = React.createClass({
   },
 
   getStateFromFlux: function() {
-
+    var store = this.getFlux().store("DemoboxStore");
+    var state = {};
+    if (store.mailData.personalizations[this.props.index] != null) {
+      state = {
+        headers: store.mailData.personalizations[this.props.index].headers,
+        substitutions: store.mailData.personalizations[this.props.index].substitutions,
+        custom_args: store.mailData.personalizations[this.props.index].custom_args
+      };
+    }
+    return state;
   },
 
   handleDelPersonalization: function() {
     this.getFlux().actions.delPersonalization(this.props.index);
   },
 
-  handleAddHeaders: function() {
-
+  handleAddHeaderInpersonal: function() {
+    this.getFlux().actions.addHeaderInpersonal(this.props.index);
   },
 
   render: function() {
@@ -76,14 +85,15 @@ var PersonalizationItem = React.createClass({
         <KeyValueForm
           title="Headers"
           required={false}
-          index={0}
-          paramName="personalizations[0].headers[0]"
+          index={this.props.index}
+          datas={this.state.headers}
           placeholderKey="header-key"
           valueKey="header-key"
           placeholderValue="header-value"
           valueValue="header-value" />
         <div className="col-md-12">
-          <a href="javascript:void(0)" onClick={this.handleAddHeaders} className="pull-right">
+          <a href="javascript:void(0)" onClick={this.handleAddHeaderInpersonal}
+            className="pull-right">
             <span className="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -91,8 +101,8 @@ var PersonalizationItem = React.createClass({
         <KeyValueForm
           title="Substitutions"
           required={false}
-          index={0}
-          paramName="personalizations[0].substitutions[0]"
+          index={this.props.index}
+          datas={this.state.substitutions}
           placeholderKey="substitution-key"
           valueKey="substitution-key"
           placeholderValue="substitution-value"
@@ -101,8 +111,8 @@ var PersonalizationItem = React.createClass({
         <KeyValueForm
           title="Custom_args"
           required={false}
-          index={0}
-          paramName="personalizations[0].custom_args[0]"
+          index={this.props.index}
+          datas={this.state.custom_args}
           placeholderKey="custom-args-key"
           valueKey="custom-args-key"
           placeholderValue="custom-args-value"

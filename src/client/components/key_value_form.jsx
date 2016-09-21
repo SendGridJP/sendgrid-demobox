@@ -1,30 +1,36 @@
+var KeyValueItem = require('./key_value_item.jsx');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
 var KeyValueForm = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
   propTypes: {
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
+    datas: React.PropTypes.array.isRequired,
     index: React.PropTypes.number.isRequired,
-    paramName: React.PropTypes.string.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
     valueKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
     valueValue: React.PropTypes.string.isRequired
   },
+
   getInitialState: function() {
     return {
-      disabled: true
     };
   },
-  _onChangeUse: function(e) {
-    this.setState({disabled: !e.target.checked});
-  },
-  _getDisabled: function() {
-    if (this.props.required) {
-      return false;
-    } else {
-      return this.state.disabled;
+
+  getStateFromFlux: function() {
+    var store = this.getFlux().store("DemoboxStore");
+    return {
+      datas: this.props.datas
     }
   },
+
   render: function() {
+    console.log("KeyValueForm: datas: " + JSON.stringify(this.props.datas));
+
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
@@ -33,23 +39,11 @@ var KeyValueForm = React.createClass({
       <div className="container-fluid">
         <label className="control-label">{rq}{this.props.title}</label>
         <div className="form-inline">
-          <a href="javascript:void(0)" className="removeIcon">
-            <span className="glyphicon glyphicon-remove"></span>
-          </a>
-          <input
-            type="text"
-            name={this.props.paramName + '.key'}
-            className="form-control"
-            placeholder={this.props.placeholderKey}
-            defaultValue={this.props.valueKey}
-            disabled={this._getDisabled()} />
-          <input
-            type="text"
-            name={this.props.paramName + '.value'}
-            className="form-control"
-            placeholder={this.props.placeholderValue}
-            defaultValue={this.props.valueValue}
-            disabled={this._getDisabled()} />
+          {this.props.datas.map(function(data, index) {
+            return (
+              <KeyValueItem parentIndex={this.props.index} index={index} />
+            );
+          }.bind(this))};
         </div>
       </div>
     );

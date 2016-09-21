@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(16);
+	var flux = __webpack_require__(18);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -239,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(15);
+	var ReceivePage = __webpack_require__(17);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -260,7 +260,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(11);
+	var EventsPain = __webpack_require__(13);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -291,8 +291,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var PersonalizationList = __webpack_require__(7);
-	var EmailForm = __webpack_require__(8);
-	var SimpleTextForm = __webpack_require__(9);
+	var EmailForm = __webpack_require__(9);
+	var SimpleTextForm = __webpack_require__(10);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -320,7 +320,7 @@
 	    $(form.serializeArray()).each(function (i, v) {
 	      param[v.name] = v.value;
 	    });
-	    console.log(param);
+	    // console.log(param);
 	    this.getFlux().actions.sendMail(param);
 	  },
 
@@ -696,7 +696,7 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PersonalizationItem = __webpack_require__(21);
+	var PersonalizationItem = __webpack_require__(8);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -753,6 +753,141 @@
 
 /***/ },
 /* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EmailForm = __webpack_require__(9);
+	var SimpleTextForm = __webpack_require__(10);
+	var KeyValueForm = __webpack_require__(11);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var PersonalizationItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    index: React.PropTypes.number.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    var state = {};
+	    if (store.mailData.personalizations[this.props.index] != null) {
+	      state = {
+	        headers: store.mailData.personalizations[this.props.index].headers,
+	        substitutions: store.mailData.personalizations[this.props.index].substitutions,
+	        custom_args: store.mailData.personalizations[this.props.index].custom_args
+	      };
+	    }
+	    return state;
+	  },
+
+	  handleDelPersonalization: function () {
+	    this.getFlux().actions.delPersonalization(this.props.index);
+	  },
+
+	  handleAddHeaderInpersonal: function () {
+	    this.getFlux().actions.addHeaderInpersonal(this.props.index);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: '' },
+	      React.createElement(
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.handleDelPersonalization,
+	          className: 'removeIcon' },
+	        React.createElement('span', { className: 'glyphicon glyphicon-remove' })
+	      ),
+	      React.createElement(EmailForm, {
+	        title: 'To',
+	        required: true,
+	        index: 0,
+	        paramName: 'personalizations[0].to[0]',
+	        placeholderEmail: 'recipient@example.com',
+	        valueEmail: 'recipient@example.com',
+	        placeholderName: 'To Name',
+	        valueName: 'To Name' }),
+	      React.createElement(EmailForm, {
+	        title: 'Cc',
+	        required: false,
+	        index: 0,
+	        paramName: 'personalizations[0].cc[0]',
+	        placeholderEmail: 'cc@example.com',
+	        valueEmail: 'cc@example.com',
+	        placeholderName: 'Cc Name',
+	        valueName: 'Cc Name' }),
+	      React.createElement(EmailForm, {
+	        title: 'Bcc',
+	        required: false,
+	        index: 0,
+	        paramName: 'personalizations[0].bcc[0]',
+	        placeholderEmail: 'bcc@example.com',
+	        valueEmail: 'bcc@example.com',
+	        placeholderName: 'Bcc Name',
+	        valueName: 'Bcc Name' }),
+	      React.createElement(SimpleTextForm, {
+	        title: 'Subject',
+	        required: true,
+	        index: 0,
+	        paramName: 'personalizations[0].subject',
+	        placeholder: 'Subject',
+	        value: 'これは件名です' }),
+	      React.createElement(KeyValueForm, {
+	        title: 'Headers',
+	        required: false,
+	        index: this.props.index,
+	        datas: this.state.headers,
+	        placeholderKey: 'header-key',
+	        valueKey: 'header-key',
+	        placeholderValue: 'header-value',
+	        valueValue: 'header-value' }),
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'a',
+	          { href: 'javascript:void(0)', onClick: this.handleAddHeaderInpersonal,
+	            className: 'pull-right' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
+	        )
+	      ),
+	      React.createElement(KeyValueForm, {
+	        title: 'Substitutions',
+	        required: false,
+	        index: this.props.index,
+	        datas: this.state.substitutions,
+	        placeholderKey: 'substitution-key',
+	        valueKey: 'substitution-key',
+	        placeholderValue: 'substitution-value',
+	        valueValue: 'substitution-value' }),
+	      React.createElement(KeyValueForm, {
+	        title: 'Custom_args',
+	        required: false,
+	        index: this.props.index,
+	        datas: this.state.custom_args,
+	        placeholderKey: 'custom-args-key',
+	        valueKey: 'custom-args-key',
+	        placeholderValue: 'custom-args-value',
+	        valueValue: 'custom-args-value' }),
+	      React.createElement(SimpleTextForm, {
+	        title: 'Send_at',
+	        required: false,
+	        index: 0,
+	        paramName: 'personalizations[0].send_at',
+	        placeholder: '12345678',
+	        value: '12345678' })
+	    );
+	  }
+	});
+	module.exports = PersonalizationItem;
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	var EmailForm = React.createClass({
@@ -825,7 +960,7 @@
 	module.exports = EmailForm;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var SimpleTextForm = React.createClass({
@@ -885,36 +1020,41 @@
 	module.exports = SimpleTextForm;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var KeyValueItem = __webpack_require__(12);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var KeyValueForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
+	    datas: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number.isRequired,
-	    paramName: React.PropTypes.string.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    valueKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
 	    valueValue: React.PropTypes.string.isRequired
 	  },
+
 	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
 	    return {
-	      disabled: true
+	      datas: this.props.datas
 	    };
 	  },
-	  _onChangeUse: function (e) {
-	    this.setState({ disabled: !e.target.checked });
-	  },
-	  _getDisabled: function () {
-	    if (this.props.required) {
-	      return false;
-	    } else {
-	      return this.state.disabled;
-	    }
-	  },
+
 	  render: function () {
+	    console.log("KeyValueForm: datas: " + JSON.stringify(this.props.datas));
+
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
@@ -935,25 +1075,10 @@
 	      React.createElement(
 	        "div",
 	        { className: "form-inline" },
-	        React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", className: "removeIcon" },
-	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	        ),
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.paramName + '.key',
-	          className: "form-control",
-	          placeholder: this.props.placeholderKey,
-	          defaultValue: this.props.valueKey,
-	          disabled: this._getDisabled() }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.paramName + '.value',
-	          className: "form-control",
-	          placeholder: this.props.placeholderValue,
-	          defaultValue: this.props.valueValue,
-	          disabled: this._getDisabled() })
+	        this.props.datas.map(function (data, index) {
+	          return React.createElement(KeyValueItem, { parentIndex: this.props.index, index: index });
+	        }.bind(this)),
+	        ";"
 	      )
 	    );
 	  }
@@ -961,12 +1086,72 @@
 	module.exports = KeyValueForm;
 
 /***/ },
-/* 11 */
+/* 12 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var KeyValueItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    parentIndex: React.PropTypes.number.isRequired,
+	    index: React.PropTypes.number.isRequired,
+	    paramName: React.PropTypes.string.isRequired,
+	    placeholderKey: React.PropTypes.string.isRequired,
+	    valueKey: React.PropTypes.string.isRequired,
+	    placeholderValue: React.PropTypes.string.isRequired,
+	    valueValue: React.PropTypes.string.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {};
+	  },
+
+	  handleDelHeaderInpersonal: function () {
+	    this.getFlux().actions.delHeaderInpersonal(this.props.parentIndex, this.props.index);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "form-inline" },
+	      React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDelHeaderInpersonal,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      ),
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.key',
+	        className: "form-control",
+	        placeholder: this.props.placeholderKey,
+	        defaultValue: this.props.valueKey }),
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.value',
+	        className: "form-control",
+	        placeholder: this.props.placeholderValue,
+	        defaultValue: this.props.valueValue })
+	    );
+	  }
+	});
+	module.exports = KeyValueItem;
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(12);
-	var EventItemTable = __webpack_require__(13);
-	var EventItemJson = __webpack_require__(14);
+	var ShowButton = __webpack_require__(14);
+	var EventItemTable = __webpack_require__(15);
+	var EventItemJson = __webpack_require__(16);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -976,8 +1161,8 @@
 
 	  getStateFromFlux: function () {
 	    var store = this.getFlux().store("DemoboxStore");
-	    console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
-	    console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
+	    // console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
+	    // console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
 	    return {
 	      showEvent: store.showEvent,
 	      events: store.events
@@ -986,7 +1171,7 @@
 
 	  getTable: function (showEvent, events) {
 	    var table = '';
-	    console.log('getTable(): ' + JSON.stringify(events));
+	    // console.log('getTable(): ' + JSON.stringify(events));
 	    if (showEvent == "table") {
 	      table = React.createElement(
 	        ReactCSSTransitionGroup,
@@ -1201,7 +1386,7 @@
 	  },
 
 	  handleShowButton: function (buttonId) {
-	    console.log("handleShowButton: " + buttonId);
+	    // console.log("handleShowButton: " + buttonId);
 	    this.getFlux().actions.toggleShowEvent(buttonId);
 	  },
 
@@ -1235,7 +1420,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -1265,7 +1450,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -1427,7 +1612,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1461,7 +1646,7 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -1476,11 +1661,11 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(17);
-	var DemoboxActions = __webpack_require__(19);
+	var DemoboxStore = __webpack_require__(19);
+	var DemoboxActions = __webpack_require__(20);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -1508,15 +1693,20 @@
 	module.exports = flux;
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(18);
+	var constants = __webpack_require__(21);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
 	    this.mailData = {
-	      personalizations: [{ to: { email: "", name: "" } }]
+	      personalizations: [{
+	        to: [{ email: "", name: "" }],
+	        headers: [{ "X-Header": "ValueValue" }],
+	        substitutions: [],
+	        custom_args: []
+	      }]
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -1529,11 +1719,16 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_HEADER, this.onAddHeader, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
-	    this.mailData.personalizations.push({ to: { email: "", name: "" } });
+	    this.mailData.personalizations.push({
+	      to: [{ email: "", name: "" }],
+	      headers: [],
+	      substitutions: [],
+	      custom_args: []
+	    });
 	    this.emit("change");
 	  },
 
@@ -1542,7 +1737,15 @@
 	    this.emit("change");
 	  },
 
-	  onAddHeader: function (payload) {},
+	  onAddHeaderInpersonal: function (index) {
+	    this.mailData.personalizations[index].headers.push({ "": "" });
+	    this.emit("change");
+	  },
+
+	  onDelHeaderInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
+	    this.emit("change");
+	  },
 
 	  onSendMail: function () {
 	    this.status = '送信中...';
@@ -1568,19 +1771,19 @@
 	  },
 
 	  onToggleShowEvent: function (payload) {
-	    console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
+	    // console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
 	    this.showEvent = payload.buttonId;
 	    this.emit("change");
 	  },
 
 	  onAddEvents: function (payload) {
-	    console.log("DemoboxStore#onAddEvents()1: " + payload.events);
+	    // console.log("DemoboxStore#onAddEvents()1: " + payload.events);
 	    var events = JSON.parse(payload.events);
-	    console.log("DemoboxStore#onAddEvents()2: " + events);
+	    // console.log("DemoboxStore#onAddEvents()2: " + events);
 	    events.map(function (event) {
 	      this.events.unshift(event);
 	    }.bind(this));
-	    console.log(JSON.stringify(this.events));
+	    // console.log(JSON.stringify(this.events));
 	    this.emit("change");
 	  }
 	});
@@ -1588,46 +1791,27 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	var constants = {
-	  ADD_PERSONALIZATION: "ADD_PERSONALIZATION",
-	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
-	  ADD_HEADER: "ADD_HEADER",
-	  SEND_MAIL: "SEND_MAIL",
-	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
-	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
-	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
-	  ADD_EVENTS: "ADD_EVENTS"
-	};
-
-	module.exports = constants;
-
-/***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(18);
-	var DemoboxClient = __webpack_require__(20);
+	var constants = __webpack_require__(21);
+	var DemoboxClient = __webpack_require__(22);
 
 	var actions = {
 	  addPersonalization: function () {
-	    this.dispatch(constants.ADD_PERSONALIZATION, {
-	      to: [{ email: "", name: "" }]
-	    });
+	    this.dispatch(constants.ADD_PERSONALIZATION, { to: [{ email: "", name: "" }] });
 	  },
 
 	  delPersonalization: function (index) {
 	    this.dispatch(constants.DEL_PERSONALIZATION, index);
 	  },
 
-	  addHeader: function (id, key, value) {
-	    this.dispatch(constants.ADD_HEADER, {
-	      personalization_id: id,
-	      key: key,
-	      value: value
-	    });
+	  addHeaderInpersonal: function (index) {
+	    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
+	  },
+
+	  delHeaderInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
 	  sendMail: function (param) {
@@ -1644,12 +1828,12 @@
 	  },
 
 	  toggleShowEvent: function (buttonId) {
-	    console.log("DemoboxAction#toggleShowEvent() " + buttonId);
+	    // console.log("DemoboxAction#toggleShowEvent() " + buttonId);
 	    this.dispatch(constants.TOGGLE_SHOW_EVENT, { buttonId: buttonId });
 	  },
 
 	  addEvents: function (events) {
-	    console.log("DemoboxAction#addEvents() " + events);
+	    // console.log("DemoboxAction#addEvents() " + events);
 	    this.dispatch(constants.ADD_EVENTS, { events: events });
 	  }
 	};
@@ -1657,12 +1841,30 @@
 	module.exports = actions;
 
 /***/ },
-/* 20 */
+/* 21 */
+/***/ function(module, exports) {
+
+	var constants = {
+	  ADD_PERSONALIZATION: "ADD_PERSONALIZATION",
+	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
+	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
+	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
+	  SEND_MAIL: "SEND_MAIL",
+	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
+	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
+	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
+	  ADD_EVENTS: "ADD_EVENTS"
+	};
+
+	module.exports = constants;
+
+/***/ },
+/* 22 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
 	  sendMail: function (requestParam, success, failure) {
-	    console.log('DemoClient.sendMail()');
+	    // console.log('DemoClient.sendMail()');
 	    $.ajax({
 	      url: '/send',
 	      dataType: 'json',
@@ -1675,127 +1877,6 @@
 	};
 
 	module.exports = DemoboxClient;
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var EmailForm = __webpack_require__(8);
-	var SimpleTextForm = __webpack_require__(9);
-	var KeyValueForm = __webpack_require__(10);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var PersonalizationItem = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    index: React.PropTypes.number.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  getStateFromFlux: function () {},
-
-	  handleDelPersonalization: function () {
-	    this.getFlux().actions.delPersonalization(this.props.index);
-	  },
-
-	  handleAddHeaders: function () {},
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: '' },
-	      React.createElement(
-	        'a',
-	        { href: 'javascript:void(0)', onClick: this.handleDelPersonalization,
-	          className: 'removeIcon' },
-	        React.createElement('span', { className: 'glyphicon glyphicon-remove' })
-	      ),
-	      React.createElement(EmailForm, {
-	        title: 'To',
-	        required: true,
-	        index: 0,
-	        paramName: 'personalizations[0].to[0]',
-	        placeholderEmail: 'recipient@example.com',
-	        valueEmail: 'recipient@example.com',
-	        placeholderName: 'To Name',
-	        valueName: 'To Name' }),
-	      React.createElement(EmailForm, {
-	        title: 'Cc',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].cc[0]',
-	        placeholderEmail: 'cc@example.com',
-	        valueEmail: 'cc@example.com',
-	        placeholderName: 'Cc Name',
-	        valueName: 'Cc Name' }),
-	      React.createElement(EmailForm, {
-	        title: 'Bcc',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].bcc[0]',
-	        placeholderEmail: 'bcc@example.com',
-	        valueEmail: 'bcc@example.com',
-	        placeholderName: 'Bcc Name',
-	        valueName: 'Bcc Name' }),
-	      React.createElement(SimpleTextForm, {
-	        title: 'Subject',
-	        required: true,
-	        index: 0,
-	        paramName: 'personalizations[0].subject',
-	        placeholder: 'Subject',
-	        value: 'これは件名です' }),
-	      React.createElement(KeyValueForm, {
-	        title: 'Headers',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].headers[0]',
-	        placeholderKey: 'header-key',
-	        valueKey: 'header-key',
-	        placeholderValue: 'header-value',
-	        valueValue: 'header-value' }),
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-12' },
-	        React.createElement(
-	          'a',
-	          { href: 'javascript:void(0)', onClick: this.handleAddHeaders, className: 'pull-right' },
-	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
-	        )
-	      ),
-	      React.createElement(KeyValueForm, {
-	        title: 'Substitutions',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].substitutions[0]',
-	        placeholderKey: 'substitution-key',
-	        valueKey: 'substitution-key',
-	        placeholderValue: 'substitution-value',
-	        valueValue: 'substitution-value' }),
-	      React.createElement(KeyValueForm, {
-	        title: 'Custom_args',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].custom_args[0]',
-	        placeholderKey: 'custom-args-key',
-	        valueKey: 'custom-args-key',
-	        placeholderValue: 'custom-args-value',
-	        valueValue: 'custom-args-value' }),
-	      React.createElement(SimpleTextForm, {
-	        title: 'Send_at',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].send_at',
-	        placeholder: '12345678',
-	        value: '12345678' })
-	    );
-	  }
-	});
-	module.exports = PersonalizationItem;
 
 /***/ }
 /******/ ]);
