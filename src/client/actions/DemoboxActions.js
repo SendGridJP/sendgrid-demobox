@@ -24,6 +24,39 @@ var actions = {
     );
   },
 
+  addToInpersonal: function(index) {
+    this.dispatch(constants.ADD_TO_INPERSONAL, index);
+  },
+
+  delToInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_TO_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  addCcInpersonal: function(index) {
+    this.dispatch(constants.ADD_CC_INPERSONAL, index);
+  },
+
+  delCcInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_CC_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  addBccInpersonal: function(index) {
+    this.dispatch(constants.ADD_BCC_INPERSONAL, index);
+  },
+
+  delBccInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_BCC_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
   addSubstitutionInpersonal: function(index) {
     this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
   },
@@ -44,6 +77,14 @@ var actions = {
       constants.DEL_CUSTOMARG_INPERSONAL,
       {parentIndex: parentIndex, index: index}
     );
+  },
+
+  addReplyto: function() {
+    this.dispatch(constants.ADD_REPLYTO);
+  },
+
+  delReplyto: function() {
+    this.dispatch(constants.DEL_REPLYTO);
   },
 
   sendMail: function(param) {

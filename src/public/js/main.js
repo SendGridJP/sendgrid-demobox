@@ -309,8 +309,18 @@
 	      status: store.status,
 	      request: store.request,
 	      responseCode: store.responseCode,
-	      responseBody: store.responseBody
+	      responseBody: store.responseBody,
+	      from: store.mailData.from,
+	      "reply-to": store.mailData["reply-to"]
 	    };
+	  },
+
+	  handleAddReplyto: function () {
+	    this.getFlux().actions.addReplyto();
+	  },
+
+	  handleDelReplyto: function () {
+	    this.getFlux().actions.delReplyto();
 	  },
 
 	  handleSendMail: function (e) {
@@ -338,8 +348,8 @@
 	          React.createElement(EmailForm, {
 	            title: 'From',
 	            required: true,
-	            index: 0,
-	            paramName: 'from',
+	            datas: this.state.from,
+	            max: 1,
 	            placeholderEmail: 'from@example.com',
 	            valueEmail: 'from@example.com',
 	            placeholderName: 'From Name',
@@ -351,8 +361,10 @@
 	          React.createElement(EmailForm, {
 	            title: 'Reply-to',
 	            required: false,
-	            index: 0,
-	            paramName: 'reply-to',
+	            datas: this.state["reply-to"],
+	            handleAdd: this.handleAddReplyto,
+	            handleDel: this.handleDelReplyto,
+	            max: 1,
 	            placeholderEmail: 'reply-to@example.com',
 	            valueEmail: 'reply-to@example.com',
 	            placeholderName: 'Reply-to Name',
@@ -777,6 +789,9 @@
 	    var state = {};
 	    if (store.mailData.personalizations[this.props.index] != null) {
 	      state = {
+	        to: store.mailData.personalizations[this.props.index].to,
+	        cc: store.mailData.personalizations[this.props.index].cc,
+	        bcc: store.mailData.personalizations[this.props.index].bcc,
 	        headers: store.mailData.personalizations[this.props.index].headers,
 	        substitutions: store.mailData.personalizations[this.props.index].substitutions,
 	        custom_args: store.mailData.personalizations[this.props.index].custom_args
@@ -787,6 +802,25 @@
 
 	  handleDelPersonalization: function () {
 	    this.getFlux().actions.delPersonalization(this.props.index);
+	  },
+
+	  handleAddToInpersonal: function () {
+	    this.getFlux().actions.addToInpersonal(this.props.index);
+	  },
+	  handleDelToInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delToInpersonal(parentIndex, index);
+	  },
+	  handleAddCcInpersonal: function () {
+	    this.getFlux().actions.addCcInpersonal(this.props.index);
+	  },
+	  handleDelCcInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delCcInpersonal(parentIndex, index);
+	  },
+	  handleAddBccInpersonal: function () {
+	    this.getFlux().actions.addBccInpersonal(this.props.index);
+	  },
+	  handleDelBccInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delBccInpersonal(parentIndex, index);
 	  },
 
 	  handleAddHeaderInpersonal: function () {
@@ -826,8 +860,10 @@
 	      React.createElement(EmailForm, {
 	        title: 'To',
 	        required: true,
-	        index: 0,
-	        paramName: 'personalizations[0].to[0]',
+	        index: this.props.index,
+	        datas: this.state.to,
+	        handleAdd: this.handleAddToInpersonal,
+	        handleDel: this.handleDelToInpersonal,
 	        placeholderEmail: 'recipient@example.com',
 	        valueEmail: 'recipient@example.com',
 	        placeholderName: 'To Name',
@@ -835,8 +871,10 @@
 	      React.createElement(EmailForm, {
 	        title: 'Cc',
 	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].cc[0]',
+	        index: this.props.index,
+	        datas: this.state.cc,
+	        handleAdd: this.handleAddCcInpersonal,
+	        handleDel: this.handleDelCcInpersonal,
 	        placeholderEmail: 'cc@example.com',
 	        valueEmail: 'cc@example.com',
 	        placeholderName: 'Cc Name',
@@ -844,8 +882,10 @@
 	      React.createElement(EmailForm, {
 	        title: 'Bcc',
 	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].bcc[0]',
+	        index: this.props.index,
+	        datas: this.state.bcc,
+	        handleAdd: this.handleAddBccInpersonal,
+	        handleDel: this.handleDelBccInpersonal,
 	        placeholderEmail: 'bcc@example.com',
 	        valueEmail: 'bcc@example.com',
 	        placeholderName: 'Bcc Name',
@@ -904,72 +944,83 @@
 
 /***/ },
 /* 9 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var EmailItem = __webpack_require__(23);
 
 	var EmailForm = React.createClass({
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
-	    index: React.PropTypes.number.isRequired,
-	    paramName: React.PropTypes.string.isRequired,
+	    datas: React.PropTypes.array.isRequired,
+	    index: React.PropTypes.number,
 	    placeholderEmail: React.PropTypes.string.isRequired,
 	    valueEmail: React.PropTypes.string.isRequired,
 	    placeholderName: React.PropTypes.string.isRequired,
-	    valueName: React.PropTypes.string.isRequired
+	    valueName: React.PropTypes.string.isRequired,
+	    handleAdd: React.PropTypes.func,
+	    handleDel: React.PropTypes.func,
+	    max: React.PropTypes.number
 	  },
+
 	  getInitialState: function () {
-	    return {
-	      disabled: true
-	    };
+	    return {};
 	  },
-	  _onChangeUse: function (e) {
-	    this.setState({ disabled: !e.target.checked });
-	  },
-	  _getDisabled: function () {
-	    if (this.props.required) {
-	      return false;
-	    } else {
-	      return this.state.disabled;
-	    }
-	  },
+
 	  render: function () {
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
-	        "span",
-	        { className: "text-danger" },
-	        "*"
+	        'span',
+	        { className: 'text-danger' },
+	        '*'
+	      );
+	    }
+	    var add;
+	    var items;
+	    if (Array.isArray(this.props.datas)) {
+	      items = this.props.datas.map(function (data, index) {
+	        return React.createElement(EmailItem, {
+	          parentIndex: this.props.index,
+	          index: index,
+	          handleDel: this.props.handleDel });
+	      }.bind(this));
+	      add = React.createElement(
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd,
+	          className: 'pull-right' },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
-	      rq = React.createElement("input", { type: "checkbox", onChange: this._onChangeUse });
+	      console.log(JSON.stringify(this.props.datas));
+	      console.log(JSON.stringify(this.props.max));
+	      if (this.props.datas != null) {
+	        items = React.createElement(EmailItem, { handleDel: this.props.handleDel });
+	      }
+	      if (this.props.datas == null && this.props.max == 1) {
+	        add = React.createElement(
+	          'a',
+	          { href: 'javascript:void(0)', onClick: this.props.handleAdd,
+	            className: 'pull-right' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
+	        );
+	      }
 	    }
 	    return React.createElement(
-	      "div",
-	      { className: "container-fluid" },
+	      'div',
+	      { className: 'container-fluid' },
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
+	        'label',
+	        { className: 'control-label' },
 	        rq,
 	        this.props.title
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "form-inline" },
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.paramName + '.email',
-	          className: "form-control",
-	          placeholder: this.props.placeholderEmail,
-	          defaultValue: this.props.valueEmail,
-	          disabled: this._getDisabled() }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.paramName + '.name',
-	          className: "form-control",
-	          placeholder: this.props.placeholderName,
-	          defaultValue: this.props.valueName,
-	          disabled: this._getDisabled() })
-	      )
+	        'div',
+	        { className: 'form-inline' },
+	        items
+	      ),
+	      add
 	    );
 	  }
 	});
@@ -1040,12 +1091,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var KeyValueItem = __webpack_require__(12);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var KeyValueForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
@@ -1063,34 +1110,27 @@
 	    return {};
 	  },
 
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {
-	      datas: this.props.datas
-	    };
-	  },
-
 	  render: function () {
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
-	        "span",
-	        { className: "text-danger" },
-	        "*"
+	        'span',
+	        { className: 'text-danger' },
+	        '*'
 	      );
 	    }
 	    return React.createElement(
-	      "div",
-	      { className: "container-fluid" },
+	      'div',
+	      { className: 'container-fluid' },
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
+	        'label',
+	        { className: 'control-label' },
 	        rq,
 	        this.props.title
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "form-inline" },
+	        'div',
+	        { className: 'form-inline' },
 	        this.props.datas.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
 	            parentIndex: this.props.index,
@@ -1099,10 +1139,10 @@
 	        }.bind(this))
 	      ),
 	      React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	          className: "pull-right" },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd,
+	          className: 'pull-right' },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      )
 	    );
 	  }
@@ -1680,7 +1720,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var DemoboxStore = __webpack_require__(19);
-	var DemoboxActions = __webpack_require__(20);
+	var DemoboxActions = __webpack_require__(21);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -1711,17 +1751,21 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(21);
+	var constants = __webpack_require__(20);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
 	    this.mailData = {
 	      personalizations: [{
 	        to: [{ email: "", name: "" }],
+	        cc: [],
+	        bcc: [],
 	        headers: [],
 	        substitutions: [],
 	        custom_args: []
-	      }]
+	      }],
+	      from: { email: "", name: "" },
+	      "reply-to": null
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -1734,12 +1778,14 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
 	    this.mailData.personalizations.push({
 	      to: [{ email: "", name: "" }],
+	      cc: [],
+	      bcc: [],
 	      headers: [],
 	      substitutions: [],
 	      custom_args: []
@@ -1749,6 +1795,36 @@
 
 	  onDelPersonalization: function (index) {
 	    this.mailData.personalizations.splice(index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddToInpersonal: function (index) {
+	    this.mailData.personalizations[index].to.push({ email: "", name: "" });
+	    this.emit("change");
+	  },
+
+	  onDelToInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].to.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddCcInpersonal: function (index) {
+	    this.mailData.personalizations[index].cc.push({ email: "", name: "" });
+	    this.emit("change");
+	  },
+
+	  onDelCcInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].cc.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddBccInpersonal: function (index) {
+	    this.mailData.personalizations[index].bcc.push({ email: "", name: "" });
+	    this.emit("change");
+	  },
+
+	  onDelBccInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
 	    this.emit("change");
 	  },
 
@@ -1779,6 +1855,16 @@
 
 	  onDelCustomargInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddReplyto: function () {
+	    this.mailData["reply-to"] = { email: "", name: "" };
+	    this.emit("change");
+	  },
+
+	  onDelReplyto: function () {
+	    this.mailData["reply-to"] = null;
 	    this.emit("change");
 	  },
 
@@ -1827,9 +1913,39 @@
 
 /***/ },
 /* 20 */
+/***/ function(module, exports) {
+
+	var constants = {
+	  ADD_PERSONALIZATION: "ADD_PERSONALIZATION",
+	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
+	  ADD_TO_INPERSONAL: "ADD_TO_INPERSONAL",
+	  DEL_TO_INPERSONAL: "DEL_TO_INPERSONAL",
+	  ADD_CC_INPERSONAL: "ADD_CC_INPERSONAL",
+	  DEL_CC_INPERSONAL: "DEL_CC_INPERSONAL",
+	  ADD_BCC_INPERSONAL: "ADD_BCC_INPERSONAL",
+	  DEL_BCC_INPERSONAL: "DEL_BCC_INPERSONAL",
+	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
+	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
+	  ADD_SUBSTITUTION_INPERSONAL: "ADD_SUBSTITUTION_INPERSONAL",
+	  DEL_SUBSTITUTION_INPERSONAL: "DEL_SUBSTITUTION_INPERSONAL",
+	  ADD_CUSTOMARG_INPERSONAL: "ADD_CUSTOMARG_INPERSONAL",
+	  DEL_CUSTOMARG_INPERSONAL: "DEL_CUSTOMARG_INPERSONAL",
+	  ADD_REPLYTO: "ADD_REPLYTO",
+	  DEL_REPLYTO: "DEL_REPLYTO",
+	  SEND_MAIL: "SEND_MAIL",
+	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
+	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
+	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
+	  ADD_EVENTS: "ADD_EVENTS"
+	};
+
+	module.exports = constants;
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(21);
+	var constants = __webpack_require__(20);
 	var DemoboxClient = __webpack_require__(22);
 
 	var actions = {
@@ -1849,6 +1965,30 @@
 	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
+	  addToInpersonal: function (index) {
+	    this.dispatch(constants.ADD_TO_INPERSONAL, index);
+	  },
+
+	  delToInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_TO_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  addCcInpersonal: function (index) {
+	    this.dispatch(constants.ADD_CC_INPERSONAL, index);
+	  },
+
+	  delCcInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_CC_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  addBccInpersonal: function (index) {
+	    this.dispatch(constants.ADD_BCC_INPERSONAL, index);
+	  },
+
+	  delBccInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_BCC_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
 	  addSubstitutionInpersonal: function (index) {
 	    this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
 	  },
@@ -1863,6 +2003,14 @@
 
 	  delCustomargInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  addReplyto: function () {
+	    this.dispatch(constants.ADD_REPLYTO);
+	  },
+
+	  delReplyto: function () {
+	    this.dispatch(constants.DEL_REPLYTO);
 	  },
 
 	  sendMail: function (param) {
@@ -1892,28 +2040,6 @@
 	module.exports = actions;
 
 /***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	var constants = {
-	  ADD_PERSONALIZATION: "ADD_PERSONALIZATION",
-	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
-	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
-	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
-	  ADD_SUBSTITUTION_INPERSONAL: "ADD_SUBSTITUTION_INPERSONAL",
-	  DEL_SUBSTITUTION_INPERSONAL: "DEL_SUBSTITUTION_INPERSONAL",
-	  ADD_CUSTOMARG_INPERSONAL: "ADD_CUSTOMARG_INPERSONAL",
-	  DEL_CUSTOMARG_INPERSONAL: "DEL_CUSTOMARG_INPERSONAL",
-	  SEND_MAIL: "SEND_MAIL",
-	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
-	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
-	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
-	  ADD_EVENTS: "ADD_EVENTS"
-	};
-
-	module.exports = constants;
-
-/***/ },
 /* 22 */
 /***/ function(module, exports) {
 
@@ -1932,6 +2058,60 @@
 	};
 
 	module.exports = DemoboxClient;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	var EmailItem = React.createClass({
+	  propTypes: {
+	    parentIndex: React.PropTypes.number,
+	    index: React.PropTypes.number,
+	    placeholderEmail: React.PropTypes.string.isRequired,
+	    valueEmail: React.PropTypes.string.isRequired,
+	    placeholderName: React.PropTypes.string.isRequired,
+	    valueName: React.PropTypes.string.isRequired,
+	    handleDel: React.PropTypes.func
+	  },
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function () {
+	    this.props.handleDel(this.props.parentIndex, this.props.index);
+	  },
+
+	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      { className: "form-inline" },
+	      del,
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.email',
+	        className: "form-control",
+	        placeholder: this.props.placeholderEmail,
+	        defaultValue: this.props.valueEmail }),
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.name',
+	        className: "form-control",
+	        placeholder: this.props.placeholderName,
+	        defaultValue: this.props.valueName })
+	    );
+	  }
+	});
+	module.exports = EmailItem;
 
 /***/ }
 /******/ ]);

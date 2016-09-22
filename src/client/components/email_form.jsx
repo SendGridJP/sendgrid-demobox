@@ -1,55 +1,69 @@
+var EmailItem = require('./email_item.jsx');
+
 var EmailForm = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
-    index: React.PropTypes.number.isRequired,
-    paramName: React.PropTypes.string.isRequired,
+    datas: React.PropTypes.array.isRequired,
+    index: React.PropTypes.number,
     placeholderEmail: React.PropTypes.string.isRequired,
     valueEmail: React.PropTypes.string.isRequired,
     placeholderName: React.PropTypes.string.isRequired,
-    valueName: React.PropTypes.string.isRequired
+    valueName: React.PropTypes.string.isRequired,
+    handleAdd: React.PropTypes.func,
+    handleDel: React.PropTypes.func,
+    max: React.PropTypes.number
   },
+
   getInitialState: function() {
     return {
-      disabled: true
     };
   },
-  _onChangeUse: function(e) {
-    this.setState({disabled: !e.target.checked});
-  },
-  _getDisabled: function() {
-    if (this.props.required) {
-      return false;
-    } else {
-      return this.state.disabled;
-    }
-  },
+
   render: function() {
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
+    }
+    var add;
+    var items;
+    if (Array.isArray(this.props.datas)) {
+      items = this.props.datas.map(function(data, index) {
+        return (
+          <EmailItem
+            parentIndex={this.props.index}
+            index={index}
+            handleDel={this.props.handleDel} />
+        );
+      }.bind(this));
+      add = (
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}
+          className="pull-right">
+          <span className="glyphicon glyphicon-plus"></span>
+        </a>
+      )
     } else {
-      rq = <input type="checkbox" onChange={this._onChangeUse} />;
+      console.log(JSON.stringify(this.props.datas));
+      console.log(JSON.stringify(this.props.max));
+      if (this.props.datas != null) {
+        items = <EmailItem handleDel={this.props.handleDel} />
+      }
+      if (this.props.datas == null && this.props.max == 1) {
+        add = (
+          <a href="javascript:void(0)" onClick={this.props.handleAdd}
+            className="pull-right">
+            <span className="glyphicon glyphicon-plus"></span>
+          </a>
+        )
+      }
     }
     return (
       <div className="container-fluid">
         <label className="control-label">{rq}{this.props.title}</label>
         <div className="form-inline">
-          <input
-            type="text"
-            name={this.props.paramName + '.email'}
-            className="form-control"
-            placeholder={this.props.placeholderEmail}
-            defaultValue={this.props.valueEmail}
-            disabled={this._getDisabled()} />
-          <input
-            type="text"
-            name={this.props.paramName + '.name'}
-            className="form-control"
-            placeholder={this.props.placeholderName}
-            defaultValue={this.props.valueName}
-            disabled={this._getDisabled()} />
+          {items}
         </div>
+        {add}
       </div>
     );
   }

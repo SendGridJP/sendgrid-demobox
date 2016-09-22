@@ -17,8 +17,18 @@ var SendForm = React.createClass({
         status: store.status,
         request: store.request,
         responseCode: store.responseCode,
-        responseBody: store.responseBody
+        responseBody: store.responseBody,
+        from: store.mailData.from,
+        "reply-to": store.mailData["reply-to"]
       }
+    },
+
+    handleAddReplyto: function() {
+      this.getFlux().actions.addReplyto();
+    },
+
+    handleDelReplyto: function() {
+      this.getFlux().actions.delReplyto();
     },
 
     handleSendMail: function(e) {
@@ -44,8 +54,8 @@ var SendForm = React.createClass({
               <EmailForm
                 title="From"
                 required={true}
-                index={0}
-                paramName="from"
+                datas={this.state.from}
+                max={1}
                 placeholderEmail="from@example.com"
                 valueEmail="from@example.com"
                 placeholderName="From Name"
@@ -56,8 +66,10 @@ var SendForm = React.createClass({
               <EmailForm
                 title="Reply-to"
                 required={false}
-                index={0}
-                paramName="reply-to"
+                datas={this.state["reply-to"]}
+                handleAdd={this.handleAddReplyto}
+                handleDel={this.handleDelReplyto}
+                max={1}
                 placeholderEmail="reply-to@example.com"
                 valueEmail="reply-to@example.com"
                 placeholderName="Reply-to Name"

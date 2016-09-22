@@ -1,10 +1,6 @@
 var KeyValueItem = require('./key_value_item.jsx');
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var KeyValueForm = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
   propTypes: {
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
@@ -21,13 +17,6 @@ var KeyValueForm = React.createClass({
   getInitialState: function() {
     return {
     };
-  },
-
-  getStateFromFlux: function() {
-    var store = this.getFlux().store("DemoboxStore");
-    return {
-      datas: this.props.datas
-    }
   },
 
   render: function() {

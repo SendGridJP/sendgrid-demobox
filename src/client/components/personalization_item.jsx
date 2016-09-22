@@ -20,6 +20,9 @@ var PersonalizationItem = React.createClass({
     var state = {};
     if (store.mailData.personalizations[this.props.index] != null) {
       state = {
+        to: store.mailData.personalizations[this.props.index].to,
+        cc: store.mailData.personalizations[this.props.index].cc,
+        bcc: store.mailData.personalizations[this.props.index].bcc,
         headers: store.mailData.personalizations[this.props.index].headers,
         substitutions: store.mailData.personalizations[this.props.index].substitutions,
         custom_args: store.mailData.personalizations[this.props.index].custom_args
@@ -30,6 +33,25 @@ var PersonalizationItem = React.createClass({
 
   handleDelPersonalization: function() {
     this.getFlux().actions.delPersonalization(this.props.index);
+  },
+
+  handleAddToInpersonal: function() {
+    this.getFlux().actions.addToInpersonal(this.props.index);
+  },
+  handleDelToInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delToInpersonal(parentIndex, index);
+  },
+  handleAddCcInpersonal: function() {
+    this.getFlux().actions.addCcInpersonal(this.props.index);
+  },
+  handleDelCcInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delCcInpersonal(parentIndex, index);
+  },
+  handleAddBccInpersonal: function() {
+    this.getFlux().actions.addBccInpersonal(this.props.index);
+  },
+  handleDelBccInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delBccInpersonal(parentIndex, index);
   },
 
   handleAddHeaderInpersonal: function() {
@@ -67,8 +89,10 @@ var PersonalizationItem = React.createClass({
         <EmailForm
           title="To"
           required={true}
-          index={0}
-          paramName="personalizations[0].to[0]"
+          index={this.props.index}
+          datas={this.state.to}
+          handleAdd={this.handleAddToInpersonal}
+          handleDel={this.handleDelToInpersonal}
           placeholderEmail="recipient@example.com"
           valueEmail="recipient@example.com"
           placeholderName="To Name"
@@ -77,8 +101,10 @@ var PersonalizationItem = React.createClass({
         <EmailForm
           title="Cc"
           required={false}
-          index={0}
-          paramName="personalizations[0].cc[0]"
+          index={this.props.index}
+          datas={this.state.cc}
+          handleAdd={this.handleAddCcInpersonal}
+          handleDel={this.handleDelCcInpersonal}
           placeholderEmail="cc@example.com"
           valueEmail="cc@example.com"
           placeholderName="Cc Name"
@@ -87,8 +113,10 @@ var PersonalizationItem = React.createClass({
         <EmailForm
           title="Bcc"
           required={false}
-          index={0}
-          paramName="personalizations[0].bcc[0]"
+          index={this.props.index}
+          datas={this.state.bcc}
+          handleAdd={this.handleAddBccInpersonal}
+          handleDel={this.handleDelBccInpersonal}
           placeholderEmail="bcc@example.com"
           valueEmail="bcc@example.com"
           placeholderName="Bcc Name"
