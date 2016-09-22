@@ -1,9 +1,4 @@
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
 var KeyValueItem = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
   propTypes: {
     parentIndex: React.PropTypes.number.isRequired,
     index: React.PropTypes.number.isRequired,
@@ -11,7 +6,8 @@ var KeyValueItem = React.createClass({
     placeholderKey: React.PropTypes.string.isRequired,
     valueKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
-    valueValue: React.PropTypes.string.isRequired
+    valueValue: React.PropTypes.string.isRequired,
+    handleDel: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -19,20 +15,14 @@ var KeyValueItem = React.createClass({
     };
   },
 
-  getStateFromFlux: function() {
-    var store = this.getFlux().store("DemoboxStore");
-    return {
-    }
-  },
-
-  handleDelHeaderInpersonal: function() {
-    this.getFlux().actions.delHeaderInpersonal(this.props.parentIndex, this.props.index);
+  handleDel: function() {
+    this.props.handleDel(this.props.parentIndex, this.props.index);
   },
 
   render: function() {
     return (
       <div className="form-inline">
-        <a href="javascript:void(0)" onClick={this.handleDelHeaderInpersonal}
+        <a href="javascript:void(0)" onClick={this.handleDel}
           className="removeIcon">
           <span className="glyphicon glyphicon-remove"></span>
         </a>

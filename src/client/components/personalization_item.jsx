@@ -36,6 +36,26 @@ var PersonalizationItem = React.createClass({
     this.getFlux().actions.addHeaderInpersonal(this.props.index);
   },
 
+  handleDelHeaderInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
+  },
+
+  handleAddSubstitutionInpersonal: function() {
+    this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
+  },
+
+  handleDelSubstitutionInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
+  },
+
+  handleAddCustomargInpersonal: function() {
+    this.getFlux().actions.addCustomargInpersonal(this.props.index);
+  },
+
+  handleDelCustomargInpersonal: function(parentIndex, index) {
+    this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+  },
+
   render: function() {
     return (
       <div className="">
@@ -87,22 +107,20 @@ var PersonalizationItem = React.createClass({
           required={false}
           index={this.props.index}
           datas={this.state.headers}
+          handleAdd={this.handleAddHeaderInpersonal}
+          handleDel={this.handleDelHeaderInpersonal}
           placeholderKey="header-key"
           valueKey="header-key"
           placeholderValue="header-value"
           valueValue="header-value" />
-        <div className="col-md-12">
-          <a href="javascript:void(0)" onClick={this.handleAddHeaderInpersonal}
-            className="pull-right">
-            <span className="glyphicon glyphicon-plus"></span>
-          </a>
-        </div>
 
         <KeyValueForm
           title="Substitutions"
           required={false}
           index={this.props.index}
           datas={this.state.substitutions}
+          handleAdd={this.handleAddSubstitutionInpersonal}
+          handleDel={this.handleDelSubstitutionInpersonal}
           placeholderKey="substitution-key"
           valueKey="substitution-key"
           placeholderValue="substitution-value"
@@ -113,6 +131,8 @@ var PersonalizationItem = React.createClass({
           required={false}
           index={this.props.index}
           datas={this.state.custom_args}
+          handleAdd={this.handleAddCustomargInpersonal}
+          handleDel={this.handleDelCustomargInpersonal}
           placeholderKey="custom-args-key"
           valueKey="custom-args-key"
           placeholderValue="custom-args-value"

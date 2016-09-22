@@ -13,7 +13,9 @@ var KeyValueForm = React.createClass({
     placeholderKey: React.PropTypes.string.isRequired,
     valueKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
-    valueValue: React.PropTypes.string.isRequired
+    valueValue: React.PropTypes.string.isRequired,
+    handleAdd: React.PropTypes.func.isRequired,
+    handleDel: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -29,8 +31,6 @@ var KeyValueForm = React.createClass({
   },
 
   render: function() {
-    console.log("KeyValueForm: datas: " + JSON.stringify(this.props.datas));
-
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
@@ -41,10 +41,17 @@ var KeyValueForm = React.createClass({
         <div className="form-inline">
           {this.props.datas.map(function(data, index) {
             return (
-              <KeyValueItem parentIndex={this.props.index} index={index} />
+              <KeyValueItem
+                parentIndex={this.props.index}
+                index={index}
+                handleDel={this.props.handleDel} />
             );
-          }.bind(this))};
+          }.bind(this))}
         </div>
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}
+          className="pull-right">
+          <span className="glyphicon glyphicon-plus"></span>
+        </a>
       </div>
     );
   }

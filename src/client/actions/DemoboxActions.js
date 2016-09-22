@@ -24,6 +24,28 @@ var actions = {
     );
   },
 
+  addSubstitutionInpersonal: function(index) {
+    this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
+  },
+
+  delSubstitutionInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_SUBSTITUTION_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  addCustomargInpersonal: function(index) {
+    this.dispatch(constants.ADD_CUSTOMARG_INPERSONAL, index);
+  },
+
+  delCustomargInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_CUSTOMARG_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
   sendMail: function(param) {
     var requestParam = JSON.stringify(param);
     this.dispatch(constants.SEND_MAIL);

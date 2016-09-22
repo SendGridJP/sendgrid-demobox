@@ -793,6 +793,26 @@
 	    this.getFlux().actions.addHeaderInpersonal(this.props.index);
 	  },
 
+	  handleDelHeaderInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
+	  },
+
+	  handleAddSubstitutionInpersonal: function () {
+	    this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
+	  },
+
+	  handleDelSubstitutionInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
+	  },
+
+	  handleAddCustomargInpersonal: function () {
+	    this.getFlux().actions.addCustomargInpersonal(this.props.index);
+	  },
+
+	  handleDelCustomargInpersonal: function (parentIndex, index) {
+	    this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+	  },
+
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -842,25 +862,19 @@
 	        required: false,
 	        index: this.props.index,
 	        datas: this.state.headers,
+	        handleAdd: this.handleAddHeaderInpersonal,
+	        handleDel: this.handleDelHeaderInpersonal,
 	        placeholderKey: 'header-key',
 	        valueKey: 'header-key',
 	        placeholderValue: 'header-value',
 	        valueValue: 'header-value' }),
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-12' },
-	        React.createElement(
-	          'a',
-	          { href: 'javascript:void(0)', onClick: this.handleAddHeaderInpersonal,
-	            className: 'pull-right' },
-	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
-	        )
-	      ),
 	      React.createElement(KeyValueForm, {
 	        title: 'Substitutions',
 	        required: false,
 	        index: this.props.index,
 	        datas: this.state.substitutions,
+	        handleAdd: this.handleAddSubstitutionInpersonal,
+	        handleDel: this.handleDelSubstitutionInpersonal,
 	        placeholderKey: 'substitution-key',
 	        valueKey: 'substitution-key',
 	        placeholderValue: 'substitution-value',
@@ -870,6 +884,8 @@
 	        required: false,
 	        index: this.props.index,
 	        datas: this.state.custom_args,
+	        handleAdd: this.handleAddCustomargInpersonal,
+	        handleDel: this.handleDelCustomargInpersonal,
 	        placeholderKey: 'custom-args-key',
 	        valueKey: 'custom-args-key',
 	        placeholderValue: 'custom-args-value',
@@ -1038,7 +1054,9 @@
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    valueKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
-	    valueValue: React.PropTypes.string.isRequired
+	    valueValue: React.PropTypes.string.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
 	  },
 
 	  getInitialState: function () {
@@ -1053,8 +1071,6 @@
 	  },
 
 	  render: function () {
-	    console.log("KeyValueForm: datas: " + JSON.stringify(this.props.datas));
-
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
@@ -1076,9 +1092,17 @@
 	        "div",
 	        { className: "form-inline" },
 	        this.props.datas.map(function (data, index) {
-	          return React.createElement(KeyValueItem, { parentIndex: this.props.index, index: index });
-	        }.bind(this)),
-	        ";"
+	          return React.createElement(KeyValueItem, {
+	            parentIndex: this.props.index,
+	            index: index,
+	            handleDel: this.props.handleDel });
+	        }.bind(this))
+	      ),
+	      React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
+	          className: "pull-right" },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	      )
 	    );
 	  }
@@ -1089,12 +1113,7 @@
 /* 12 */
 /***/ function(module, exports) {
 
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
 	var KeyValueItem = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
 	  propTypes: {
 	    parentIndex: React.PropTypes.number.isRequired,
 	    index: React.PropTypes.number.isRequired,
@@ -1102,20 +1121,16 @@
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    valueKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
-	    valueValue: React.PropTypes.string.isRequired
+	    valueValue: React.PropTypes.string.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
 	  },
 
 	  getInitialState: function () {
 	    return {};
 	  },
 
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {};
-	  },
-
-	  handleDelHeaderInpersonal: function () {
-	    this.getFlux().actions.delHeaderInpersonal(this.props.parentIndex, this.props.index);
+	  handleDel: function () {
+	    this.props.handleDel(this.props.parentIndex, this.props.index);
 	  },
 
 	  render: function () {
@@ -1124,7 +1139,7 @@
 	      { className: "form-inline" },
 	      React.createElement(
 	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDelHeaderInpersonal,
+	        { href: "javascript:void(0)", onClick: this.handleDel,
 	          className: "removeIcon" },
 	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
 	      ),
@@ -1703,7 +1718,7 @@
 	    this.mailData = {
 	      personalizations: [{
 	        to: [{ email: "", name: "" }],
-	        headers: [{ "X-Header": "ValueValue" }],
+	        headers: [],
 	        substitutions: [],
 	        custom_args: []
 	      }]
@@ -1719,7 +1734,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -1744,6 +1759,26 @@
 
 	  onDelHeaderInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddSubstitutionInpersonal: function (index) {
+	    this.mailData.personalizations[index].substitutions.push({ "": "" });
+	    this.emit("change");
+	  },
+
+	  onDelSubstitutionInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].substitutions.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onAddCustomargInpersonal: function (index) {
+	    this.mailData.personalizations[index].custom_args.push({ "": "" });
+	    this.emit("change");
+	  },
+
+	  onDelCustomargInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
 	    this.emit("change");
 	  },
 
@@ -1814,6 +1849,22 @@
 	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
+	  addSubstitutionInpersonal: function (index) {
+	    this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
+	  },
+
+	  delSubstitutionInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_SUBSTITUTION_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  addCustomargInpersonal: function (index) {
+	    this.dispatch(constants.ADD_CUSTOMARG_INPERSONAL, index);
+	  },
+
+	  delCustomargInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
 	  sendMail: function (param) {
 	    var requestParam = JSON.stringify(param);
 	    this.dispatch(constants.SEND_MAIL);
@@ -1849,6 +1900,10 @@
 	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
 	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
 	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
+	  ADD_SUBSTITUTION_INPERSONAL: "ADD_SUBSTITUTION_INPERSONAL",
+	  DEL_SUBSTITUTION_INPERSONAL: "DEL_SUBSTITUTION_INPERSONAL",
+	  ADD_CUSTOMARG_INPERSONAL: "ADD_CUSTOMARG_INPERSONAL",
+	  DEL_CUSTOMARG_INPERSONAL: "DEL_CUSTOMARG_INPERSONAL",
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
