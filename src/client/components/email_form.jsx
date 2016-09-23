@@ -33,7 +33,9 @@ var EmailForm = React.createClass({
           <EmailItem
             parentIndex={this.props.index}
             index={index}
-            handleDel={this.props.handleDel} />
+            handleDel={this.props.handleDel}
+            placeholderEmail={this.props.placeholderEmail}
+            placeholderName={this.props.placeholderName} />
         );
       }.bind(this));
       add = (
@@ -43,10 +45,12 @@ var EmailForm = React.createClass({
         </a>
       )
     } else {
-      console.log(JSON.stringify(this.props.datas));
-      console.log(JSON.stringify(this.props.max));
       if (this.props.datas != null) {
-        items = <EmailItem handleDel={this.props.handleDel} />
+        items = <EmailItem
+          handleDel={this.props.handleDel}
+          placeholderEmail={this.props.placeholderEmail}
+          placeholderName={this.props.placeholderName}
+           />
       }
       if (this.props.datas == null && this.props.max == 1) {
         add = (

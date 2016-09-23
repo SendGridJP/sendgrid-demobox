@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(18);
+	var flux = __webpack_require__(19);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -239,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(17);
+	var ReceivePage = __webpack_require__(18);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -260,7 +260,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(13);
+	var EventsPain = __webpack_require__(14);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -292,7 +292,7 @@
 
 	var PersonalizationList = __webpack_require__(7);
 	var EmailForm = __webpack_require__(9);
-	var SimpleTextForm = __webpack_require__(10);
+	var SimpleTextForm = __webpack_require__(11);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -768,8 +768,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var EmailForm = __webpack_require__(9);
-	var SimpleTextForm = __webpack_require__(10);
-	var KeyValueForm = __webpack_require__(11);
+	var SimpleTextForm = __webpack_require__(11);
+	var KeyValueForm = __webpack_require__(12);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -946,7 +946,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var EmailItem = __webpack_require__(23);
+	var EmailItem = __webpack_require__(10);
 
 	var EmailForm = React.createClass({
 	  propTypes: {
@@ -983,7 +983,9 @@
 	        return React.createElement(EmailItem, {
 	          parentIndex: this.props.index,
 	          index: index,
-	          handleDel: this.props.handleDel });
+	          handleDel: this.props.handleDel,
+	          placeholderEmail: this.props.placeholderEmail,
+	          placeholderName: this.props.placeholderName });
 	      }.bind(this));
 	      add = React.createElement(
 	        'a',
@@ -992,10 +994,12 @@
 	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
-	      console.log(JSON.stringify(this.props.datas));
-	      console.log(JSON.stringify(this.props.max));
 	      if (this.props.datas != null) {
-	        items = React.createElement(EmailItem, { handleDel: this.props.handleDel });
+	        items = React.createElement(EmailItem, {
+	          handleDel: this.props.handleDel,
+	          placeholderEmail: this.props.placeholderEmail,
+	          placeholderName: this.props.placeholderName
+	        });
 	      }
 	      if (this.props.datas == null && this.props.max == 1) {
 	        add = React.createElement(
@@ -1028,6 +1032,60 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	var EmailItem = React.createClass({
+	  propTypes: {
+	    parentIndex: React.PropTypes.number,
+	    index: React.PropTypes.number,
+	    placeholderEmail: React.PropTypes.string.isRequired,
+	    valueEmail: React.PropTypes.string.isRequired,
+	    placeholderName: React.PropTypes.string.isRequired,
+	    valueName: React.PropTypes.string.isRequired,
+	    handleDel: React.PropTypes.func
+	  },
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function () {
+	    this.props.handleDel(this.props.parentIndex, this.props.index);
+	  },
+
+	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      { className: "form-inline" },
+	      del,
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.email',
+	        className: "form-control",
+	        placeholder: this.props.placeholderEmail,
+	        defaultValue: this.props.valueEmail }),
+	      React.createElement("input", {
+	        type: "text",
+	        name: this.props.paramName + '.name',
+	        className: "form-control",
+	        placeholder: this.props.placeholderName,
+	        defaultValue: this.props.valueName })
+	    );
+	  }
+	});
+	module.exports = EmailItem;
+
+/***/ },
+/* 11 */
 /***/ function(module, exports) {
 
 	var SimpleTextForm = React.createClass({
@@ -1087,10 +1145,10 @@
 	module.exports = SimpleTextForm;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var KeyValueItem = __webpack_require__(12);
+	var KeyValueItem = __webpack_require__(13);
 
 	var KeyValueForm = React.createClass({
 	  propTypes: {
@@ -1135,7 +1193,9 @@
 	          return React.createElement(KeyValueItem, {
 	            parentIndex: this.props.index,
 	            index: index,
-	            handleDel: this.props.handleDel });
+	            handleDel: this.props.handleDel,
+	            placeholderKey: this.props.placeholderKey,
+	            placeholderValue: this.props.placeholderValue });
 	        }.bind(this))
 	      ),
 	      React.createElement(
@@ -1150,7 +1210,7 @@
 	module.exports = KeyValueForm;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	var KeyValueItem = React.createClass({
@@ -1201,12 +1261,12 @@
 	module.exports = KeyValueItem;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(14);
-	var EventItemTable = __webpack_require__(15);
-	var EventItemJson = __webpack_require__(16);
+	var ShowButton = __webpack_require__(15);
+	var EventItemTable = __webpack_require__(16);
+	var EventItemJson = __webpack_require__(17);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1475,7 +1535,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -1505,7 +1565,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -1667,7 +1727,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1701,7 +1761,7 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -1716,11 +1776,11 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(19);
-	var DemoboxActions = __webpack_require__(21);
+	var DemoboxStore = __webpack_require__(20);
+	var DemoboxActions = __webpack_require__(22);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -1748,10 +1808,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(20);
+	var constants = __webpack_require__(21);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -1912,7 +1972,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -1942,11 +2002,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(20);
-	var DemoboxClient = __webpack_require__(22);
+	var constants = __webpack_require__(21);
+	var DemoboxClient = __webpack_require__(23);
 
 	var actions = {
 	  addPersonalization: function () {
@@ -2040,7 +2100,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
@@ -2058,60 +2118,6 @@
 	};
 
 	module.exports = DemoboxClient;
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	var EmailItem = React.createClass({
-	  propTypes: {
-	    parentIndex: React.PropTypes.number,
-	    index: React.PropTypes.number,
-	    placeholderEmail: React.PropTypes.string.isRequired,
-	    valueEmail: React.PropTypes.string.isRequired,
-	    placeholderName: React.PropTypes.string.isRequired,
-	    valueName: React.PropTypes.string.isRequired,
-	    handleDel: React.PropTypes.func
-	  },
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  handleDel: function () {
-	    this.props.handleDel(this.props.parentIndex, this.props.index);
-	  },
-
-	  render: function () {
-	    var del;
-	    if (typeof this.props.handleDel == "function") {
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-
-	    return React.createElement(
-	      "div",
-	      { className: "form-inline" },
-	      del,
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.email',
-	        className: "form-control",
-	        placeholder: this.props.placeholderEmail,
-	        defaultValue: this.props.valueEmail }),
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.name',
-	        className: "form-control",
-	        placeholder: this.props.placeholderName,
-	        defaultValue: this.props.valueName })
-	    );
-	  }
-	});
-	module.exports = EmailItem;
 
 /***/ }
 /******/ ]);

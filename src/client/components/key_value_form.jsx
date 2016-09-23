@@ -33,7 +33,9 @@ var KeyValueForm = React.createClass({
               <KeyValueItem
                 parentIndex={this.props.index}
                 index={index}
-                handleDel={this.props.handleDel} />
+                handleDel={this.props.handleDel}
+                placeholderKey={this.props.placeholderKey}
+                placeholderValue={this.props.placeholderValue} />
             );
           }.bind(this))}
         </div>
