@@ -4,7 +4,7 @@ var KeyValueForm = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
-    datas: React.PropTypes.array.isRequired,
+    data: React.PropTypes.array.isRequired,
     index: React.PropTypes.number.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
     valueKey: React.PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ var KeyValueForm = React.createClass({
       <div>
         <label className="control-label">{rq}{this.props.title}</label>
         <div>
-          {this.props.datas.map(function(data, index) {
+          {this.props.data.map(function(data, index) {
             return (
               <KeyValueItem
                 parentIndex={this.props.index}

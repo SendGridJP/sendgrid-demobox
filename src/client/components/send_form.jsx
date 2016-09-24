@@ -18,11 +18,16 @@ var SendForm = React.createClass({
         request: store.request,
         responseCode: store.responseCode,
         responseBody: store.responseBody,
-        from: store.mailData.from,
-        "reply-to": store.mailData["reply-to"]
+        mailData: store.mailData,
+        // from: store.mailData.from,
+        // "reply-to": store.mailData["reply-to"]
       }
     },
 
+    handleUpdFrom: function(e) {
+      e.preventDefault();
+      this.getFlux().actions.updFrom(e.target.name, e.target.value);
+    },
     handleAddReplyto: function() {
       this.getFlux().actions.addReplyto();
     },
@@ -33,13 +38,15 @@ var SendForm = React.createClass({
 
     handleSendMail: function(e) {
       e.preventDefault();
-      var form = $('#param');
-      var param = {};
-      $(form.serializeArray()).each(function(i, v) {
-        param[v.name] = v.value;
-      });
-      // console.log(param);
-      this.getFlux().actions.sendMail(param);
+      // var form = $('#param');
+      // var param = {};
+      // $(form.serializeArray()).each(function(i, v) {
+      //   param[v.name] = v.value;
+      // });
+      // // console.log(param);
+      // this.getFlux().actions.sendMail(param);
+
+      this.getFlux().actions.sendMail(this.state.mailData);
     },
 
     render: function() {
@@ -51,29 +58,22 @@ var SendForm = React.createClass({
             <PersonalizationList />
 
             <EmailForm
-              title="From"
+              title="from"
               required={true}
-              datas={this.state.from}
+              data={this.state.mailData.from}
               max={1}
-              placeholderEmail="from@example.com"
-              valueEmail="from@example.com"
-              placeholderName="From Name"
-              valueName="From Name" />
+              handleUpd={this.handleUpdFrom} />
 
             <EmailForm
-              title="Reply-to"
+              title="reply-to"
               required={false}
-              datas={this.state["reply-to"]}
+              data={this.state.mailData["reply-to"]}
               handleAdd={this.handleAddReplyto}
               handleDel={this.handleDelReplyto}
-              max={1}
-              placeholderEmail="reply-to@example.com"
-              valueEmail="reply-to@example.com"
-              placeholderName="Reply-to Name"
-              valueName="Reply-to Name" />
+              max={1} />
 
             <SimpleTextForm
-              title="Subject"
+              title="subject"
               required={true}
               index={0}
               paramName="subject"

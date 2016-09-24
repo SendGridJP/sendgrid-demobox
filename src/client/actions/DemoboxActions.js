@@ -79,6 +79,10 @@ var actions = {
     );
   },
 
+  updFrom(key, value) {
+    this.dispatch(constants.UPD_FROM, {key: key, value: value});
+  },
+
   addReplyto: function() {
     this.dispatch(constants.ADD_REPLYTO);
   },
@@ -87,11 +91,29 @@ var actions = {
     this.dispatch(constants.DEL_REPLYTO);
   },
 
-  sendMail: function(param) {
-    var requestParam = JSON.stringify(param);
+  // sendMail: function(param) {
+  //   var requestParam = JSON.stringify(param);
+  //   this.dispatch(constants.SEND_MAIL);
+  //   DemoboxClient.sendMail(
+  //     requestParam,
+  //     function(result) {
+  //       this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
+  //     }.bind(this),
+  //     function(xhr, status, err) {
+  //       this.dispatch(
+  //         constants.SEND_MAIL_FAIL,
+  //         {
+  //           responseCode: xhr.status,
+  //           responseBody: err.message
+  //         }
+  //       );
+  //     }.bind(this)
+  //   );
+  // },
+  sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(
-      requestParam,
+      mailData,
       function(result) {
         this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
       }.bind(this),

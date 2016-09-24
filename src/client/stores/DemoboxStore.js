@@ -8,6 +8,7 @@ var DemoboxStore = Fluxxor.createStore({
           to: [{email: "", name: ""}],
           cc: [],
           bcc: [],
+          //headers: [{"hoge": "fuga"}, {"piyo": "payo"}],
           headers: [],
           substitutions: [],
           custom_args: [],
@@ -44,6 +45,7 @@ var DemoboxStore = Fluxxor.createStore({
       constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal,
       constants.ADD_REPLYTO, this.onAddReplyto,
       constants.DEL_REPLYTO, this.onDelReplyto,
+      constants.UPD_FROM, this.onUpdFrom,
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
@@ -142,6 +144,11 @@ var DemoboxStore = Fluxxor.createStore({
 
   onDelCustomargInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+    this.emit("change");
+  },
+
+  onUpdFrom: function(payload) {
+    this.mailData.from[payload.key] = payload.value;
     this.emit("change");
   },
 

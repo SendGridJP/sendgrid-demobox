@@ -4,14 +4,11 @@ var EmailForm = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
-    datas: React.PropTypes.array.isRequired,
+    data: React.PropTypes.array.isRequired,
     index: React.PropTypes.number,
-    placeholderEmail: React.PropTypes.string.isRequired,
-    valueEmail: React.PropTypes.string.isRequired,
-    placeholderName: React.PropTypes.string.isRequired,
-    valueName: React.PropTypes.string.isRequired,
     handleAdd: React.PropTypes.func,
     handleDel: React.PropTypes.func,
+    handleUpd: React.PropTypes.func,
     max: React.PropTypes.number
   },
 
@@ -27,15 +24,14 @@ var EmailForm = React.createClass({
     }
     var add;
     var items;
-    if (Array.isArray(this.props.datas)) {
-      items = this.props.datas.map(function(data, index) {
+    if (Array.isArray(this.props.data)) {
+      items = this.props.data.map(function(data, index) {
         return (
           <EmailItem
             parentIndex={this.props.index}
             index={index}
-            handleDel={this.props.handleDel}
-            placeholderEmail={this.props.placeholderEmail}
-            placeholderName={this.props.placeholderName} />
+            data={data}
+            handleDel={this.props.handleDel} />
         );
       }.bind(this));
       add = (
@@ -45,14 +41,13 @@ var EmailForm = React.createClass({
         </a>
       )
     } else {
-      if (this.props.datas != null) {
+      if (this.props.data != null) {
         items = <EmailItem
+          data={this.props.data}
           handleDel={this.props.handleDel}
-          placeholderEmail={this.props.placeholderEmail}
-          placeholderName={this.props.placeholderName}
-           />
+          handleUpd={this.props.handleUpd} />
       }
-      if (this.props.datas == null && this.props.max == 1) {
+      if (this.props.data == null && this.props.max == 1) {
         add = (
           <a href="javascript:void(0)" onClick={this.props.handleAdd}
             className="pull-right">

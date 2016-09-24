@@ -89,54 +89,42 @@ var PersonalizationItem = React.createClass({
         </div>
         <div className="flex">
           <EmailForm
-            title="To"
+            title="to"
             required={true}
             index={this.props.index}
-            datas={this.state.to}
+            data={this.state.to}
             handleAdd={this.handleAddToInpersonal}
-            handleDel={this.handleDelToInpersonal}
-            placeholderEmail="recipient@example.com"
-            valueEmail="recipient@example.com"
-            placeholderName="To Name"
-            valueName="To Name" />
+            handleDel={this.handleDelToInpersonal} />
 
           <EmailForm
-            title="Cc"
+            title="cc"
             required={false}
             index={this.props.index}
-            datas={this.state.cc}
+            data={this.state.cc}
             handleAdd={this.handleAddCcInpersonal}
-            handleDel={this.handleDelCcInpersonal}
-            placeholderEmail="cc@example.com"
-            valueEmail="cc@example.com"
-            placeholderName="Cc Name"
-            valueName="Cc Name" />
+            handleDel={this.handleDelCcInpersonal} />
 
           <EmailForm
-            title="Bcc"
+            title="bcc"
             required={false}
             index={this.props.index}
-            datas={this.state.bcc}
+            data={this.state.bcc}
             handleAdd={this.handleAddBccInpersonal}
-            handleDel={this.handleDelBccInpersonal}
-            placeholderEmail="bcc@example.com"
-            valueEmail="bcc@example.com"
-            placeholderName="Bcc Name"
-            valueName="Bcc Name" />
+            handleDel={this.handleDelBccInpersonal} />
 
           <SimpleTextForm
-            title="Subject"
+            title="subject"
             required={true}
             index={0}
             paramName="personalizations[0].subject"
-            placeholder="Subject"
+            placeholder="subject"
             value="これは件名です" />
 
           <KeyValueForm
-            title="Headers"
+            title="headers"
             required={false}
             index={this.props.index}
-            datas={this.state.headers}
+            data={this.state.headers}
             handleAdd={this.handleAddHeaderInpersonal}
             handleDel={this.handleDelHeaderInpersonal}
             placeholderKey="header-key"
@@ -145,10 +133,10 @@ var PersonalizationItem = React.createClass({
             valueValue="header-value" />
 
           <KeyValueForm
-            title="Substitutions"
+            title="substitutions"
             required={false}
             index={this.props.index}
-            datas={this.state.substitutions}
+            data={this.state.substitutions}
             handleAdd={this.handleAddSubstitutionInpersonal}
             handleDel={this.handleDelSubstitutionInpersonal}
             placeholderKey="substitution-key"
@@ -157,10 +145,10 @@ var PersonalizationItem = React.createClass({
             valueValue="substitution-value" />
 
           <KeyValueForm
-            title="Custom_args"
+            title="custom_args"
             required={false}
             index={this.props.index}
-            datas={this.state.custom_args}
+            data={this.state.custom_args}
             handleAdd={this.handleAddCustomargInpersonal}
             handleDel={this.handleDelCustomargInpersonal}
             placeholderKey="custom-args-key"
@@ -169,7 +157,7 @@ var PersonalizationItem = React.createClass({
             valueValue="custom-args-value" />
 
           <SimpleTextForm
-            title="Send_at"
+            title="send_at"
             required={false}
             index={0}
             paramName="personalizations[0].send_at"

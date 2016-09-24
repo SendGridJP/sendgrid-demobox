@@ -2,11 +2,9 @@ var EmailItem = React.createClass({
   propTypes: {
     parentIndex: React.PropTypes.number,
     index: React.PropTypes.number,
-    placeholderEmail: React.PropTypes.string.isRequired,
-    valueEmail: React.PropTypes.string.isRequired,
-    placeholderName: React.PropTypes.string.isRequired,
-    valueName: React.PropTypes.string.isRequired,
-    handleDel: React.PropTypes.func
+    data: React.PropTypes.array.isRequired,
+    handleDel: React.PropTypes.func,
+    handleUpd: React.PropTypes.func
   },
   getInitialState: function() {
     return {
@@ -36,16 +34,18 @@ var EmailItem = React.createClass({
         <div className="flex">
           <input
             type="text"
-            name={this.props.paramName + '.email'}
+            name="email"
             className="form-control"
-            placeholder={this.props.placeholderEmail}
-            defaultValue={this.props.valueEmail} />
+            placeholder="email"
+            defaultValue={this.props.data.email}
+            onChange={this.props.handleUpd} />
           <input
             type="text"
-            name={this.props.paramName + '.name'}
+            name="name"
             className="form-control"
-            placeholder={this.props.placeholderName}
-            defaultValue={this.props.valueName} />
+            placeholder="name"
+            defaultValue={this.props.data.name}
+            onChange={this.props.handleUpd} />
         </div>
       </div>
     );

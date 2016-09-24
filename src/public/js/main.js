@@ -310,11 +310,14 @@
 	      request: store.request,
 	      responseCode: store.responseCode,
 	      responseBody: store.responseBody,
-	      from: store.mailData.from,
-	      "reply-to": store.mailData["reply-to"]
+	      mailData: store.mailData
 	    };
 	  },
 
+	  handleUpdFrom: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updFrom(e.target.name, e.target.value);
+	  },
 	  handleAddReplyto: function () {
 	    this.getFlux().actions.addReplyto();
 	  },
@@ -325,13 +328,15 @@
 
 	  handleSendMail: function (e) {
 	    e.preventDefault();
-	    var form = $('#param');
-	    var param = {};
-	    $(form.serializeArray()).each(function (i, v) {
-	      param[v.name] = v.value;
-	    });
-	    // console.log(param);
-	    this.getFlux().actions.sendMail(param);
+	    // var form = $('#param');
+	    // var param = {};
+	    // $(form.serializeArray()).each(function(i, v) {
+	    //   param[v.name] = v.value;
+	    // });
+	    // // console.log(param);
+	    // this.getFlux().actions.sendMail(param);
+
+	    this.getFlux().actions.sendMail(this.state.mailData);
 	  },
 
 	  render: function () {
@@ -343,27 +348,20 @@
 	        { id: 'param', className: 'form-horizontal' },
 	        React.createElement(PersonalizationList, null),
 	        React.createElement(EmailForm, {
-	          title: 'From',
+	          title: 'from',
 	          required: true,
-	          datas: this.state.from,
+	          data: this.state.mailData.from,
 	          max: 1,
-	          placeholderEmail: 'from@example.com',
-	          valueEmail: 'from@example.com',
-	          placeholderName: 'From Name',
-	          valueName: 'From Name' }),
+	          handleUpd: this.handleUpdFrom }),
 	        React.createElement(EmailForm, {
-	          title: 'Reply-to',
+	          title: 'reply-to',
 	          required: false,
-	          datas: this.state["reply-to"],
+	          data: this.state.mailData["reply-to"],
 	          handleAdd: this.handleAddReplyto,
 	          handleDel: this.handleDelReplyto,
-	          max: 1,
-	          placeholderEmail: 'reply-to@example.com',
-	          valueEmail: 'reply-to@example.com',
-	          placeholderName: 'Reply-to Name',
-	          valueName: 'Reply-to Name' }),
+	          max: 1 }),
 	        React.createElement(SimpleTextForm, {
-	          title: 'Subject',
+	          title: 'subject',
 	          required: true,
 	          index: 0,
 	          paramName: 'subject',
@@ -854,50 +852,38 @@
 	        'div',
 	        { className: 'flex' },
 	        React.createElement(EmailForm, {
-	          title: 'To',
+	          title: 'to',
 	          required: true,
 	          index: this.props.index,
-	          datas: this.state.to,
+	          data: this.state.to,
 	          handleAdd: this.handleAddToInpersonal,
-	          handleDel: this.handleDelToInpersonal,
-	          placeholderEmail: 'recipient@example.com',
-	          valueEmail: 'recipient@example.com',
-	          placeholderName: 'To Name',
-	          valueName: 'To Name' }),
+	          handleDel: this.handleDelToInpersonal }),
 	        React.createElement(EmailForm, {
-	          title: 'Cc',
+	          title: 'cc',
 	          required: false,
 	          index: this.props.index,
-	          datas: this.state.cc,
+	          data: this.state.cc,
 	          handleAdd: this.handleAddCcInpersonal,
-	          handleDel: this.handleDelCcInpersonal,
-	          placeholderEmail: 'cc@example.com',
-	          valueEmail: 'cc@example.com',
-	          placeholderName: 'Cc Name',
-	          valueName: 'Cc Name' }),
+	          handleDel: this.handleDelCcInpersonal }),
 	        React.createElement(EmailForm, {
-	          title: 'Bcc',
+	          title: 'bcc',
 	          required: false,
 	          index: this.props.index,
-	          datas: this.state.bcc,
+	          data: this.state.bcc,
 	          handleAdd: this.handleAddBccInpersonal,
-	          handleDel: this.handleDelBccInpersonal,
-	          placeholderEmail: 'bcc@example.com',
-	          valueEmail: 'bcc@example.com',
-	          placeholderName: 'Bcc Name',
-	          valueName: 'Bcc Name' }),
+	          handleDel: this.handleDelBccInpersonal }),
 	        React.createElement(SimpleTextForm, {
-	          title: 'Subject',
+	          title: 'subject',
 	          required: true,
 	          index: 0,
 	          paramName: 'personalizations[0].subject',
-	          placeholder: 'Subject',
+	          placeholder: 'subject',
 	          value: 'これは件名です' }),
 	        React.createElement(KeyValueForm, {
-	          title: 'Headers',
+	          title: 'headers',
 	          required: false,
 	          index: this.props.index,
-	          datas: this.state.headers,
+	          data: this.state.headers,
 	          handleAdd: this.handleAddHeaderInpersonal,
 	          handleDel: this.handleDelHeaderInpersonal,
 	          placeholderKey: 'header-key',
@@ -905,10 +891,10 @@
 	          placeholderValue: 'header-value',
 	          valueValue: 'header-value' }),
 	        React.createElement(KeyValueForm, {
-	          title: 'Substitutions',
+	          title: 'substitutions',
 	          required: false,
 	          index: this.props.index,
-	          datas: this.state.substitutions,
+	          data: this.state.substitutions,
 	          handleAdd: this.handleAddSubstitutionInpersonal,
 	          handleDel: this.handleDelSubstitutionInpersonal,
 	          placeholderKey: 'substitution-key',
@@ -916,10 +902,10 @@
 	          placeholderValue: 'substitution-value',
 	          valueValue: 'substitution-value' }),
 	        React.createElement(KeyValueForm, {
-	          title: 'Custom_args',
+	          title: 'custom_args',
 	          required: false,
 	          index: this.props.index,
-	          datas: this.state.custom_args,
+	          data: this.state.custom_args,
 	          handleAdd: this.handleAddCustomargInpersonal,
 	          handleDel: this.handleDelCustomargInpersonal,
 	          placeholderKey: 'custom-args-key',
@@ -927,7 +913,7 @@
 	          placeholderValue: 'custom-args-value',
 	          valueValue: 'custom-args-value' }),
 	        React.createElement(SimpleTextForm, {
-	          title: 'Send_at',
+	          title: 'send_at',
 	          required: false,
 	          index: 0,
 	          paramName: 'personalizations[0].send_at',
@@ -949,14 +935,11 @@
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
-	    datas: React.PropTypes.array.isRequired,
+	    data: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number,
-	    placeholderEmail: React.PropTypes.string.isRequired,
-	    valueEmail: React.PropTypes.string.isRequired,
-	    placeholderName: React.PropTypes.string.isRequired,
-	    valueName: React.PropTypes.string.isRequired,
 	    handleAdd: React.PropTypes.func,
 	    handleDel: React.PropTypes.func,
+	    handleUpd: React.PropTypes.func,
 	    max: React.PropTypes.number
 	  },
 
@@ -975,14 +958,13 @@
 	    }
 	    var add;
 	    var items;
-	    if (Array.isArray(this.props.datas)) {
-	      items = this.props.datas.map(function (data, index) {
+	    if (Array.isArray(this.props.data)) {
+	      items = this.props.data.map(function (data, index) {
 	        return React.createElement(EmailItem, {
 	          parentIndex: this.props.index,
 	          index: index,
-	          handleDel: this.props.handleDel,
-	          placeholderEmail: this.props.placeholderEmail,
-	          placeholderName: this.props.placeholderName });
+	          data: data,
+	          handleDel: this.props.handleDel });
 	      }.bind(this));
 	      add = React.createElement(
 	        'a',
@@ -991,14 +973,13 @@
 	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
-	      if (this.props.datas != null) {
+	      if (this.props.data != null) {
 	        items = React.createElement(EmailItem, {
+	          data: this.props.data,
 	          handleDel: this.props.handleDel,
-	          placeholderEmail: this.props.placeholderEmail,
-	          placeholderName: this.props.placeholderName
-	        });
+	          handleUpd: this.props.handleUpd });
 	      }
-	      if (this.props.datas == null && this.props.max == 1) {
+	      if (this.props.data == null && this.props.max == 1) {
 	        add = React.createElement(
 	          'a',
 	          { href: 'javascript:void(0)', onClick: this.props.handleAdd,
@@ -1035,11 +1016,9 @@
 	  propTypes: {
 	    parentIndex: React.PropTypes.number,
 	    index: React.PropTypes.number,
-	    placeholderEmail: React.PropTypes.string.isRequired,
-	    valueEmail: React.PropTypes.string.isRequired,
-	    placeholderName: React.PropTypes.string.isRequired,
-	    valueName: React.PropTypes.string.isRequired,
-	    handleDel: React.PropTypes.func
+	    data: React.PropTypes.array.isRequired,
+	    handleDel: React.PropTypes.func,
+	    handleUpd: React.PropTypes.func
 	  },
 	  getInitialState: function () {
 	    return {};
@@ -1073,16 +1052,18 @@
 	        { className: "flex" },
 	        React.createElement("input", {
 	          type: "text",
-	          name: this.props.paramName + '.email',
+	          name: "email",
 	          className: "form-control",
-	          placeholder: this.props.placeholderEmail,
-	          defaultValue: this.props.valueEmail }),
+	          placeholder: "email",
+	          defaultValue: this.props.data.email,
+	          onChange: this.props.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
-	          name: this.props.paramName + '.name',
+	          name: "name",
 	          className: "form-control",
-	          placeholder: this.props.placeholderName,
-	          defaultValue: this.props.valueName })
+	          placeholder: "name",
+	          defaultValue: this.props.data.name,
+	          onChange: this.props.handleUpd })
 	      )
 	    );
 	  }
@@ -1168,7 +1149,7 @@
 	  propTypes: {
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
-	    datas: React.PropTypes.array.isRequired,
+	    data: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    valueKey: React.PropTypes.string.isRequired,
@@ -1203,7 +1184,7 @@
 	      React.createElement(
 	        'div',
 	        null,
-	        this.props.datas.map(function (data, index) {
+	        this.props.data.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
 	            parentIndex: this.props.index,
 	            index: index,
@@ -1842,6 +1823,7 @@
 	        to: [{ email: "", name: "" }],
 	        cc: [],
 	        bcc: [],
+	        //headers: [{"hoge": "fuga"}, {"piyo": "payo"}],
 	        headers: [],
 	        substitutions: [],
 	        custom_args: []
@@ -1860,7 +1842,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_FROM, this.onUpdFrom, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -1940,6 +1922,11 @@
 	    this.emit("change");
 	  },
 
+	  onUpdFrom: function (payload) {
+	    this.mailData.from[payload.key] = payload.value;
+	    this.emit("change");
+	  },
+
 	  onAddReplyto: function () {
 	    this.mailData["reply-to"] = { email: "", name: "" };
 	    this.emit("change");
@@ -2012,6 +1999,7 @@
 	  DEL_SUBSTITUTION_INPERSONAL: "DEL_SUBSTITUTION_INPERSONAL",
 	  ADD_CUSTOMARG_INPERSONAL: "ADD_CUSTOMARG_INPERSONAL",
 	  DEL_CUSTOMARG_INPERSONAL: "DEL_CUSTOMARG_INPERSONAL",
+	  UPD_FROM: "UPD_FROM",
 	  ADD_REPLYTO: "ADD_REPLYTO",
 	  DEL_REPLYTO: "DEL_REPLYTO",
 	  SEND_MAIL: "SEND_MAIL",
@@ -2087,6 +2075,10 @@
 	    this.dispatch(constants.DEL_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
+	  updFrom(key, value) {
+	    this.dispatch(constants.UPD_FROM, { key: key, value: value });
+	  },
+
 	  addReplyto: function () {
 	    this.dispatch(constants.ADD_REPLYTO);
 	  },
@@ -2095,10 +2087,28 @@
 	    this.dispatch(constants.DEL_REPLYTO);
 	  },
 
-	  sendMail: function (param) {
-	    var requestParam = JSON.stringify(param);
+	  // sendMail: function(param) {
+	  //   var requestParam = JSON.stringify(param);
+	  //   this.dispatch(constants.SEND_MAIL);
+	  //   DemoboxClient.sendMail(
+	  //     requestParam,
+	  //     function(result) {
+	  //       this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
+	  //     }.bind(this),
+	  //     function(xhr, status, err) {
+	  //       this.dispatch(
+	  //         constants.SEND_MAIL_FAIL,
+	  //         {
+	  //           responseCode: xhr.status,
+	  //           responseBody: err.message
+	  //         }
+	  //       );
+	  //     }.bind(this)
+	  //   );
+	  // },
+	  sendMail: function (mailData) {
 	    this.dispatch(constants.SEND_MAIL);
-	    DemoboxClient.sendMail(requestParam, function (result) {
+	    DemoboxClient.sendMail(mailData, function (result) {
 	      this.dispatch(constants.SEND_MAIL_SUCCESS, { result: result });
 	    }.bind(this), function (xhr, status, err) {
 	      this.dispatch(constants.SEND_MAIL_FAIL, {
@@ -2126,16 +2136,37 @@
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
-	  sendMail: function (requestParam, success, failure) {
-	    // console.log('DemoClient.sendMail()');
+	  sendMail: function (mailData, success, failure) {
 	    $.ajax({
 	      url: '/send',
 	      dataType: 'json',
 	      type: 'POST',
-	      data: requestParam,
+	      data: this.makeParam(mailData),
 	      success: success,
 	      error: failure
 	    });
+	  },
+
+	  makeParam: function (mailData) {
+	    var mailData2 = $.extend(true, {}, mailData);
+	    for (var i = 0; i < mailData.personalizations.length; i++) {
+	      mailData2.personalizations[i].headers = this.array2hash(mailData.personalizations[i].headers);
+	      mailData2.personalizations[i].substitutions = this.array2hash(mailData.personalizations[i].substitutions);
+	      mailData2.personalizations[i].custom_args = this.array2hash(mailData.personalizations[i].custom_args);
+	    }
+	    var requestParam = JSON.stringify(mailData2);
+	    console.log(requestParam);
+	    return requestParam;
+	  },
+
+	  array2hash: function (array) {
+	    var hash = {};
+	    for (var j = 0; j < array.length; j++) {
+	      for (var k in array[j]) {
+	        hash[k] = array[j][k];
+	      }
+	    }
+	    return hash;
 	  }
 	};
 
