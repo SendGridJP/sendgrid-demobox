@@ -80,99 +80,102 @@ var PersonalizationItem = React.createClass({
 
   render: function() {
     return (
-      <div className="">
-        <a href="javascript:void(0)" onClick={this.handleDelPersonalization}
-          className="removeIcon">
-          <span className="glyphicon glyphicon-remove"></span>
-        </a>
+      <div className="wrapper">
+        <div className="fixed">
+          <a href="javascript:void(0)" onClick={this.handleDelPersonalization}
+            className="removeIcon">
+            <span className="glyphicon glyphicon-remove"></span>
+          </a>
+        </div>
+        <div className="flex">
+          <EmailForm
+            title="To"
+            required={true}
+            index={this.props.index}
+            datas={this.state.to}
+            handleAdd={this.handleAddToInpersonal}
+            handleDel={this.handleDelToInpersonal}
+            placeholderEmail="recipient@example.com"
+            valueEmail="recipient@example.com"
+            placeholderName="To Name"
+            valueName="To Name" />
 
-        <EmailForm
-          title="To"
-          required={true}
-          index={this.props.index}
-          datas={this.state.to}
-          handleAdd={this.handleAddToInpersonal}
-          handleDel={this.handleDelToInpersonal}
-          placeholderEmail="recipient@example.com"
-          valueEmail="recipient@example.com"
-          placeholderName="To Name"
-          valueName="To Name" />
+          <EmailForm
+            title="Cc"
+            required={false}
+            index={this.props.index}
+            datas={this.state.cc}
+            handleAdd={this.handleAddCcInpersonal}
+            handleDel={this.handleDelCcInpersonal}
+            placeholderEmail="cc@example.com"
+            valueEmail="cc@example.com"
+            placeholderName="Cc Name"
+            valueName="Cc Name" />
 
-        <EmailForm
-          title="Cc"
-          required={false}
-          index={this.props.index}
-          datas={this.state.cc}
-          handleAdd={this.handleAddCcInpersonal}
-          handleDel={this.handleDelCcInpersonal}
-          placeholderEmail="cc@example.com"
-          valueEmail="cc@example.com"
-          placeholderName="Cc Name"
-          valueName="Cc Name" />
+          <EmailForm
+            title="Bcc"
+            required={false}
+            index={this.props.index}
+            datas={this.state.bcc}
+            handleAdd={this.handleAddBccInpersonal}
+            handleDel={this.handleDelBccInpersonal}
+            placeholderEmail="bcc@example.com"
+            valueEmail="bcc@example.com"
+            placeholderName="Bcc Name"
+            valueName="Bcc Name" />
 
-        <EmailForm
-          title="Bcc"
-          required={false}
-          index={this.props.index}
-          datas={this.state.bcc}
-          handleAdd={this.handleAddBccInpersonal}
-          handleDel={this.handleDelBccInpersonal}
-          placeholderEmail="bcc@example.com"
-          valueEmail="bcc@example.com"
-          placeholderName="Bcc Name"
-          valueName="Bcc Name" />
+          <SimpleTextForm
+            title="Subject"
+            required={true}
+            index={0}
+            paramName="personalizations[0].subject"
+            placeholder="Subject"
+            value="これは件名です" />
 
-        <SimpleTextForm
-          title="Subject"
-          required={true}
-          index={0}
-          paramName="personalizations[0].subject"
-          placeholder="Subject"
-          value="これは件名です" />
+          <KeyValueForm
+            title="Headers"
+            required={false}
+            index={this.props.index}
+            datas={this.state.headers}
+            handleAdd={this.handleAddHeaderInpersonal}
+            handleDel={this.handleDelHeaderInpersonal}
+            placeholderKey="header-key"
+            valueKey="header-key"
+            placeholderValue="header-value"
+            valueValue="header-value" />
 
-        <KeyValueForm
-          title="Headers"
-          required={false}
-          index={this.props.index}
-          datas={this.state.headers}
-          handleAdd={this.handleAddHeaderInpersonal}
-          handleDel={this.handleDelHeaderInpersonal}
-          placeholderKey="header-key"
-          valueKey="header-key"
-          placeholderValue="header-value"
-          valueValue="header-value" />
+          <KeyValueForm
+            title="Substitutions"
+            required={false}
+            index={this.props.index}
+            datas={this.state.substitutions}
+            handleAdd={this.handleAddSubstitutionInpersonal}
+            handleDel={this.handleDelSubstitutionInpersonal}
+            placeholderKey="substitution-key"
+            valueKey="substitution-key"
+            placeholderValue="substitution-value"
+            valueValue="substitution-value" />
 
-        <KeyValueForm
-          title="Substitutions"
-          required={false}
-          index={this.props.index}
-          datas={this.state.substitutions}
-          handleAdd={this.handleAddSubstitutionInpersonal}
-          handleDel={this.handleDelSubstitutionInpersonal}
-          placeholderKey="substitution-key"
-          valueKey="substitution-key"
-          placeholderValue="substitution-value"
-          valueValue="substitution-value" />
+          <KeyValueForm
+            title="Custom_args"
+            required={false}
+            index={this.props.index}
+            datas={this.state.custom_args}
+            handleAdd={this.handleAddCustomargInpersonal}
+            handleDel={this.handleDelCustomargInpersonal}
+            placeholderKey="custom-args-key"
+            valueKey="custom-args-key"
+            placeholderValue="custom-args-value"
+            valueValue="custom-args-value" />
 
-        <KeyValueForm
-          title="Custom_args"
-          required={false}
-          index={this.props.index}
-          datas={this.state.custom_args}
-          handleAdd={this.handleAddCustomargInpersonal}
-          handleDel={this.handleDelCustomargInpersonal}
-          placeholderKey="custom-args-key"
-          valueKey="custom-args-key"
-          placeholderValue="custom-args-value"
-          valueValue="custom-args-value" />
-
-        <SimpleTextForm
-          title="Send_at"
-          required={false}
-          index={0}
-          paramName="personalizations[0].send_at"
-          placeholder="12345678"
-          value="12345678" />
+          <SimpleTextForm
+            title="Send_at"
+            required={false}
+            index={0}
+            paramName="personalizations[0].send_at"
+            placeholder="12345678"
+            value="12345678" />
+        </div>
       </div>
     );
   }

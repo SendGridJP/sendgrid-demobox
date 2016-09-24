@@ -50,69 +50,67 @@ var SendForm = React.createClass({
 
             <PersonalizationList />
 
-            <div className="form-group">
-              <EmailForm
-                title="From"
-                required={true}
-                datas={this.state.from}
-                max={1}
-                placeholderEmail="from@example.com"
-                valueEmail="from@example.com"
-                placeholderName="From Name"
-                valueName="From Name" />
-            </div>
+            <EmailForm
+              title="From"
+              required={true}
+              datas={this.state.from}
+              max={1}
+              placeholderEmail="from@example.com"
+              valueEmail="from@example.com"
+              placeholderName="From Name"
+              valueName="From Name" />
 
-            <div className="form-group">
-              <EmailForm
-                title="Reply-to"
-                required={false}
-                datas={this.state["reply-to"]}
-                handleAdd={this.handleAddReplyto}
-                handleDel={this.handleDelReplyto}
-                max={1}
-                placeholderEmail="reply-to@example.com"
-                valueEmail="reply-to@example.com"
-                placeholderName="Reply-to Name"
-                valueName="Reply-to Name" />
-            </div>
+            <EmailForm
+              title="Reply-to"
+              required={false}
+              datas={this.state["reply-to"]}
+              handleAdd={this.handleAddReplyto}
+              handleDel={this.handleDelReplyto}
+              max={1}
+              placeholderEmail="reply-to@example.com"
+              valueEmail="reply-to@example.com"
+              placeholderName="Reply-to Name"
+              valueName="Reply-to Name" />
 
-            <div className="form-group">
-              <SimpleTextForm
-                title="Subject"
-                required={true}
-                index={0}
-                paramName="subject"
-                placeholder="-name-さんへ　テストメール"
-                value="-name-さんへ　テストメール" />
-            </div>
+            <SimpleTextForm
+              title="Subject"
+              required={true}
+              index={0}
+              paramName="subject"
+              placeholder="-name-さんへ　テストメール"
+              value="-name-さんへ　テストメール" />
 
-            <div className="form-group">
-              <div className="col-md-12">
-                <label className="control-label">
-                  <span className="text-danger">*</span>Contents
-                </label>
+            <div>
+              <label className="control-label">
+                <span className="text-danger">*</span>Contents
+              </label>
+
+              <div className="wrapper">
+                <div className="fixed"></div>
+                <div className="flex" id="content0">
+                  <label>text/plain</label>
+                  <input type="hidden" name="content[0].type" defaultValue="text/plain" />
+                  <textarea name="content[0].value" className="form-control"
+                    placeholder="-name-さんへ　TEXT本文" defaultValue="-name-さんへ　TEXT本文 SendGrid https://sendgrid.com">
+                  </textarea>
+                </div>
               </div>
 
-              <div className="col-md-12" id="content0">
-                <label>text/plain</label>
-                <input type="hidden" name="content[0].type" defaultValue="text/plain" />
-                <textarea name="content[0].value" className="form-control"
-                  placeholder="-name-さんへ　TEXT本文" defaultValue="-name-さんへ　TEXT本文 SendGrid https://sendgrid.com">
-                </textarea>
-              </div>
-
-              <div className="col-md-12" id="content1">
-                <label>text/html</label>
-                <input type="hidden" name="content[1].type" defaultValue="text/html" />
-                <textarea name="content[1].value" className="form-control"
-                  placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;"
-                  defaultValue="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
-                  &lt;a href='https://sendgrid.com'&gt;センドグリッド&lt;/a&gt;">
-                </textarea>
+              <div className="wrapper">
+                <div className="fixed"></div>
+                <div className="flex" id="content1">
+                  <label>text/html</label>
+                  <input type="hidden" name="content[1].type" defaultValue="text/html" />
+                  <textarea name="content[1].value" className="form-control"
+                    placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;"
+                    defaultValue="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
+                    &lt;a href='https://sendgrid.com'&gt;センドグリッド&lt;/a&gt;">
+                  </textarea>
+                </div>
               </div>
             </div>
 
-            <div className="panel-group" id="accordion">
+            <div id="accordion">
               <div className="panel panel-default">
                 <div className="panel-heading">
                   <h4 className="panel-title">

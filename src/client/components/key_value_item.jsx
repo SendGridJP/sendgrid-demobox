@@ -21,23 +21,27 @@ var KeyValueItem = React.createClass({
 
   render: function() {
     return (
-      <div className="form-inline">
-        <a href="javascript:void(0)" onClick={this.handleDel}
-          className="removeIcon">
-          <span className="glyphicon glyphicon-remove"></span>
-        </a>
-        <input
-          type="text"
-          name={this.props.paramName + '.key'}
-          className="form-control"
-          placeholder={this.props.placeholderKey}
-          defaultValue={this.props.valueKey} />
-        <input
-          type="text"
-          name={this.props.paramName + '.value'}
-          className="form-control"
-          placeholder={this.props.placeholderValue}
-          defaultValue={this.props.valueValue} />
+      <div className="wrapper">
+        <div className="fixed">
+          <a href="javascript:void(0)" onClick={this.handleDel}
+            className="removeIcon">
+            <span className="glyphicon glyphicon-remove"></span>
+          </a>
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            name={this.props.paramName + '.key'}
+            className="form-control"
+            placeholder={this.props.placeholderKey}
+            defaultValue={this.props.valueKey} />
+          <input
+            type="text"
+            name={this.props.paramName + '.value'}
+            className="form-control"
+            placeholder={this.props.placeholderValue}
+            defaultValue={this.props.valueValue} />
+        </div>
       </div>
     );
   }

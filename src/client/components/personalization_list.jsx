@@ -18,24 +18,22 @@ var PersonalizationList = React.createClass({
 
   render: function() {
     return (
-      <div className="form-group">
-        <div className="col-md-12">
-          <label className="control-label">
-            <span className="text-danger">*</span>Personalizations
-          </label>
+      <div>
+        <label className="control-label">
+          <span className="text-danger">*</span>Personalizations
+        </label>
 
-          {this.state.personalizations.map(function(personalization, index) {
-            return (
-              <PersonalizationItem index={index} />
-            );
-          })};
+        {this.state.personalizations.map(function(personalization, index) {
+          return (
+            <PersonalizationItem index={index} />
+          );
+        })}
 
-          <div className="col-md-12">
-            <a href="javascript:void(0)" onClick={this.handleAddPersonalization}
-              className="pull-right">
-              <span className="glyphicon glyphicon-plus"></span>
-            </a>
-          </div>
+        <div>
+          <a href="javascript:void(0)" onClick={this.handleAddPersonalization}
+            className="pull-right">
+            <span className="glyphicon glyphicon-plus"></span>
+          </a>
         </div>
       </div>
     );

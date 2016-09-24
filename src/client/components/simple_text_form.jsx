@@ -30,15 +30,20 @@ var SimpleTextForm = React.createClass({
       rq = <input type="checkbox" onChange={this._onChangeUse} />;
     }
     return (
-      <div className="col-md-12">
+      <div>
         <label className="control-label">{rq}{this.props.title}</label>
-        <input
-          type="text"
-          name={this.props.paramName}
-          className="form-control"
-          placeholder={this.props.placeholder}
-          defaultValue={this.props.value}
-          disabled={this._getDisabled()} />
+        <div className="wrapper">
+          <div className="fixed"></div>
+          <div className="flex">
+            <input
+              type="text"
+              name={this.props.paramName}
+              className="form-control"
+              placeholder={this.props.placeholder}
+              defaultValue={this.props.value}
+              disabled={this._getDisabled()} />
+          </div>
+        </div>
       </div>
     );
   }

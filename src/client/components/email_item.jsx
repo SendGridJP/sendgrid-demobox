@@ -29,20 +29,24 @@ var EmailItem = React.createClass({
     }
 
     return (
-      <div className="form-inline">
-        {del}
-        <input
-          type="text"
-          name={this.props.paramName + '.email'}
-          className="form-control"
-          placeholder={this.props.placeholderEmail}
-          defaultValue={this.props.valueEmail} />
-        <input
-          type="text"
-          name={this.props.paramName + '.name'}
-          className="form-control"
-          placeholder={this.props.placeholderName}
-          defaultValue={this.props.valueName} />
+      <div className="wrapper">
+        <div className="fixed">
+          {del}
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            name={this.props.paramName + '.email'}
+            className="form-control"
+            placeholder={this.props.placeholderEmail}
+            defaultValue={this.props.valueEmail} />
+          <input
+            type="text"
+            name={this.props.paramName + '.name'}
+            className="form-control"
+            placeholder={this.props.placeholderName}
+            defaultValue={this.props.valueName} />
+        </div>
       </div>
     );
   }

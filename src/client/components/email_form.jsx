@@ -62,9 +62,9 @@ var EmailForm = React.createClass({
       }
     }
     return (
-      <div className="container-fluid">
+      <div>
         <label className="control-label">{rq}{this.props.title}</label>
-        <div className="form-inline">
+        <div>
           {items}
         </div>
         {add}

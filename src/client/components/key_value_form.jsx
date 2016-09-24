@@ -25,9 +25,9 @@ var KeyValueForm = React.createClass({
       rq = <span className="text-danger">*</span>;
     }
     return (
-      <div className="container-fluid">
+      <div>
         <label className="control-label">{rq}{this.props.title}</label>
-        <div className="form-inline">
+        <div>
           {this.props.datas.map(function(data, index) {
             return (
               <KeyValueItem

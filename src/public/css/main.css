@@ -1,3 +1,25 @@
+.matchParent {
+  width: 100%;
+}
+
+.wrapper {
+  display: -webkit-flex;
+	display: flex;
+  margin: 4px 0;
+}
+
+.fixed {
+  width: 14px;
+}
+
+.flex {
+  -webkit-flex: 1;
+	flex: 1;
+}
+
+.inline {
+  display: inline;
+}
 #event-table {
   position: absolute;
 }

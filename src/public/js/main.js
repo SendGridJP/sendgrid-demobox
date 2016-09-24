@@ -342,91 +342,85 @@
 	        'form',
 	        { id: 'param', className: 'form-horizontal' },
 	        React.createElement(PersonalizationList, null),
+	        React.createElement(EmailForm, {
+	          title: 'From',
+	          required: true,
+	          datas: this.state.from,
+	          max: 1,
+	          placeholderEmail: 'from@example.com',
+	          valueEmail: 'from@example.com',
+	          placeholderName: 'From Name',
+	          valueName: 'From Name' }),
+	        React.createElement(EmailForm, {
+	          title: 'Reply-to',
+	          required: false,
+	          datas: this.state["reply-to"],
+	          handleAdd: this.handleAddReplyto,
+	          handleDel: this.handleDelReplyto,
+	          max: 1,
+	          placeholderEmail: 'reply-to@example.com',
+	          valueEmail: 'reply-to@example.com',
+	          placeholderName: 'Reply-to Name',
+	          valueName: 'Reply-to Name' }),
+	        React.createElement(SimpleTextForm, {
+	          title: 'Subject',
+	          required: true,
+	          index: 0,
+	          paramName: 'subject',
+	          placeholder: '-name-さんへ　テストメール',
+	          value: '-name-さんへ　テストメール' }),
 	        React.createElement(
 	          'div',
-	          { className: 'form-group' },
-	          React.createElement(EmailForm, {
-	            title: 'From',
-	            required: true,
-	            datas: this.state.from,
-	            max: 1,
-	            placeholderEmail: 'from@example.com',
-	            valueEmail: 'from@example.com',
-	            placeholderName: 'From Name',
-	            valueName: 'From Name' })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(EmailForm, {
-	            title: 'Reply-to',
-	            required: false,
-	            datas: this.state["reply-to"],
-	            handleAdd: this.handleAddReplyto,
-	            handleDel: this.handleDelReplyto,
-	            max: 1,
-	            placeholderEmail: 'reply-to@example.com',
-	            valueEmail: 'reply-to@example.com',
-	            placeholderName: 'Reply-to Name',
-	            valueName: 'Reply-to Name' })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(SimpleTextForm, {
-	            title: 'Subject',
-	            required: true,
-	            index: 0,
-	            paramName: 'subject',
-	            placeholder: '-name-さんへ　テストメール',
-	            value: '-name-さんへ　テストメール' })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
+	          null,
+	          React.createElement(
+	            'label',
+	            { className: 'control-label' },
+	            React.createElement(
+	              'span',
+	              { className: 'text-danger' },
+	              '*'
+	            ),
+	            'Contents'
+	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'col-md-12' },
+	            { className: 'wrapper' },
+	            React.createElement('div', { className: 'fixed' }),
 	            React.createElement(
-	              'label',
-	              { className: 'control-label' },
+	              'div',
+	              { className: 'flex', id: 'content0' },
 	              React.createElement(
-	                'span',
-	                { className: 'text-danger' },
-	                '*'
+	                'label',
+	                null,
+	                'text/plain'
 	              ),
-	              'Contents'
+	              React.createElement('input', { type: 'hidden', name: 'content[0].type', defaultValue: 'text/plain' }),
+	              React.createElement('textarea', { name: 'content[0].value', className: 'form-control',
+	                placeholder: '-name-さんへ　TEXT本文', defaultValue: '-name-さんへ　TEXT本文 SendGrid https://sendgrid.com' })
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'col-md-12', id: 'content0' },
+	            { className: 'wrapper' },
+	            React.createElement('div', { className: 'fixed' }),
 	            React.createElement(
-	              'label',
-	              null,
-	              'text/plain'
-	            ),
-	            React.createElement('input', { type: 'hidden', name: 'content[0].type', defaultValue: 'text/plain' }),
-	            React.createElement('textarea', { name: 'content[0].value', className: 'form-control',
-	              placeholder: '-name-さんへ　TEXT本文', defaultValue: '-name-さんへ　TEXT本文 SendGrid https://sendgrid.com' })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'col-md-12', id: 'content1' },
-	            React.createElement(
-	              'label',
-	              null,
-	              'text/html'
-	            ),
-	            React.createElement('input', { type: 'hidden', name: 'content[1].type', defaultValue: 'text/html' }),
-	            React.createElement('textarea', { name: 'content[1].value', className: 'form-control',
-	              placeholder: '<p>-name-さんへ　HTML本文</p>',
-	              defaultValue: '<p>-name-さんへ　HTML本文</p> <a href=\'https://sendgrid.com\'>センドグリッド</a>' })
+	              'div',
+	              { className: 'flex', id: 'content1' },
+	              React.createElement(
+	                'label',
+	                null,
+	                'text/html'
+	              ),
+	              React.createElement('input', { type: 'hidden', name: 'content[1].type', defaultValue: 'text/html' }),
+	              React.createElement('textarea', { name: 'content[1].value', className: 'form-control',
+	                placeholder: '<p>-name-さんへ　HTML本文</p>',
+	                defaultValue: '<p>-name-さんへ　HTML本文</p> <a href=\'https://sendgrid.com\'>センドグリッド</a>' })
+	            )
 	          )
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'panel-group', id: 'accordion' },
+	          { id: 'accordion' },
 	          React.createElement(
 	            'div',
 	            { className: 'panel panel-default' },
@@ -729,33 +723,28 @@
 	  render: function () {
 	    return React.createElement(
 	      "div",
-	      { className: "form-group" },
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        React.createElement(
+	          "span",
+	          { className: "text-danger" },
+	          "*"
+	        ),
+	        "Personalizations"
+	      ),
+	      this.state.personalizations.map(function (personalization, index) {
+	        return React.createElement(PersonalizationItem, { index: index });
+	      }),
 	      React.createElement(
 	        "div",
-	        { className: "col-md-12" },
+	        null,
 	        React.createElement(
-	          "label",
-	          { className: "control-label" },
-	          React.createElement(
-	            "span",
-	            { className: "text-danger" },
-	            "*"
-	          ),
-	          "Personalizations"
-	        ),
-	        this.state.personalizations.map(function (personalization, index) {
-	          return React.createElement(PersonalizationItem, { index: index });
-	        }),
-	        ";",
-	        React.createElement(
-	          "div",
-	          { className: "col-md-12" },
-	          React.createElement(
-	            "a",
-	            { href: "javascript:void(0)", onClick: this.handleAddPersonalization,
-	              className: "pull-right" },
-	            React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	          )
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization,
+	            className: "pull-right" },
+	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	        )
 	      )
 	    );
@@ -850,93 +839,101 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: '' },
+	      { className: 'wrapper' },
 	      React.createElement(
-	        'a',
-	        { href: 'javascript:void(0)', onClick: this.handleDelPersonalization,
-	          className: 'removeIcon' },
-	        React.createElement('span', { className: 'glyphicon glyphicon-remove' })
+	        'div',
+	        { className: 'fixed' },
+	        React.createElement(
+	          'a',
+	          { href: 'javascript:void(0)', onClick: this.handleDelPersonalization,
+	            className: 'removeIcon' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-remove' })
+	        )
 	      ),
-	      React.createElement(EmailForm, {
-	        title: 'To',
-	        required: true,
-	        index: this.props.index,
-	        datas: this.state.to,
-	        handleAdd: this.handleAddToInpersonal,
-	        handleDel: this.handleDelToInpersonal,
-	        placeholderEmail: 'recipient@example.com',
-	        valueEmail: 'recipient@example.com',
-	        placeholderName: 'To Name',
-	        valueName: 'To Name' }),
-	      React.createElement(EmailForm, {
-	        title: 'Cc',
-	        required: false,
-	        index: this.props.index,
-	        datas: this.state.cc,
-	        handleAdd: this.handleAddCcInpersonal,
-	        handleDel: this.handleDelCcInpersonal,
-	        placeholderEmail: 'cc@example.com',
-	        valueEmail: 'cc@example.com',
-	        placeholderName: 'Cc Name',
-	        valueName: 'Cc Name' }),
-	      React.createElement(EmailForm, {
-	        title: 'Bcc',
-	        required: false,
-	        index: this.props.index,
-	        datas: this.state.bcc,
-	        handleAdd: this.handleAddBccInpersonal,
-	        handleDel: this.handleDelBccInpersonal,
-	        placeholderEmail: 'bcc@example.com',
-	        valueEmail: 'bcc@example.com',
-	        placeholderName: 'Bcc Name',
-	        valueName: 'Bcc Name' }),
-	      React.createElement(SimpleTextForm, {
-	        title: 'Subject',
-	        required: true,
-	        index: 0,
-	        paramName: 'personalizations[0].subject',
-	        placeholder: 'Subject',
-	        value: 'これは件名です' }),
-	      React.createElement(KeyValueForm, {
-	        title: 'Headers',
-	        required: false,
-	        index: this.props.index,
-	        datas: this.state.headers,
-	        handleAdd: this.handleAddHeaderInpersonal,
-	        handleDel: this.handleDelHeaderInpersonal,
-	        placeholderKey: 'header-key',
-	        valueKey: 'header-key',
-	        placeholderValue: 'header-value',
-	        valueValue: 'header-value' }),
-	      React.createElement(KeyValueForm, {
-	        title: 'Substitutions',
-	        required: false,
-	        index: this.props.index,
-	        datas: this.state.substitutions,
-	        handleAdd: this.handleAddSubstitutionInpersonal,
-	        handleDel: this.handleDelSubstitutionInpersonal,
-	        placeholderKey: 'substitution-key',
-	        valueKey: 'substitution-key',
-	        placeholderValue: 'substitution-value',
-	        valueValue: 'substitution-value' }),
-	      React.createElement(KeyValueForm, {
-	        title: 'Custom_args',
-	        required: false,
-	        index: this.props.index,
-	        datas: this.state.custom_args,
-	        handleAdd: this.handleAddCustomargInpersonal,
-	        handleDel: this.handleDelCustomargInpersonal,
-	        placeholderKey: 'custom-args-key',
-	        valueKey: 'custom-args-key',
-	        placeholderValue: 'custom-args-value',
-	        valueValue: 'custom-args-value' }),
-	      React.createElement(SimpleTextForm, {
-	        title: 'Send_at',
-	        required: false,
-	        index: 0,
-	        paramName: 'personalizations[0].send_at',
-	        placeholder: '12345678',
-	        value: '12345678' })
+	      React.createElement(
+	        'div',
+	        { className: 'flex' },
+	        React.createElement(EmailForm, {
+	          title: 'To',
+	          required: true,
+	          index: this.props.index,
+	          datas: this.state.to,
+	          handleAdd: this.handleAddToInpersonal,
+	          handleDel: this.handleDelToInpersonal,
+	          placeholderEmail: 'recipient@example.com',
+	          valueEmail: 'recipient@example.com',
+	          placeholderName: 'To Name',
+	          valueName: 'To Name' }),
+	        React.createElement(EmailForm, {
+	          title: 'Cc',
+	          required: false,
+	          index: this.props.index,
+	          datas: this.state.cc,
+	          handleAdd: this.handleAddCcInpersonal,
+	          handleDel: this.handleDelCcInpersonal,
+	          placeholderEmail: 'cc@example.com',
+	          valueEmail: 'cc@example.com',
+	          placeholderName: 'Cc Name',
+	          valueName: 'Cc Name' }),
+	        React.createElement(EmailForm, {
+	          title: 'Bcc',
+	          required: false,
+	          index: this.props.index,
+	          datas: this.state.bcc,
+	          handleAdd: this.handleAddBccInpersonal,
+	          handleDel: this.handleDelBccInpersonal,
+	          placeholderEmail: 'bcc@example.com',
+	          valueEmail: 'bcc@example.com',
+	          placeholderName: 'Bcc Name',
+	          valueName: 'Bcc Name' }),
+	        React.createElement(SimpleTextForm, {
+	          title: 'Subject',
+	          required: true,
+	          index: 0,
+	          paramName: 'personalizations[0].subject',
+	          placeholder: 'Subject',
+	          value: 'これは件名です' }),
+	        React.createElement(KeyValueForm, {
+	          title: 'Headers',
+	          required: false,
+	          index: this.props.index,
+	          datas: this.state.headers,
+	          handleAdd: this.handleAddHeaderInpersonal,
+	          handleDel: this.handleDelHeaderInpersonal,
+	          placeholderKey: 'header-key',
+	          valueKey: 'header-key',
+	          placeholderValue: 'header-value',
+	          valueValue: 'header-value' }),
+	        React.createElement(KeyValueForm, {
+	          title: 'Substitutions',
+	          required: false,
+	          index: this.props.index,
+	          datas: this.state.substitutions,
+	          handleAdd: this.handleAddSubstitutionInpersonal,
+	          handleDel: this.handleDelSubstitutionInpersonal,
+	          placeholderKey: 'substitution-key',
+	          valueKey: 'substitution-key',
+	          placeholderValue: 'substitution-value',
+	          valueValue: 'substitution-value' }),
+	        React.createElement(KeyValueForm, {
+	          title: 'Custom_args',
+	          required: false,
+	          index: this.props.index,
+	          datas: this.state.custom_args,
+	          handleAdd: this.handleAddCustomargInpersonal,
+	          handleDel: this.handleDelCustomargInpersonal,
+	          placeholderKey: 'custom-args-key',
+	          valueKey: 'custom-args-key',
+	          placeholderValue: 'custom-args-value',
+	          valueValue: 'custom-args-value' }),
+	        React.createElement(SimpleTextForm, {
+	          title: 'Send_at',
+	          required: false,
+	          index: 0,
+	          paramName: 'personalizations[0].send_at',
+	          placeholder: '12345678',
+	          value: '12345678' })
+	      )
 	    );
 	  }
 	});
@@ -1012,7 +1009,7 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'container-fluid' },
+	      null,
 	      React.createElement(
 	        'label',
 	        { className: 'control-label' },
@@ -1021,7 +1018,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'form-inline' },
+	        null,
 	        items
 	      ),
 	      add
@@ -1065,20 +1062,28 @@
 
 	    return React.createElement(
 	      "div",
-	      { className: "form-inline" },
-	      del,
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.email',
-	        className: "form-control",
-	        placeholder: this.props.placeholderEmail,
-	        defaultValue: this.props.valueEmail }),
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.name',
-	        className: "form-control",
-	        placeholder: this.props.placeholderName,
-	        defaultValue: this.props.valueName })
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        del
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.paramName + '.email',
+	          className: "form-control",
+	          placeholder: this.props.placeholderEmail,
+	          defaultValue: this.props.valueEmail }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.paramName + '.name',
+	          className: "form-control",
+	          placeholder: this.props.placeholderName,
+	          defaultValue: this.props.valueName })
+	      )
 	    );
 	  }
 	});
@@ -1125,20 +1130,29 @@
 	    }
 	    return React.createElement(
 	      "div",
-	      { className: "col-md-12" },
+	      null,
 	      React.createElement(
 	        "label",
 	        { className: "control-label" },
 	        rq,
 	        this.props.title
 	      ),
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName,
-	        className: "form-control",
-	        placeholder: this.props.placeholder,
-	        defaultValue: this.props.value,
-	        disabled: this._getDisabled() })
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement("div", { className: "fixed" }),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement("input", {
+	            type: "text",
+	            name: this.props.paramName,
+	            className: "form-control",
+	            placeholder: this.props.placeholder,
+	            defaultValue: this.props.value,
+	            disabled: this._getDisabled() })
+	        )
+	      )
 	    );
 	  }
 	});
@@ -1179,7 +1193,7 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'container-fluid' },
+	      null,
 	      React.createElement(
 	        'label',
 	        { className: 'control-label' },
@@ -1188,7 +1202,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'form-inline' },
+	        null,
 	        this.props.datas.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
 	            parentIndex: this.props.index,
@@ -1236,25 +1250,33 @@
 	  render: function () {
 	    return React.createElement(
 	      "div",
-	      { className: "form-inline" },
+	      { className: "wrapper" },
 	      React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        "div",
+	        { className: "fixed" },
+	        React.createElement(
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleDel,
+	            className: "removeIcon" },
+	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        )
 	      ),
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.key',
-	        className: "form-control",
-	        placeholder: this.props.placeholderKey,
-	        defaultValue: this.props.valueKey }),
-	      React.createElement("input", {
-	        type: "text",
-	        name: this.props.paramName + '.value',
-	        className: "form-control",
-	        placeholder: this.props.placeholderValue,
-	        defaultValue: this.props.valueValue })
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.paramName + '.key',
+	          className: "form-control",
+	          placeholder: this.props.placeholderKey,
+	          defaultValue: this.props.valueKey }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.paramName + '.value',
+	          className: "form-control",
+	          placeholder: this.props.placeholderValue,
+	          defaultValue: this.props.valueValue })
+	      )
 	    );
 	  }
 	});
