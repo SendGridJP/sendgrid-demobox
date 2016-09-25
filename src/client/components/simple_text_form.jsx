@@ -3,9 +3,9 @@ var SimpleTextForm = React.createClass({
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
     index: React.PropTypes.number.isRequired,
-    paramName: React.PropTypes.string.isRequired,
     placeholder: React.PropTypes.string.isRequired,
     value: React.PropTypes.string.isRequired,
+    handleUpd: React.PropTypes.func.isRequired,
   },
   getInitialState: function() {
     return {
@@ -41,7 +41,8 @@ var SimpleTextForm = React.createClass({
               className="form-control"
               placeholder={this.props.placeholder}
               defaultValue={this.props.value}
-              disabled={this._getDisabled()} />
+              disabled={this._getDisabled()}
+              onChange={this.props.handleUpd} />
           </div>
         </div>
       </div>

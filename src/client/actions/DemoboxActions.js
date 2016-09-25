@@ -78,6 +78,13 @@ var actions = {
     );
   },
 
+  updSubjectInpersonal: function(parentIndex, value) {
+    this.dispatch(
+      constants.UPD_SUBJECT_INPERSONAL,
+      {parentIndex: parentIndex, value: value}
+    );
+  },
+
   addSubstitutionInpersonal: function(index) {
     this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
   },
@@ -114,6 +121,10 @@ var actions = {
 
   updReplyto: function(key, value) {
     this.dispatch(constants.UPD_REPLYTO, {key: key, value: value});
+  },
+
+  updSubject: function(value) {
+    this.dispatch(constants.UPD_SUBJECT, {value: value});
   },
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);

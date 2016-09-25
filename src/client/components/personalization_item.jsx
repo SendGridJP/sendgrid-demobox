@@ -20,12 +20,13 @@ var PersonalizationItem = React.createClass({
     var state = {};
     if (store.mailData.personalizations[this.props.index] != null) {
       state = {
-        to: store.mailData.personalizations[this.props.index].to,
-        cc: store.mailData.personalizations[this.props.index].cc,
-        bcc: store.mailData.personalizations[this.props.index].bcc,
-        headers: store.mailData.personalizations[this.props.index].headers,
-        substitutions: store.mailData.personalizations[this.props.index].substitutions,
-        custom_args: store.mailData.personalizations[this.props.index].custom_args
+        personalization: store.mailData.personalizations[this.props.index],
+        // to: store.mailData.personalizations[this.props.index].to,
+        // cc: store.mailData.personalizations[this.props.index].cc,
+        // bcc: store.mailData.personalizations[this.props.index].bcc,
+        // headers: store.mailData.personalizations[this.props.index].headers,
+        // substitutions: store.mailData.personalizations[this.props.index].substitutions,
+        // custom_args: store.mailData.personalizations[this.props.index].custom_args
       };
     }
     return state;
@@ -71,6 +72,12 @@ var PersonalizationItem = React.createClass({
       this.props.index, e.target.id, e.target.name, e.target.value
     );
   },
+  handleUpdSubjectInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updSubjectInpersonal(
+      this.props.index, e.target.value
+    );
+  },
 
   handleAddHeaderInpersonal: function() {
     this.getFlux().actions.addHeaderInpersonal(this.props.index);
@@ -110,7 +117,7 @@ var PersonalizationItem = React.createClass({
             title="to"
             required={true}
             index={this.props.index}
-            data={this.state.to}
+            data={this.state.personalization.to}
             handleAdd={this.handleAddToInpersonal}
             handleDel={this.handleDelToInpersonal}
             handleUpd={this.handleUpdToInpersonal} />
@@ -119,7 +126,7 @@ var PersonalizationItem = React.createClass({
             title="cc"
             required={false}
             index={this.props.index}
-            data={this.state.cc}
+            data={this.state.personalization.cc}
             handleAdd={this.handleAddCcInpersonal}
             handleDel={this.handleDelCcInpersonal}
             handleUpd={this.handleUpdCcInpersonal} />
@@ -128,24 +135,24 @@ var PersonalizationItem = React.createClass({
             title="bcc"
             required={false}
             index={this.props.index}
-            data={this.state.bcc}
+            data={this.state.personalization.bcc}
             handleAdd={this.handleAddBccInpersonal}
             handleDel={this.handleDelBccInpersonal}
             handleUpd={this.handleUpdBccInpersonal} />
 
           <SimpleTextForm
             title="subject"
-            required={true}
-            index={0}
-            paramName="personalizations[0].subject"
+            required={false}
+            index={this.props.index}
             placeholder="subject"
-            value="これは件名です" />
+            value={this.state.personalization.subject}
+            handleUpd={this.handleUpdSubjectInpersonal} />
 
           <KeyValueForm
             title="headers"
             required={false}
             index={this.props.index}
-            data={this.state.headers}
+            data={this.state.personalization.headers}
             handleAdd={this.handleAddHeaderInpersonal}
             handleDel={this.handleDelHeaderInpersonal}
             placeholderKey="header-key"
@@ -157,7 +164,7 @@ var PersonalizationItem = React.createClass({
             title="substitutions"
             required={false}
             index={this.props.index}
-            data={this.state.substitutions}
+            data={this.state.personalization.substitutions}
             handleAdd={this.handleAddSubstitutionInpersonal}
             handleDel={this.handleDelSubstitutionInpersonal}
             placeholderKey="substitution-key"
@@ -169,7 +176,7 @@ var PersonalizationItem = React.createClass({
             title="custom_args"
             required={false}
             index={this.props.index}
-            data={this.state.custom_args}
+            data={this.state.personalization.custom_args}
             handleAdd={this.handleAddCustomargInpersonal}
             handleDel={this.handleDelCustomargInpersonal}
             placeholderKey="custom-args-key"

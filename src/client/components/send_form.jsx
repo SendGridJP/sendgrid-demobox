@@ -41,6 +41,11 @@ var SendForm = React.createClass({
       this.getFlux().actions.updReplyto(e.target.name, e.target.value);
     },
 
+    handleUpdSubject: function(e) {
+      e.preventDefault();
+      this.getFlux().actions.updSubject(e.target.value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -81,10 +86,9 @@ var SendForm = React.createClass({
             <SimpleTextForm
               title="subject"
               required={true}
-              index={0}
-              paramName="subject"
-              placeholder="-name-さんへ　テストメール"
-              value="-name-さんへ　テストメール" />
+              placeholder="subject"
+              value={this.state.mailData.subject}
+              handleUpd={this.handleUpdSubject} />
 
             <div>
               <label className="control-label">

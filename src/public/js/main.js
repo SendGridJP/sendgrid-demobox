@@ -331,6 +331,11 @@
 	    this.getFlux().actions.updReplyto(e.target.name, e.target.value);
 	  },
 
+	  handleUpdSubject: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updSubject(e.target.value);
+	  },
+
 	  handleSendMail: function (e) {
 	    e.preventDefault();
 	    // var form = $('#param');
@@ -369,10 +374,9 @@
 	        React.createElement(SimpleTextForm, {
 	          title: 'subject',
 	          required: true,
-	          index: 0,
-	          paramName: 'subject',
-	          placeholder: '-name-さんへ　テストメール',
-	          value: '-name-さんへ　テストメール' }),
+	          placeholder: 'subject',
+	          value: this.state.mailData.subject,
+	          handleUpd: this.handleUpdSubject }),
 	        React.createElement(
 	          'div',
 	          null,
@@ -782,12 +786,7 @@
 	    var state = {};
 	    if (store.mailData.personalizations[this.props.index] != null) {
 	      state = {
-	        to: store.mailData.personalizations[this.props.index].to,
-	        cc: store.mailData.personalizations[this.props.index].cc,
-	        bcc: store.mailData.personalizations[this.props.index].bcc,
-	        headers: store.mailData.personalizations[this.props.index].headers,
-	        substitutions: store.mailData.personalizations[this.props.index].substitutions,
-	        custom_args: store.mailData.personalizations[this.props.index].custom_args
+	        personalization: store.mailData.personalizations[this.props.index]
 	      };
 	    }
 	    return state;
@@ -826,6 +825,10 @@
 	  handleUpdBccInpersonal: function (e) {
 	    e.preventDefault();
 	    this.getFlux().actions.updBccInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  },
+	  handleUpdSubjectInpersonal: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updSubjectInpersonal(this.props.index, e.target.value);
 	  },
 
 	  handleAddHeaderInpersonal: function () {
@@ -873,7 +876,7 @@
 	          title: 'to',
 	          required: true,
 	          index: this.props.index,
-	          data: this.state.to,
+	          data: this.state.personalization.to,
 	          handleAdd: this.handleAddToInpersonal,
 	          handleDel: this.handleDelToInpersonal,
 	          handleUpd: this.handleUpdToInpersonal }),
@@ -881,7 +884,7 @@
 	          title: 'cc',
 	          required: false,
 	          index: this.props.index,
-	          data: this.state.cc,
+	          data: this.state.personalization.cc,
 	          handleAdd: this.handleAddCcInpersonal,
 	          handleDel: this.handleDelCcInpersonal,
 	          handleUpd: this.handleUpdCcInpersonal }),
@@ -889,22 +892,22 @@
 	          title: 'bcc',
 	          required: false,
 	          index: this.props.index,
-	          data: this.state.bcc,
+	          data: this.state.personalization.bcc,
 	          handleAdd: this.handleAddBccInpersonal,
 	          handleDel: this.handleDelBccInpersonal,
 	          handleUpd: this.handleUpdBccInpersonal }),
 	        React.createElement(SimpleTextForm, {
 	          title: 'subject',
-	          required: true,
-	          index: 0,
-	          paramName: 'personalizations[0].subject',
+	          required: false,
+	          index: this.props.index,
 	          placeholder: 'subject',
-	          value: 'これは件名です' }),
+	          value: this.state.personalization.subject,
+	          handleUpd: this.handleUpdSubjectInpersonal }),
 	        React.createElement(KeyValueForm, {
 	          title: 'headers',
 	          required: false,
 	          index: this.props.index,
-	          data: this.state.headers,
+	          data: this.state.personalization.headers,
 	          handleAdd: this.handleAddHeaderInpersonal,
 	          handleDel: this.handleDelHeaderInpersonal,
 	          placeholderKey: 'header-key',
@@ -915,7 +918,7 @@
 	          title: 'substitutions',
 	          required: false,
 	          index: this.props.index,
-	          data: this.state.substitutions,
+	          data: this.state.personalization.substitutions,
 	          handleAdd: this.handleAddSubstitutionInpersonal,
 	          handleDel: this.handleDelSubstitutionInpersonal,
 	          placeholderKey: 'substitution-key',
@@ -926,7 +929,7 @@
 	          title: 'custom_args',
 	          required: false,
 	          index: this.props.index,
-	          data: this.state.custom_args,
+	          data: this.state.personalization.custom_args,
 	          handleAdd: this.handleAddCustomargInpersonal,
 	          handleDel: this.handleDelCustomargInpersonal,
 	          placeholderKey: 'custom-args-key',
@@ -1103,9 +1106,9 @@
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
 	    index: React.PropTypes.number.isRequired,
-	    paramName: React.PropTypes.string.isRequired,
 	    placeholder: React.PropTypes.string.isRequired,
-	    value: React.PropTypes.string.isRequired
+	    value: React.PropTypes.string.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
 	  },
 	  getInitialState: function () {
 	    return {
@@ -1155,7 +1158,8 @@
 	            className: "form-control",
 	            placeholder: this.props.placeholder,
 	            defaultValue: this.props.value,
-	            disabled: this._getDisabled() })
+	            disabled: this._getDisabled(),
+	            onChange: this.props.handleUpd })
 	        )
 	      )
 	    );
@@ -1848,6 +1852,7 @@
 	        cc: [],
 	        bcc: [],
 	        //headers: [{"hoge": "fuga"}, {"piyo": "payo"}],
+	        subject: "",
 	        headers: [],
 	        substitutions: [],
 	        custom_args: []
@@ -1866,7 +1871,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -1931,6 +1936,11 @@
 	    this.emit("change");
 	  },
 
+	  onUpdSubjectInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].subject = payload.value;
+	    this.emit("change");
+	  },
+
 	  onAddHeaderInpersonal: function (index) {
 	    this.mailData.personalizations[index].headers.push({ "": "" });
 	    this.emit("change");
@@ -1978,6 +1988,11 @@
 
 	  onUpdReplyto: function (payload) {
 	    this.mailData["reply-to"][payload.key] = payload.value;
+	    this.emit("change");
+	  },
+
+	  onUpdSubject: function (payload) {
+	    this.mailData.subject = payload.value;
 	    this.emit("change");
 	  },
 
@@ -2040,6 +2055,7 @@
 	  ADD_BCC_INPERSONAL: "ADD_BCC_INPERSONAL",
 	  DEL_BCC_INPERSONAL: "DEL_BCC_INPERSONAL",
 	  UPD_BCC_INPERSONAL: "UPD_BCC_INPERSONAL",
+	  UPD_SUBJECT_INPERSONAL: "UPD_SUBJECT_INPERSONAL",
 	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
 	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
 	  ADD_SUBSTITUTION_INPERSONAL: "ADD_SUBSTITUTION_INPERSONAL",
@@ -2050,6 +2066,7 @@
 	  ADD_REPLYTO: "ADD_REPLYTO",
 	  DEL_REPLYTO: "DEL_REPLYTO",
 	  UPD_REPLYTO: "UPD_REPLYTO",
+	  UPD_SUBJECT: "UPD_SUBJECT",
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
@@ -2119,6 +2136,10 @@
 	    this.dispatch(constants.UPD_BCC_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
 
+	  updSubjectInpersonal: function (parentIndex, value) {
+	    this.dispatch(constants.UPD_SUBJECT_INPERSONAL, { parentIndex: parentIndex, value: value });
+	  },
+
 	  addSubstitutionInpersonal: function (index) {
 	    this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
 	  },
@@ -2149,6 +2170,10 @@
 
 	  updReplyto: function (key, value) {
 	    this.dispatch(constants.UPD_REPLYTO, { key: key, value: value });
+	  },
+
+	  updSubject: function (value) {
+	    this.dispatch(constants.UPD_SUBJECT, { value: value });
 	  },
 	  // sendMail: function(param) {
 	  //   var requestParam = JSON.stringify(param);
