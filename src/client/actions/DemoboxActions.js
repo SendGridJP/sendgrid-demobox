@@ -35,6 +35,13 @@ var actions = {
     );
   },
 
+  updToInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_TO_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
+    );
+  },
+
   addCcInpersonal: function(index) {
     this.dispatch(constants.ADD_CC_INPERSONAL, index);
   },
@@ -46,6 +53,13 @@ var actions = {
     );
   },
 
+  updCcInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_CC_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
+    );
+  },
+
   addBccInpersonal: function(index) {
     this.dispatch(constants.ADD_BCC_INPERSONAL, index);
   },
@@ -54,6 +68,13 @@ var actions = {
     this.dispatch(
       constants.DEL_BCC_INPERSONAL,
       {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  updBccInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_BCC_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
     );
   },
 
@@ -79,7 +100,7 @@ var actions = {
     );
   },
 
-  updFrom(key, value) {
+  updFrom: function(key, value) {
     this.dispatch(constants.UPD_FROM, {key: key, value: value});
   },
 
@@ -91,6 +112,9 @@ var actions = {
     this.dispatch(constants.DEL_REPLYTO);
   },
 
+  updReplyto: function(key, value) {
+    this.dispatch(constants.UPD_REPLYTO, {key: key, value: value});
+  },
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

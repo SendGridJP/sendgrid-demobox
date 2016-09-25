@@ -41,17 +41,35 @@ var PersonalizationItem = React.createClass({
   handleDelToInpersonal: function(parentIndex, index) {
     this.getFlux().actions.delToInpersonal(parentIndex, index);
   },
+  handleUpdToInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updToInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
+  },
   handleAddCcInpersonal: function() {
     this.getFlux().actions.addCcInpersonal(this.props.index);
   },
   handleDelCcInpersonal: function(parentIndex, index) {
     this.getFlux().actions.delCcInpersonal(parentIndex, index);
   },
+  handleUpdCcInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updCcInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
+  },
   handleAddBccInpersonal: function() {
     this.getFlux().actions.addBccInpersonal(this.props.index);
   },
   handleDelBccInpersonal: function(parentIndex, index) {
     this.getFlux().actions.delBccInpersonal(parentIndex, index);
+  },
+  handleUpdBccInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updBccInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
   },
 
   handleAddHeaderInpersonal: function() {
@@ -94,7 +112,8 @@ var PersonalizationItem = React.createClass({
             index={this.props.index}
             data={this.state.to}
             handleAdd={this.handleAddToInpersonal}
-            handleDel={this.handleDelToInpersonal} />
+            handleDel={this.handleDelToInpersonal}
+            handleUpd={this.handleUpdToInpersonal} />
 
           <EmailForm
             title="cc"
@@ -102,7 +121,8 @@ var PersonalizationItem = React.createClass({
             index={this.props.index}
             data={this.state.cc}
             handleAdd={this.handleAddCcInpersonal}
-            handleDel={this.handleDelCcInpersonal} />
+            handleDel={this.handleDelCcInpersonal}
+            handleUpd={this.handleUpdCcInpersonal} />
 
           <EmailForm
             title="bcc"
@@ -110,7 +130,8 @@ var PersonalizationItem = React.createClass({
             index={this.props.index}
             data={this.state.bcc}
             handleAdd={this.handleAddBccInpersonal}
-            handleDel={this.handleDelBccInpersonal} />
+            handleDel={this.handleDelBccInpersonal}
+            handleUpd={this.handleUpdBccInpersonal} />
 
           <SimpleTextForm
             title="subject"

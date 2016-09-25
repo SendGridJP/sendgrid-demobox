@@ -36,6 +36,11 @@ var SendForm = React.createClass({
       this.getFlux().actions.delReplyto();
     },
 
+    handleUpdReplyto: function(e) {
+      e.preventDefault();
+      this.getFlux().actions.updReplyto(e.target.name, e.target.value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -61,8 +66,8 @@ var SendForm = React.createClass({
               title="from"
               required={true}
               data={this.state.mailData.from}
-              max={1}
-              handleUpd={this.handleUpdFrom} />
+              handleUpd={this.handleUpdFrom}
+              max={1} />
 
             <EmailForm
               title="reply-to"
@@ -70,6 +75,7 @@ var SendForm = React.createClass({
               data={this.state.mailData["reply-to"]}
               handleAdd={this.handleAddReplyto}
               handleDel={this.handleDelReplyto}
+              handleUpd={this.handleUpdReplyto}
               max={1} />
 
             <SimpleTextForm

@@ -31,7 +31,8 @@ var EmailForm = React.createClass({
             parentIndex={this.props.index}
             index={index}
             data={data}
-            handleDel={this.props.handleDel} />
+            handleDel={this.props.handleDel}
+            handleUpd={this.props.handleUpd} />
         );
       }.bind(this));
       add = (

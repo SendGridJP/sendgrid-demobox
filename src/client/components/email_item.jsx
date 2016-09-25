@@ -35,6 +35,7 @@ var EmailItem = React.createClass({
           <input
             type="text"
             name="email"
+            id={this.props.index}
             className="form-control"
             placeholder="email"
             defaultValue={this.props.data.email}
@@ -42,6 +43,7 @@ var EmailItem = React.createClass({
           <input
             type="text"
             name="name"
+            id={this.props.index}
             className="form-control"
             placeholder="name"
             defaultValue={this.props.data.name}

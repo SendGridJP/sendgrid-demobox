@@ -33,10 +33,13 @@ var DemoboxStore = Fluxxor.createStore({
       constants.DEL_PERSONALIZATION, this.onDelPersonalization,
       constants.ADD_TO_INPERSONAL, this.onAddToInpersonal,
       constants.DEL_TO_INPERSONAL, this.onDelToInpersonal,
+      constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal,
       constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal,
       constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal,
+      constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal,
       constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal,
       constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal,
+      constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal,
       constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal,
       constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal,
       constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal,
@@ -45,6 +48,7 @@ var DemoboxStore = Fluxxor.createStore({
       constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal,
       constants.ADD_REPLYTO, this.onAddReplyto,
       constants.DEL_REPLYTO, this.onDelReplyto,
+      constants.UPD_REPLYTO, this.onUpdReplyto,
       constants.UPD_FROM, this.onUpdFrom,
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -87,6 +91,11 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onUpdToInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].to[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
   onAddCcInpersonal: function(index) {
     this.mailData.personalizations[index].cc.push(
       {email: "", name: ""}
@@ -99,6 +108,11 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onUpdCcInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].cc[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
   onAddBccInpersonal: function(index) {
     this.mailData.personalizations[index].bcc.push(
       {email: "", name: ""}
@@ -108,6 +122,11 @@ var DemoboxStore = Fluxxor.createStore({
 
   onDelBccInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
+    this.emit("change");
+  },
+
+  onUpdBccInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].bcc[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 
@@ -159,6 +178,11 @@ var DemoboxStore = Fluxxor.createStore({
 
   onDelReplyto: function() {
     this.mailData["reply-to"] = null;
+    this.emit("change");
+  },
+
+  onUpdReplyto: function(payload) {
+    this.mailData["reply-to"][payload.key] = payload.value;
     this.emit("change");
   },
 
