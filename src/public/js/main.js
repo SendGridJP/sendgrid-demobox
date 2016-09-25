@@ -839,6 +839,11 @@
 	    this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
 	  },
 
+	  handleUpdHeaderInpersonal: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updHeaderInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  },
+
 	  handleAddSubstitutionInpersonal: function () {
 	    this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
 	  },
@@ -847,12 +852,22 @@
 	    this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
 	  },
 
+	  handleUpdSubstitutionInpersonal: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updSubstitutionInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  },
+
 	  handleAddCustomargInpersonal: function () {
 	    this.getFlux().actions.addCustomargInpersonal(this.props.index);
 	  },
 
 	  handleDelCustomargInpersonal: function (parentIndex, index) {
 	    this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+	  },
+
+	  handleUpdCustomargInpersonal: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updCustomargInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
 	  },
 
 	  render: function () {
@@ -910,10 +925,9 @@
 	          data: this.state.personalization.headers,
 	          handleAdd: this.handleAddHeaderInpersonal,
 	          handleDel: this.handleDelHeaderInpersonal,
+	          handleUpd: this.handleUpdHeaderInpersonal,
 	          placeholderKey: 'header-key',
-	          valueKey: 'header-key',
-	          placeholderValue: 'header-value',
-	          valueValue: 'header-value' }),
+	          placeholderValue: 'header-value' }),
 	        React.createElement(KeyValueForm, {
 	          title: 'substitutions',
 	          required: false,
@@ -921,10 +935,9 @@
 	          data: this.state.personalization.substitutions,
 	          handleAdd: this.handleAddSubstitutionInpersonal,
 	          handleDel: this.handleDelSubstitutionInpersonal,
+	          handleUpd: this.handleUpdSubstitutionInpersonal,
 	          placeholderKey: 'substitution-key',
-	          valueKey: 'substitution-key',
-	          placeholderValue: 'substitution-value',
-	          valueValue: 'substitution-value' }),
+	          placeholderValue: 'substitution-value' }),
 	        React.createElement(KeyValueForm, {
 	          title: 'custom_args',
 	          required: false,
@@ -932,10 +945,9 @@
 	          data: this.state.personalization.custom_args,
 	          handleAdd: this.handleAddCustomargInpersonal,
 	          handleDel: this.handleDelCustomargInpersonal,
+	          handleUpd: this.handleUpdCustomargInpersonal,
 	          placeholderKey: 'custom-args-key',
-	          valueKey: 'custom-args-key',
-	          placeholderValue: 'custom-args-value',
-	          valueValue: 'custom-args-value' }),
+	          placeholderValue: 'custom-args-value' }),
 	        React.createElement(SimpleTextForm, {
 	          title: 'send_at',
 	          required: false,
@@ -1180,11 +1192,10 @@
 	    data: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
-	    valueKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
-	    valueValue: React.PropTypes.string.isRequired,
 	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
 	  },
 
 	  getInitialState: function () {
@@ -1217,8 +1228,10 @@
 	            parentIndex: this.props.index,
 	            index: index,
 	            handleDel: this.props.handleDel,
+	            handleUpd: this.props.handleUpd,
 	            placeholderKey: this.props.placeholderKey,
-	            placeholderValue: this.props.placeholderValue });
+	            placeholderValue: this.props.placeholderValue,
+	            data: data });
 	        }.bind(this))
 	      ),
 	      React.createElement(
@@ -1239,13 +1252,12 @@
 	var KeyValueItem = React.createClass({
 	  propTypes: {
 	    parentIndex: React.PropTypes.number.isRequired,
+	    data: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number.isRequired,
-	    paramName: React.PropTypes.string.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
-	    valueKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
-	    valueValue: React.PropTypes.string.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
 	  },
 
 	  getInitialState: function () {
@@ -1275,16 +1287,20 @@
 	        { className: "flex" },
 	        React.createElement("input", {
 	          type: "text",
-	          name: this.props.paramName + '.key',
+	          name: "key",
+	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: this.props.placeholderKey,
-	          defaultValue: this.props.valueKey }),
+	          defaultValue: this.props.data.key,
+	          onChange: this.props.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
-	          name: this.props.paramName + '.value',
+	          name: "value",
+	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: this.props.placeholderValue,
-	          defaultValue: this.props.valueValue })
+	          defaultValue: this.props.data.value,
+	          onChange: this.props.handleUpd })
 	      )
 	    );
 	  }
@@ -1851,9 +1867,8 @@
 	        to: [{ email: "", name: "" }],
 	        cc: [],
 	        bcc: [],
-	        //headers: [{"hoge": "fuga"}, {"piyo": "payo"}],
 	        subject: "",
-	        headers: [],
+	        headers: [{ key: "X-header", value: "Value" }],
 	        substitutions: [],
 	        custom_args: []
 	      }],
@@ -1871,7 +1886,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -1951,6 +1966,11 @@
 	    this.emit("change");
 	  },
 
+	  onUpdHeaderInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].headers[payload.index][payload.key] = payload.value;
+	    this.emit("change");
+	  },
+
 	  onAddSubstitutionInpersonal: function (index) {
 	    this.mailData.personalizations[index].substitutions.push({ "": "" });
 	    this.emit("change");
@@ -1961,6 +1981,11 @@
 	    this.emit("change");
 	  },
 
+	  onUpdSubstitutionInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].substitutions[payload.index][payload.key] = payload.value;
+	    this.emit("change");
+	  },
+
 	  onAddCustomargInpersonal: function (index) {
 	    this.mailData.personalizations[index].custom_args.push({ "": "" });
 	    this.emit("change");
@@ -1968,6 +1993,11 @@
 
 	  onDelCustomargInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+
+	  onUpdCustomargInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].custom_args[payload.index][payload.key] = payload.value;
 	    this.emit("change");
 	  },
 
@@ -2058,10 +2088,13 @@
 	  UPD_SUBJECT_INPERSONAL: "UPD_SUBJECT_INPERSONAL",
 	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
 	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
+	  UPD_HEADER_INPERSONAL: "UPD_HEADER_INPERSONAL",
 	  ADD_SUBSTITUTION_INPERSONAL: "ADD_SUBSTITUTION_INPERSONAL",
 	  DEL_SUBSTITUTION_INPERSONAL: "DEL_SUBSTITUTION_INPERSONAL",
+	  UPD_SUBSTITUTION_INPERSONAL: "UPD_SUBSTITUTION_INPERSONAL",
 	  ADD_CUSTOMARG_INPERSONAL: "ADD_CUSTOMARG_INPERSONAL",
 	  DEL_CUSTOMARG_INPERSONAL: "DEL_CUSTOMARG_INPERSONAL",
+	  UPD_CUSTOMARG_INPERSONAL: "UPD_CUSTOMARG_INPERSONAL",
 	  UPD_FROM: "UPD_FROM",
 	  ADD_REPLYTO: "ADD_REPLYTO",
 	  DEL_REPLYTO: "DEL_REPLYTO",
@@ -2090,14 +2123,6 @@
 
 	  delPersonalization: function (index) {
 	    this.dispatch(constants.DEL_PERSONALIZATION, index);
-	  },
-
-	  addHeaderInpersonal: function (index) {
-	    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
-	  },
-
-	  delHeaderInpersonal: function (parentIndex, index) {
-	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
 	  addToInpersonal: function (index) {
@@ -2148,12 +2173,32 @@
 	    this.dispatch(constants.DEL_SUBSTITUTION_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
 
+	  updSubstitutionInpersonal: function (parentIndex, index, key, value) {
+	    this.dispatch(constants.UPD_SUBSTITUTION_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
+	  },
+
+	  addHeaderInpersonal: function (index) {
+	    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
+	  },
+
+	  delHeaderInpersonal: function (parentIndex, index) {
+	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  updHeaderInpersonal: function (parentIndex, index, key, value) {
+	    this.dispatch(constants.UPD_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
+	  },
+
 	  addCustomargInpersonal: function (index) {
 	    this.dispatch(constants.ADD_CUSTOMARG_INPERSONAL, index);
 	  },
 
 	  delCustomargInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index });
+	  },
+
+	  updCustomargInpersonal: function (parentIndex, index, key, value) {
+	    this.dispatch(constants.UPD_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
 
 	  updFrom: function (key, value) {
@@ -2250,9 +2295,7 @@
 	  array2hash: function (array) {
 	    var hash = {};
 	    for (var j = 0; j < array.length; j++) {
-	      for (var k in array[j]) {
-	        hash[k] = array[j][k];
-	      }
+	      hash[array[j].key] = array[j].value;
 	    }
 	    return hash;
 	  }

@@ -7,11 +7,10 @@ var KeyValueForm = React.createClass({
     data: React.PropTypes.array.isRequired,
     index: React.PropTypes.number.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
-    valueKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
-    valueValue: React.PropTypes.string.isRequired,
     handleAdd: React.PropTypes.func.isRequired,
-    handleDel: React.PropTypes.func.isRequired
+    handleDel: React.PropTypes.func.isRequired,
+    handleUpd: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -34,8 +33,10 @@ var KeyValueForm = React.createClass({
                 parentIndex={this.props.index}
                 index={index}
                 handleDel={this.props.handleDel}
+                handleUpd={this.props.handleUpd}
                 placeholderKey={this.props.placeholderKey}
-                placeholderValue={this.props.placeholderValue} />
+                placeholderValue={this.props.placeholderValue}
+                data={data} />
             );
           }.bind(this))}
         </div>

@@ -1,13 +1,12 @@
 var KeyValueItem = React.createClass({
   propTypes: {
     parentIndex: React.PropTypes.number.isRequired,
+    data: React.PropTypes.array.isRequired,
     index: React.PropTypes.number.isRequired,
-    paramName: React.PropTypes.string.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
-    valueKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
-    valueValue: React.PropTypes.string.isRequired,
-    handleDel: React.PropTypes.func.isRequired
+    handleDel: React.PropTypes.func.isRequired,
+    handleUpd: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
@@ -31,16 +30,20 @@ var KeyValueItem = React.createClass({
         <div className="flex">
           <input
             type="text"
-            name={this.props.paramName + '.key'}
+            name="key"
+            id={this.props.index}
             className="form-control"
             placeholder={this.props.placeholderKey}
-            defaultValue={this.props.valueKey} />
+            defaultValue={this.props.data.key}
+            onChange={this.props.handleUpd} />
           <input
             type="text"
-            name={this.props.paramName + '.value'}
+            name="value"
+            id={this.props.index}
             className="form-control"
             placeholder={this.props.placeholderValue}
-            defaultValue={this.props.valueValue} />
+            defaultValue={this.props.data.value}
+            onChange={this.props.handleUpd} />
         </div>
       </div>
     );

@@ -13,17 +13,6 @@ var actions = {
     this.dispatch(constants.DEL_PERSONALIZATION, index);
   },
 
-  addHeaderInpersonal: function(index) {
-    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
-  },
-
-  delHeaderInpersonal: function(parentIndex, index) {
-    this.dispatch(
-      constants.DEL_HEADER_INPERSONAL,
-      {parentIndex: parentIndex, index: index}
-    );
-  },
-
   addToInpersonal: function(index) {
     this.dispatch(constants.ADD_TO_INPERSONAL, index);
   },
@@ -96,6 +85,31 @@ var actions = {
     );
   },
 
+  updSubstitutionInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_SUBSTITUTION_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
+    );
+  },
+
+  addHeaderInpersonal: function(index) {
+    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
+  },
+
+  delHeaderInpersonal: function(parentIndex, index) {
+    this.dispatch(
+      constants.DEL_HEADER_INPERSONAL,
+      {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  updHeaderInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_HEADER_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
+    );
+  },
+
   addCustomargInpersonal: function(index) {
     this.dispatch(constants.ADD_CUSTOMARG_INPERSONAL, index);
   },
@@ -104,6 +118,13 @@ var actions = {
     this.dispatch(
       constants.DEL_CUSTOMARG_INPERSONAL,
       {parentIndex: parentIndex, index: index}
+    );
+  },
+
+  updCustomargInpersonal: function(parentIndex, index, key, value) {
+    this.dispatch(
+      constants.UPD_CUSTOMARG_INPERSONAL,
+      {parentIndex: parentIndex, index: index, key: key, value: value}
     );
   },
 

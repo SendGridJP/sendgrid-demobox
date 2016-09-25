@@ -8,9 +8,8 @@ var DemoboxStore = Fluxxor.createStore({
           to: [{email: "", name: ""}],
           cc: [],
           bcc: [],
-          //headers: [{"hoge": "fuga"}, {"piyo": "payo"}],
           subject: "",
-          headers: [],
+          headers: [{key: "X-header", value: "Value"}],
           substitutions: [],
           custom_args: [],
         }
@@ -44,10 +43,13 @@ var DemoboxStore = Fluxxor.createStore({
       constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal,
       constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal,
       constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal,
+      constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal,
       constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal,
       constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal,
+      constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal,
       constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal,
       constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal,
+      constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal,
       constants.ADD_REPLYTO, this.onAddReplyto,
       constants.DEL_REPLYTO, this.onDelReplyto,
       constants.UPD_REPLYTO, this.onUpdReplyto,
@@ -150,6 +152,11 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onUpdHeaderInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].headers[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
   onAddSubstitutionInpersonal: function(index) {
     this.mailData.personalizations[index].substitutions.push(
       {"": ""}
@@ -162,6 +169,11 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onUpdSubstitutionInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].substitutions[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
   onAddCustomargInpersonal: function(index) {
     this.mailData.personalizations[index].custom_args.push(
       {"": ""}
@@ -171,6 +183,11 @@ var DemoboxStore = Fluxxor.createStore({
 
   onDelCustomargInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+    this.emit("change");
+  },
+
+  onUpdCustomargInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].custom_args[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 

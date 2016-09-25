@@ -87,6 +87,13 @@ var PersonalizationItem = React.createClass({
     this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
   },
 
+  handleUpdHeaderInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updHeaderInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
+  },
+
   handleAddSubstitutionInpersonal: function() {
     this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
   },
@@ -95,12 +102,26 @@ var PersonalizationItem = React.createClass({
     this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
   },
 
+  handleUpdSubstitutionInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updSubstitutionInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
+  },
+
   handleAddCustomargInpersonal: function() {
     this.getFlux().actions.addCustomargInpersonal(this.props.index);
   },
 
   handleDelCustomargInpersonal: function(parentIndex, index) {
     this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+  },
+
+  handleUpdCustomargInpersonal: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.updCustomargInpersonal(
+      this.props.index, e.target.id, e.target.name, e.target.value
+    );
   },
 
   render: function() {
@@ -155,10 +176,9 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.headers}
             handleAdd={this.handleAddHeaderInpersonal}
             handleDel={this.handleDelHeaderInpersonal}
+            handleUpd={this.handleUpdHeaderInpersonal}
             placeholderKey="header-key"
-            valueKey="header-key"
-            placeholderValue="header-value"
-            valueValue="header-value" />
+            placeholderValue="header-value" />
 
           <KeyValueForm
             title="substitutions"
@@ -167,10 +187,9 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.substitutions}
             handleAdd={this.handleAddSubstitutionInpersonal}
             handleDel={this.handleDelSubstitutionInpersonal}
+            handleUpd={this.handleUpdSubstitutionInpersonal}
             placeholderKey="substitution-key"
-            valueKey="substitution-key"
-            placeholderValue="substitution-value"
-            valueValue="substitution-value" />
+            placeholderValue="substitution-value" />
 
           <KeyValueForm
             title="custom_args"
@@ -179,10 +198,9 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.custom_args}
             handleAdd={this.handleAddCustomargInpersonal}
             handleDel={this.handleDelCustomargInpersonal}
+            handleUpd={this.handleUpdCustomargInpersonal}
             placeholderKey="custom-args-key"
-            valueKey="custom-args-key"
-            placeholderValue="custom-args-value"
-            valueValue="custom-args-value" />
+            placeholderValue="custom-args-value" />
 
           <SimpleTextForm
             title="send_at"

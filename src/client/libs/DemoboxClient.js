@@ -25,9 +25,7 @@ var DemoboxClient = {
   array2hash: function(array) {
     var hash = {};
     for (var j = 0; j < array.length; j++) {
-      for (var k in array[j]) {
-          hash[k] = array[j][k];
-      }
+      hash[array[j].key] = array[j].value;
     }
     return hash;
   }
