@@ -1,6 +1,5 @@
 var EmailItem = React.createClass({
   propTypes: {
-    parentIndex: React.PropTypes.number,
     index: React.PropTypes.number,
     data: React.PropTypes.array.isRequired,
     handleDel: React.PropTypes.func,
@@ -11,8 +10,14 @@ var EmailItem = React.createClass({
     };
   },
 
-  handleDel: function() {
-    this.props.handleDel(this.props.parentIndex, this.props.index);
+  handleDel: function(e) {
+    e.preventDefault();
+    this.props.handleDel(this.props.index);
+  },
+
+  handleUpd: function(e) {
+    e.preventDefault();
+    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
   },
 
   render: function() {
@@ -35,19 +40,17 @@ var EmailItem = React.createClass({
           <input
             type="text"
             name="email"
-            id={this.props.index}
             className="form-control"
             placeholder="email"
             defaultValue={this.props.data.email}
-            onChange={this.props.handleUpd} />
+            onChange={this.handleUpd} />
           <input
             type="text"
             name="name"
-            id={this.props.index}
             className="form-control"
             placeholder="name"
             defaultValue={this.props.data.name}
-            onChange={this.props.handleUpd} />
+            onChange={this.handleUpd} />
         </div>
       </div>
     );

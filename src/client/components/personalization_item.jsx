@@ -39,89 +39,65 @@ var PersonalizationItem = React.createClass({
   handleAddToInpersonal: function() {
     this.getFlux().actions.addToInpersonal(this.props.index);
   },
-  handleDelToInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delToInpersonal(parentIndex, index);
+  handleDelToInpersonal: function(index) {
+    this.getFlux().actions.delToInpersonal(this.props.index, index);
   },
-  handleUpdToInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updToInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdToInpersonal: function(index, key, value) {
+    this.getFlux().actions.updToInpersonal(this.props.index, index, key, value);
   },
+
   handleAddCcInpersonal: function() {
     this.getFlux().actions.addCcInpersonal(this.props.index);
   },
-  handleDelCcInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delCcInpersonal(parentIndex, index);
+  handleDelCcInpersonal: function(index) {
+    this.getFlux().actions.delCcInpersonal(this.props.index, index);
   },
-  handleUpdCcInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updCcInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdCcInpersonal: function(index, key, value) {
+    this.getFlux().actions.updCcInpersonal(this.props.index, index, key, value);
   },
+
   handleAddBccInpersonal: function() {
     this.getFlux().actions.addBccInpersonal(this.props.index);
   },
-  handleDelBccInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delBccInpersonal(parentIndex, index);
+  handleDelBccInpersonal: function(index) {
+    this.getFlux().actions.delBccInpersonal(this.props.index, index);
   },
-  handleUpdBccInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updBccInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdBccInpersonal: function(index, key, value) {
+    this.getFlux().actions.updBccInpersonal(this.props.index, index, key, value);
   },
-  handleUpdSubjectInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updSubjectInpersonal(
-      this.props.index, e.target.value
-    );
+
+  handleUpdSubjectInpersonal: function(parentIndex, value) {
+    this.getFlux().actions.updSubjectInpersonal(parentIndex, value);
   },
 
   handleAddHeaderInpersonal: function() {
     this.getFlux().actions.addHeaderInpersonal(this.props.index);
   },
-
-  handleDelHeaderInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
+  handleDelHeaderInpersonal: function(index) {
+    this.getFlux().actions.delHeaderInpersonal(this.props.index, index);
   },
-
-  handleUpdHeaderInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updHeaderInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdHeaderInpersonal: function(index, key, value) {
+    this.getFlux().actions.updHeaderInpersonal(this.props.index, index, key, value);
   },
 
   handleAddSubstitutionInpersonal: function() {
     this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
   },
-
-  handleDelSubstitutionInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
+  handleDelSubstitutionInpersonal: function(index) {
+    this.getFlux().actions.delSubstitutionInpersonal(this.props.index, index);
   },
-
-  handleUpdSubstitutionInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updSubstitutionInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdSubstitutionInpersonal: function(index, key, value) {
+    this.getFlux().actions.updSubstitutionInpersonal(this.props.index, index, key, value);
   },
 
   handleAddCustomargInpersonal: function() {
     this.getFlux().actions.addCustomargInpersonal(this.props.index);
   },
-
-  handleDelCustomargInpersonal: function(parentIndex, index) {
-    this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+  handleDelCustomargInpersonal: function(index) {
+    this.getFlux().actions.delCustomargInpersonal(this.props.index, index);
   },
-
-  handleUpdCustomargInpersonal: function(e) {
-    e.preventDefault();
-    this.getFlux().actions.updCustomargInpersonal(
-      this.props.index, e.target.id, e.target.name, e.target.value
-    );
+  handleUpdCustomargInpersonal: function(index, key, value) {
+    this.getFlux().actions.updCustomargInpersonal(this.props.index, index, key, value);
   },
 
   render: function() {
@@ -137,7 +113,6 @@ var PersonalizationItem = React.createClass({
           <EmailForm
             title="to"
             required={true}
-            index={this.props.index}
             data={this.state.personalization.to}
             handleAdd={this.handleAddToInpersonal}
             handleDel={this.handleDelToInpersonal}
@@ -146,7 +121,6 @@ var PersonalizationItem = React.createClass({
           <EmailForm
             title="cc"
             required={false}
-            index={this.props.index}
             data={this.state.personalization.cc}
             handleAdd={this.handleAddCcInpersonal}
             handleDel={this.handleDelCcInpersonal}
@@ -155,7 +129,6 @@ var PersonalizationItem = React.createClass({
           <EmailForm
             title="bcc"
             required={false}
-            index={this.props.index}
             data={this.state.personalization.bcc}
             handleAdd={this.handleAddBccInpersonal}
             handleDel={this.handleDelBccInpersonal}
@@ -172,7 +145,6 @@ var PersonalizationItem = React.createClass({
           <KeyValueForm
             title="headers"
             required={false}
-            index={this.props.index}
             data={this.state.personalization.headers}
             handleAdd={this.handleAddHeaderInpersonal}
             handleDel={this.handleDelHeaderInpersonal}
@@ -183,7 +155,6 @@ var PersonalizationItem = React.createClass({
           <KeyValueForm
             title="substitutions"
             required={false}
-            index={this.props.index}
             data={this.state.personalization.substitutions}
             handleAdd={this.handleAddSubstitutionInpersonal}
             handleDel={this.handleDelSubstitutionInpersonal}
@@ -194,7 +165,6 @@ var PersonalizationItem = React.createClass({
           <KeyValueForm
             title="custom_args"
             required={false}
-            index={this.props.index}
             data={this.state.personalization.custom_args}
             handleAdd={this.handleAddCustomargInpersonal}
             handleDel={this.handleDelCustomargInpersonal}

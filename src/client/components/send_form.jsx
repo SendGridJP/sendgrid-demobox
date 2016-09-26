@@ -1,6 +1,7 @@
 var PersonalizationList = require('./personalization_list.jsx');
 var EmailForm = require('./email_form.jsx');
 var SimpleTextForm = require('./simple_text_form.jsx');
+var ContentForm = require('./content_form.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -19,14 +20,11 @@ var SendForm = React.createClass({
         responseCode: store.responseCode,
         responseBody: store.responseBody,
         mailData: store.mailData,
-        // from: store.mailData.from,
-        // "reply-to": store.mailData["reply-to"]
       }
     },
 
-    handleUpdFrom: function(e) {
-      e.preventDefault();
-      this.getFlux().actions.updFrom(e.target.name, e.target.value);
+    handleUpdFrom: function(id, key, value) {
+      this.getFlux().actions.updFrom(key, value);
     },
     handleAddReplyto: function() {
       this.getFlux().actions.addReplyto();
@@ -36,14 +34,24 @@ var SendForm = React.createClass({
       this.getFlux().actions.delReplyto();
     },
 
-    handleUpdReplyto: function(e) {
-      e.preventDefault();
-      this.getFlux().actions.updReplyto(e.target.name, e.target.value);
+    handleUpdReplyto: function(id, key, value) {
+      this.getFlux().actions.updReplyto(key, value);
     },
 
-    handleUpdSubject: function(e) {
-      e.preventDefault();
-      this.getFlux().actions.updSubject(e.target.value);
+    handleUpdSubject: function(parentIndex, value) {
+      this.getFlux().actions.updSubject(value);
+    },
+
+    handleAddContent: function() {
+      this.getFlux().actions.addContent();
+    },
+
+    handleDelContent: function(type) {
+      this.getFlux().actions.delContent(type);
+    },
+
+    handleUpdContent: function(type, value) {
+      this.getFlux().actions.updContent(type, value);
     },
 
     handleSendMail: function(e) {
@@ -90,35 +98,11 @@ var SendForm = React.createClass({
               value={this.state.mailData.subject}
               handleUpd={this.handleUpdSubject} />
 
-            <div>
-              <label className="control-label">
-                <span className="text-danger">*</span>Contents
-              </label>
-
-              <div className="wrapper">
-                <div className="fixed"></div>
-                <div className="flex" id="content0">
-                  <label>text/plain</label>
-                  <input type="hidden" name="content[0].type" defaultValue="text/plain" />
-                  <textarea name="content[0].value" className="form-control"
-                    placeholder="-name-さんへ　TEXT本文" defaultValue="-name-さんへ　TEXT本文 SendGrid https://sendgrid.com">
-                  </textarea>
-                </div>
-              </div>
-
-              <div className="wrapper">
-                <div className="fixed"></div>
-                <div className="flex" id="content1">
-                  <label>text/html</label>
-                  <input type="hidden" name="content[1].type" defaultValue="text/html" />
-                  <textarea name="content[1].value" className="form-control"
-                    placeholder="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;"
-                    defaultValue="&lt;p&gt;-name-さんへ　HTML本文&lt;/p&gt;
-                    &lt;a href='https://sendgrid.com'&gt;センドグリッド&lt;/a&gt;">
-                  </textarea>
-                </div>
-              </div>
-            </div>
+            <ContentForm
+              data={this.state.mailData.content}
+              handleAdd={this.handleAddContent}
+              handleDel={this.handleDelContent}
+              handleUpd={this.handleUpdContent} />
 
             <div id="accordion">
               <div className="panel panel-default">

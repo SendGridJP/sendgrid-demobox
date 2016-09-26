@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(19);
+	var flux = __webpack_require__(21);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -239,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(18);
+	var ReceivePage = __webpack_require__(20);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -260,7 +260,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(14);
+	var EventsPain = __webpack_require__(16);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -293,6 +293,7 @@
 	var PersonalizationList = __webpack_require__(7);
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
+	var ContentForm = __webpack_require__(14);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -314,9 +315,8 @@
 	    };
 	  },
 
-	  handleUpdFrom: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updFrom(e.target.name, e.target.value);
+	  handleUpdFrom: function (id, key, value) {
+	    this.getFlux().actions.updFrom(key, value);
 	  },
 	  handleAddReplyto: function () {
 	    this.getFlux().actions.addReplyto();
@@ -326,14 +326,24 @@
 	    this.getFlux().actions.delReplyto();
 	  },
 
-	  handleUpdReplyto: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updReplyto(e.target.name, e.target.value);
+	  handleUpdReplyto: function (id, key, value) {
+	    this.getFlux().actions.updReplyto(key, value);
 	  },
 
-	  handleUpdSubject: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updSubject(e.target.value);
+	  handleUpdSubject: function (parentIndex, value) {
+	    this.getFlux().actions.updSubject(value);
+	  },
+
+	  handleAddContent: function () {
+	    this.getFlux().actions.addContent();
+	  },
+
+	  handleDelContent: function (type) {
+	    this.getFlux().actions.delContent(type);
+	  },
+
+	  handleUpdContent: function (type, value) {
+	    this.getFlux().actions.updContent(type, value);
 	  },
 
 	  handleSendMail: function (e) {
@@ -377,55 +387,11 @@
 	          placeholder: 'subject',
 	          value: this.state.mailData.subject,
 	          handleUpd: this.handleUpdSubject }),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'label',
-	            { className: 'control-label' },
-	            React.createElement(
-	              'span',
-	              { className: 'text-danger' },
-	              '*'
-	            ),
-	            'Contents'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'wrapper' },
-	            React.createElement('div', { className: 'fixed' }),
-	            React.createElement(
-	              'div',
-	              { className: 'flex', id: 'content0' },
-	              React.createElement(
-	                'label',
-	                null,
-	                'text/plain'
-	              ),
-	              React.createElement('input', { type: 'hidden', name: 'content[0].type', defaultValue: 'text/plain' }),
-	              React.createElement('textarea', { name: 'content[0].value', className: 'form-control',
-	                placeholder: '-name-さんへ　TEXT本文', defaultValue: '-name-さんへ　TEXT本文 SendGrid https://sendgrid.com' })
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'wrapper' },
-	            React.createElement('div', { className: 'fixed' }),
-	            React.createElement(
-	              'div',
-	              { className: 'flex', id: 'content1' },
-	              React.createElement(
-	                'label',
-	                null,
-	                'text/html'
-	              ),
-	              React.createElement('input', { type: 'hidden', name: 'content[1].type', defaultValue: 'text/html' }),
-	              React.createElement('textarea', { name: 'content[1].value', className: 'form-control',
-	                placeholder: '<p>-name-さんへ　HTML本文</p>',
-	                defaultValue: '<p>-name-さんへ　HTML本文</p> <a href=\'https://sendgrid.com\'>センドグリッド</a>' })
-	            )
-	          )
-	        ),
+	        React.createElement(ContentForm, {
+	          data: this.state.mailData.content,
+	          handleAdd: this.handleAddContent,
+	          handleDel: this.handleDelContent,
+	          handleUpd: this.handleUpdContent }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -799,75 +765,65 @@
 	  handleAddToInpersonal: function () {
 	    this.getFlux().actions.addToInpersonal(this.props.index);
 	  },
-	  handleDelToInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delToInpersonal(parentIndex, index);
+	  handleDelToInpersonal: function (index) {
+	    this.getFlux().actions.delToInpersonal(this.props.index, index);
 	  },
-	  handleUpdToInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updToInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdToInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updToInpersonal(this.props.index, index, key, value);
 	  },
+
 	  handleAddCcInpersonal: function () {
 	    this.getFlux().actions.addCcInpersonal(this.props.index);
 	  },
-	  handleDelCcInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delCcInpersonal(parentIndex, index);
+	  handleDelCcInpersonal: function (index) {
+	    this.getFlux().actions.delCcInpersonal(this.props.index, index);
 	  },
-	  handleUpdCcInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updCcInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdCcInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updCcInpersonal(this.props.index, index, key, value);
 	  },
+
 	  handleAddBccInpersonal: function () {
 	    this.getFlux().actions.addBccInpersonal(this.props.index);
 	  },
-	  handleDelBccInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delBccInpersonal(parentIndex, index);
+	  handleDelBccInpersonal: function (index) {
+	    this.getFlux().actions.delBccInpersonal(this.props.index, index);
 	  },
-	  handleUpdBccInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updBccInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdBccInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updBccInpersonal(this.props.index, index, key, value);
 	  },
-	  handleUpdSubjectInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updSubjectInpersonal(this.props.index, e.target.value);
+
+	  handleUpdSubjectInpersonal: function (parentIndex, value) {
+	    this.getFlux().actions.updSubjectInpersonal(parentIndex, value);
 	  },
 
 	  handleAddHeaderInpersonal: function () {
 	    this.getFlux().actions.addHeaderInpersonal(this.props.index);
 	  },
-
-	  handleDelHeaderInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delHeaderInpersonal(parentIndex, index);
+	  handleDelHeaderInpersonal: function (index) {
+	    this.getFlux().actions.delHeaderInpersonal(this.props.index, index);
 	  },
-
-	  handleUpdHeaderInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updHeaderInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdHeaderInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updHeaderInpersonal(this.props.index, index, key, value);
 	  },
 
 	  handleAddSubstitutionInpersonal: function () {
 	    this.getFlux().actions.addSubstitutionInpersonal(this.props.index);
 	  },
-
-	  handleDelSubstitutionInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delSubstitutionInpersonal(parentIndex, index);
+	  handleDelSubstitutionInpersonal: function (index) {
+	    this.getFlux().actions.delSubstitutionInpersonal(this.props.index, index);
 	  },
-
-	  handleUpdSubstitutionInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updSubstitutionInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdSubstitutionInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updSubstitutionInpersonal(this.props.index, index, key, value);
 	  },
 
 	  handleAddCustomargInpersonal: function () {
 	    this.getFlux().actions.addCustomargInpersonal(this.props.index);
 	  },
-
-	  handleDelCustomargInpersonal: function (parentIndex, index) {
-	    this.getFlux().actions.delCustomargInpersonal(parentIndex, index);
+	  handleDelCustomargInpersonal: function (index) {
+	    this.getFlux().actions.delCustomargInpersonal(this.props.index, index);
 	  },
-
-	  handleUpdCustomargInpersonal: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updCustomargInpersonal(this.props.index, e.target.id, e.target.name, e.target.value);
+	  handleUpdCustomargInpersonal: function (index, key, value) {
+	    this.getFlux().actions.updCustomargInpersonal(this.props.index, index, key, value);
 	  },
 
 	  render: function () {
@@ -890,7 +846,6 @@
 	        React.createElement(EmailForm, {
 	          title: 'to',
 	          required: true,
-	          index: this.props.index,
 	          data: this.state.personalization.to,
 	          handleAdd: this.handleAddToInpersonal,
 	          handleDel: this.handleDelToInpersonal,
@@ -898,7 +853,6 @@
 	        React.createElement(EmailForm, {
 	          title: 'cc',
 	          required: false,
-	          index: this.props.index,
 	          data: this.state.personalization.cc,
 	          handleAdd: this.handleAddCcInpersonal,
 	          handleDel: this.handleDelCcInpersonal,
@@ -906,7 +860,6 @@
 	        React.createElement(EmailForm, {
 	          title: 'bcc',
 	          required: false,
-	          index: this.props.index,
 	          data: this.state.personalization.bcc,
 	          handleAdd: this.handleAddBccInpersonal,
 	          handleDel: this.handleDelBccInpersonal,
@@ -921,7 +874,6 @@
 	        React.createElement(KeyValueForm, {
 	          title: 'headers',
 	          required: false,
-	          index: this.props.index,
 	          data: this.state.personalization.headers,
 	          handleAdd: this.handleAddHeaderInpersonal,
 	          handleDel: this.handleDelHeaderInpersonal,
@@ -931,7 +883,6 @@
 	        React.createElement(KeyValueForm, {
 	          title: 'substitutions',
 	          required: false,
-	          index: this.props.index,
 	          data: this.state.personalization.substitutions,
 	          handleAdd: this.handleAddSubstitutionInpersonal,
 	          handleDel: this.handleDelSubstitutionInpersonal,
@@ -941,7 +892,6 @@
 	        React.createElement(KeyValueForm, {
 	          title: 'custom_args',
 	          required: false,
-	          index: this.props.index,
 	          data: this.state.personalization.custom_args,
 	          handleAdd: this.handleAddCustomargInpersonal,
 	          handleDel: this.handleDelCustomargInpersonal,
@@ -972,7 +922,6 @@
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
 	    data: React.PropTypes.array.isRequired,
-	    index: React.PropTypes.number,
 	    handleAdd: React.PropTypes.func,
 	    handleDel: React.PropTypes.func,
 	    handleUpd: React.PropTypes.func,
@@ -997,7 +946,6 @@
 	    if (Array.isArray(this.props.data)) {
 	      items = this.props.data.map(function (data, index) {
 	        return React.createElement(EmailItem, {
-	          parentIndex: this.props.index,
 	          index: index,
 	          data: data,
 	          handleDel: this.props.handleDel,
@@ -1051,7 +999,6 @@
 
 	var EmailItem = React.createClass({
 	  propTypes: {
-	    parentIndex: React.PropTypes.number,
 	    index: React.PropTypes.number,
 	    data: React.PropTypes.array.isRequired,
 	    handleDel: React.PropTypes.func,
@@ -1061,8 +1008,14 @@
 	    return {};
 	  },
 
-	  handleDel: function () {
-	    this.props.handleDel(this.props.parentIndex, this.props.index);
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
 	  },
 
 	  render: function () {
@@ -1090,19 +1043,17 @@
 	        React.createElement("input", {
 	          type: "text",
 	          name: "email",
-	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: "email",
 	          defaultValue: this.props.data.email,
-	          onChange: this.props.handleUpd }),
+	          onChange: this.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
 	          name: "name",
-	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: "name",
 	          defaultValue: this.props.data.name,
-	          onChange: this.props.handleUpd })
+	          onChange: this.handleUpd })
 	      )
 	    );
 	  }
@@ -1122,14 +1073,17 @@
 	    value: React.PropTypes.string.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
 	  },
+
 	  getInitialState: function () {
 	    return {
 	      disabled: true
 	    };
 	  },
+
 	  _onChangeUse: function (e) {
 	    this.setState({ disabled: !e.target.checked });
 	  },
+
 	  _getDisabled: function () {
 	    if (this.props.required) {
 	      return false;
@@ -1137,6 +1091,12 @@
 	      return this.state.disabled;
 	    }
 	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.value);
+	  },
+
 	  render: function () {
 	    var rq = '';
 	    if (this.props.required) {
@@ -1171,7 +1131,7 @@
 	            placeholder: this.props.placeholder,
 	            defaultValue: this.props.value,
 	            disabled: this._getDisabled(),
-	            onChange: this.props.handleUpd })
+	            onChange: this.handleUpd })
 	        )
 	      )
 	    );
@@ -1190,7 +1150,6 @@
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
 	    data: React.PropTypes.array.isRequired,
-	    index: React.PropTypes.number.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
 	    handleAdd: React.PropTypes.func.isRequired,
@@ -1225,7 +1184,6 @@
 	        null,
 	        this.props.data.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
-	            parentIndex: this.props.index,
 	            index: index,
 	            handleDel: this.props.handleDel,
 	            handleUpd: this.props.handleUpd,
@@ -1251,9 +1209,8 @@
 
 	var KeyValueItem = React.createClass({
 	  propTypes: {
-	    parentIndex: React.PropTypes.number.isRequired,
-	    data: React.PropTypes.array.isRequired,
 	    index: React.PropTypes.number.isRequired,
+	    data: React.PropTypes.array.isRequired,
 	    placeholderKey: React.PropTypes.string.isRequired,
 	    placeholderValue: React.PropTypes.string.isRequired,
 	    handleDel: React.PropTypes.func.isRequired,
@@ -1264,8 +1221,14 @@
 	    return {};
 	  },
 
-	  handleDel: function () {
-	    this.props.handleDel(this.props.parentIndex, this.props.index);
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
 	  },
 
 	  render: function () {
@@ -1288,19 +1251,17 @@
 	        React.createElement("input", {
 	          type: "text",
 	          name: "key",
-	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: this.props.placeholderKey,
 	          defaultValue: this.props.data.key,
-	          onChange: this.props.handleUpd }),
+	          onChange: this.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
 	          name: "value",
-	          id: this.props.index,
 	          className: "form-control",
 	          placeholder: this.props.placeholderValue,
 	          defaultValue: this.props.data.value,
-	          onChange: this.props.handleUpd })
+	          onChange: this.handleUpd })
 	      )
 	    );
 	  }
@@ -1311,9 +1272,131 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(15);
-	var EventItemTable = __webpack_require__(16);
-	var EventItemJson = __webpack_require__(17);
+	var ContentItem = __webpack_require__(15);
+
+	var ContentForm = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func,
+	    handleDel: React.PropTypes.func,
+	    handleUpd: React.PropTypes.func
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  render: function () {
+	    var add;
+	    if (this.props.data.length < 2) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
+	          className: "pull-right" },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        React.createElement(
+	          "span",
+	          { className: "text-danger" },
+	          "*"
+	        ),
+	        "content"
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        this.props.data.map(function (data, index) {
+	          return React.createElement(ContentItem, {
+	            index: index,
+	            data: data,
+	            handleDel: this.props.handleDel,
+	            handleUpd: this.props.handleUpd });
+	        }.bind(this))
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = ContentForm;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	var ContentItem = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    index: React.PropTypes.number,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function () {
+	    this.props.handleDel(this.props.data.type);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.data.type, e.target.value);
+	  },
+
+	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        del
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "label",
+	          null,
+	          this.props.data.type
+	        ),
+	        React.createElement("textarea", {
+	          name: this.props.data.type,
+	          className: "form-control",
+	          defaultValue: this.props.data.value,
+	          onChange: this.handleUpd })
+	      )
+	    );
+	  }
+	});
+	module.exports = ContentItem;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ShowButton = __webpack_require__(17);
+	var EventItemTable = __webpack_require__(18);
+	var EventItemJson = __webpack_require__(19);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1582,7 +1665,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -1612,7 +1695,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -1774,7 +1857,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1808,7 +1891,7 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -1823,11 +1906,11 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(20);
-	var DemoboxActions = __webpack_require__(22);
+	var DemoboxStore = __webpack_require__(22);
+	var DemoboxActions = __webpack_require__(24);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -1855,10 +1938,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(21);
+	var constants = __webpack_require__(23);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -1868,12 +1951,13 @@
 	        cc: [],
 	        bcc: [],
 	        subject: "",
-	        headers: [{ key: "X-header", value: "Value" }],
+	        headers: [],
 	        substitutions: [],
 	        custom_args: []
 	      }],
 	      from: { email: "", name: "" },
-	      "reply-to": null
+	      "reply-to": null,
+	      content: [{ type: "text/plain", value: "hoge" }, { type: "text/html", value: "fuga" }]
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -1886,7 +1970,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2026,6 +2110,42 @@
 	    this.emit("change");
 	  },
 
+	  onAddContent: function () {
+	    var type = "";
+	    var existHtml = this.mailData.content.some(function (content) {
+	      return content.type == "text/html";
+	    });
+	    if (!existHtml) type = "text/html";
+
+	    var existPlain = this.mailData.content.some(function (content) {
+	      return content.type == "text/plain";
+	    });
+	    if (!existPlain) type = "text/plain";
+
+	    if (type !== "") this.mailData.content.push({ type: type, value: "" });
+	    this.emit("change");
+	  },
+
+	  onDelContent: function (payload) {
+	    for (var i = 0; i < this.mailData.content.length; i++) {
+	      if (this.mailData.content[i].type === payload.type) {
+	        this.mailData.content.splice(i, 1);
+	        break;
+	      }
+	    }
+	    this.emit("change");
+	  },
+
+	  onUpdContent: function (payload) {
+	    for (var i = 0; i < this.mailData.content.length; i++) {
+	      if (this.mailData.content[i].type === payload.type) {
+	        this.mailData.content[i].value = payload.value;
+	        break;
+	      }
+	    }
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2070,7 +2190,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -2100,6 +2220,9 @@
 	  DEL_REPLYTO: "DEL_REPLYTO",
 	  UPD_REPLYTO: "UPD_REPLYTO",
 	  UPD_SUBJECT: "UPD_SUBJECT",
+	  ADD_CONTENT: "ADD_CONTENT",
+	  DEL_CONTENT: "DEL_CONTENT",
+	  UPD_CONTENT: "UPD_CONTENT",
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
@@ -2110,11 +2233,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(21);
-	var DemoboxClient = __webpack_require__(23);
+	var constants = __webpack_require__(23);
+	var DemoboxClient = __webpack_require__(25);
 
 	var actions = {
 	  addPersonalization: function () {
@@ -2220,6 +2343,19 @@
 	  updSubject: function (value) {
 	    this.dispatch(constants.UPD_SUBJECT, { value: value });
 	  },
+
+	  addContent: function () {
+	    this.dispatch(constants.ADD_CONTENT);
+	  },
+
+	  delContent: function (type) {
+	    this.dispatch(constants.DEL_CONTENT, { type: type });
+	  },
+
+	  updContent: function (type, value) {
+	    this.dispatch(constants.UPD_CONTENT, { type: type, value: value });
+	  },
+
 	  // sendMail: function(param) {
 	  //   var requestParam = JSON.stringify(param);
 	  //   this.dispatch(constants.SEND_MAIL);
@@ -2265,7 +2401,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {

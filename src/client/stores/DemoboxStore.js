@@ -9,13 +9,17 @@ var DemoboxStore = Fluxxor.createStore({
           cc: [],
           bcc: [],
           subject: "",
-          headers: [{key: "X-header", value: "Value"}],
+          headers: [],
           substitutions: [],
           custom_args: [],
         }
       ],
       from: {email: "", name: ""},
-      "reply-to": null
+      "reply-to": null,
+      content: [
+        {type: "text/plain", value:"hoge"},
+        {type: "text/html", value: "fuga"}
+      ]
     };
     this.status = '';
     this.request = '';
@@ -55,6 +59,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.UPD_REPLYTO, this.onUpdReplyto,
       constants.UPD_FROM, this.onUpdFrom,
       constants.UPD_SUBJECT, this.onUpdSubject,
+      constants.ADD_CONTENT, this.onAddContent,
+      constants.DEL_CONTENT, this.onDelContent,
+      constants.UPD_CONTENT, this.onUpdContent,
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
@@ -213,6 +220,43 @@ var DemoboxStore = Fluxxor.createStore({
 
   onUpdSubject: function(payload) {
     this.mailData.subject = payload.value;
+    this.emit("change");
+  },
+
+  onAddContent: function() {
+    var type = "";
+    var existHtml = this.mailData.content.some(function(content) {
+      return content.type == "text/html";
+    });
+    if (!existHtml) type = "text/html";
+
+    var existPlain = this.mailData.content.some(function(content) {
+      return content.type == "text/plain";
+    });
+    if (!existPlain) type = "text/plain";
+
+    if (type !== "")
+      this.mailData.content.push({type: type, value:""});
+    this.emit("change");
+  },
+
+  onDelContent: function(payload) {
+    for (var i = 0; i < this.mailData.content.length; i++) {
+      if (this.mailData.content[i].type === payload.type) {
+        this.mailData.content.splice(i, 1);
+        break;
+      }
+    }
+    this.emit("change");
+  },
+
+  onUpdContent: function(payload) {
+    for (var i = 0; i < this.mailData.content.length; i++) {
+      if (this.mailData.content[i].type === payload.type) {
+        this.mailData.content[i].value = payload.value;
+        break;
+      }
+    }
     this.emit("change");
   },
 

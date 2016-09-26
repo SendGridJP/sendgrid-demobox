@@ -5,7 +5,6 @@ var EmailForm = React.createClass({
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
     data: React.PropTypes.array.isRequired,
-    index: React.PropTypes.number,
     handleAdd: React.PropTypes.func,
     handleDel: React.PropTypes.func,
     handleUpd: React.PropTypes.func,
@@ -28,7 +27,6 @@ var EmailForm = React.createClass({
       items = this.props.data.map(function(data, index) {
         return (
           <EmailItem
-            parentIndex={this.props.index}
             index={index}
             data={data}
             handleDel={this.props.handleDel}

@@ -147,6 +147,19 @@ var actions = {
   updSubject: function(value) {
     this.dispatch(constants.UPD_SUBJECT, {value: value});
   },
+
+  addContent: function() {
+    this.dispatch(constants.ADD_CONTENT);
+  },
+
+  delContent: function(type) {
+    this.dispatch(constants.DEL_CONTENT, {type: type});
+  },
+
+  updContent: function(type, value) {
+    this.dispatch(constants.UPD_CONTENT, {type: type, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

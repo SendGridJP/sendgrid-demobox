@@ -7,14 +7,17 @@ var SimpleTextForm = React.createClass({
     value: React.PropTypes.string.isRequired,
     handleUpd: React.PropTypes.func.isRequired,
   },
+
   getInitialState: function() {
     return {
       disabled: true
     };
   },
+
   _onChangeUse: function(e) {
     this.setState({disabled: !e.target.checked});
   },
+
   _getDisabled: function() {
     if (this.props.required) {
       return false;
@@ -22,6 +25,12 @@ var SimpleTextForm = React.createClass({
       return this.state.disabled;
     }
   },
+
+  handleUpd: function(e) {
+    e.preventDefault();
+    this.props.handleUpd(this.props.index, e.target.value);
+  },
+
   render: function() {
     var rq = '';
     if (this.props.required) {
@@ -42,7 +51,7 @@ var SimpleTextForm = React.createClass({
               placeholder={this.props.placeholder}
               defaultValue={this.props.value}
               disabled={this._getDisabled()}
-              onChange={this.props.handleUpd} />
+              onChange={this.handleUpd} />
           </div>
         </div>
       </div>

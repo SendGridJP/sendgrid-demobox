@@ -5,7 +5,6 @@ var KeyValueForm = React.createClass({
     title: React.PropTypes.string.isRequired,
     required: React.PropTypes.bool.isRequired,
     data: React.PropTypes.array.isRequired,
-    index: React.PropTypes.number.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
     handleAdd: React.PropTypes.func.isRequired,
@@ -30,7 +29,6 @@ var KeyValueForm = React.createClass({
           {this.props.data.map(function(data, index) {
             return (
               <KeyValueItem
-                parentIndex={this.props.index}
                 index={index}
                 handleDel={this.props.handleDel}
                 handleUpd={this.props.handleUpd}

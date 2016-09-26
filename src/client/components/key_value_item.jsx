@@ -1,8 +1,7 @@
 var KeyValueItem = React.createClass({
   propTypes: {
-    parentIndex: React.PropTypes.number.isRequired,
-    data: React.PropTypes.array.isRequired,
     index: React.PropTypes.number.isRequired,
+    data: React.PropTypes.array.isRequired,
     placeholderKey: React.PropTypes.string.isRequired,
     placeholderValue: React.PropTypes.string.isRequired,
     handleDel: React.PropTypes.func.isRequired,
@@ -14,8 +13,14 @@ var KeyValueItem = React.createClass({
     };
   },
 
-  handleDel: function() {
-    this.props.handleDel(this.props.parentIndex, this.props.index);
+  handleDel: function(e) {
+    e.preventDefault();
+    this.props.handleDel(this.props.index);
+  },
+
+  handleUpd: function(e) {
+    e.preventDefault();
+    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
   },
 
   render: function() {
@@ -31,19 +36,17 @@ var KeyValueItem = React.createClass({
           <input
             type="text"
             name="key"
-            id={this.props.index}
             className="form-control"
             placeholder={this.props.placeholderKey}
             defaultValue={this.props.data.key}
-            onChange={this.props.handleUpd} />
+            onChange={this.handleUpd} />
           <input
             type="text"
             name="value"
-            id={this.props.index}
             className="form-control"
             placeholder={this.props.placeholderValue}
             defaultValue={this.props.data.value}
-            onChange={this.props.handleUpd} />
+            onChange={this.handleUpd} />
         </div>
       </div>
     );
