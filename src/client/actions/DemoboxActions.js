@@ -140,6 +140,25 @@ var actions = {
     );
   },
 
+  addSendAtInpersonal: function(parentIndex) {
+    this.dispatch(
+      constants.ADD_SEND_AT_INPERSONAL,
+      {parentIndex: parentIndex}
+    );
+  },
+  delSendAtInpersonal: function(parentIndex) {
+    this.dispatch(
+      constants.DEL_SEND_AT_INPERSONAL,
+      {parentIndex: parentIndex}
+    );
+  },
+  updSendAtInpersonal: function(parentIndex, value) {
+    this.dispatch(
+      constants.UPD_SEND_AT_INPERSONAL,
+      {parentIndex: parentIndex, value: value}
+    );
+  },
+
   updFrom: function(key, value) {
     this.dispatch(constants.UPD_FROM, {key: key, value: value});
   },

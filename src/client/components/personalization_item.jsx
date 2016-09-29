@@ -106,6 +106,16 @@ var PersonalizationItem = React.createClass({
     this.getFlux().actions.updCustomargInpersonal(this.props.index, index, key, value);
   },
 
+  handleAddSendAtInpersonal: function() {
+    this.getFlux().actions.addSendAtInpersonal(this.props.index);
+  },
+  handleDelSendAtInpersonal: function() {
+    this.getFlux().actions.delSendAtInpersonal(this.props.index);
+  },
+  handleUpdSendAtInpersonal: function(parentIndex, value) {
+    this.getFlux().actions.updSendAtInpersonal(parentIndex, value);
+  },
+
   render: function() {
     return (
       <div className="wrapper">
@@ -184,10 +194,13 @@ var PersonalizationItem = React.createClass({
           <SimpleTextForm
             title="send_at"
             required={false}
-            index={0}
-            paramName="personalizations[0].send_at"
-            placeholder="12345678"
-            value="12345678" />
+            index={this.props.index}
+            value={this.state.personalization.send_at}
+            handleAdd={this.handleAddSendAtInpersonal}
+            handleDel={this.handleDelSendAtInpersonal}
+            handleUpd={this.handleUpdSendAtInpersonal}
+            placeholder="UNIXTIME"
+            max={1} />
         </div>
       </div>
     );

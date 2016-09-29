@@ -12,6 +12,7 @@ var DemoboxStore = Fluxxor.createStore({
           headers: [],
           substitutions: [],
           custom_args: [],
+          sned_at: null,
         }
       ],
       subject: null,
@@ -57,6 +58,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal,
       constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal,
       constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal,
+      constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal,
+      constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal,
+      constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal,
       constants.ADD_REPLYTO, this.onAddReplyto,
       constants.DEL_REPLYTO, this.onDelReplyto,
       constants.UPD_REPLYTO, this.onUpdReplyto,
@@ -192,6 +196,19 @@ var DemoboxStore = Fluxxor.createStore({
 
   onUpdCustomargInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].custom_args[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
+  onAddSendAtInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].send_at = "";
+    this.emit("change");
+  },
+  onDelSendAtInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].send_at = null;
+    this.emit("change");
+  },
+  onUpdSendAtInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].send_at = payload.value;
     this.emit("change");
   },
 
