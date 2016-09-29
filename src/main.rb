@@ -63,12 +63,13 @@ class Main < Sinatra::Base
       body = request.body.read
       if body.length > 0 then
         data = JSON.parse(body)
-        logger.info "data: #{data.inspect}"
-        mail = MailFormParser.get_mail(data)
-        mail.mail_settings = MailFormParser.get_mail_settings(data)
+        #logger.info "data: #{data.inspect}"
+        logger.info "body: #{body}"
+        #mail = MailFormParser.get_mail(data)
+        #mail.mail_settings = MailFormParser.get_mail_settings(data)
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-        response = sg.client.mail._('send').post(request_body: mail.to_json)
-        res['request'] = mail.to_json.inspect
+        response = sg.client.mail._('send').post(request_body: data)
+        # res['request'] = mail.to_json.inspect
         res['responseCode'] = response.status_code
         res['responseBody'] = response.body
         puts "MAIN/send #{res.inspect}"
