@@ -29,9 +29,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.responseBody = '';
     this.error = null;
     this.result = "";
-
     this.showEvent = "json";
-
     this.events = [];
 
     this.bindActions(

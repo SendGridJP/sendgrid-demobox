@@ -62,7 +62,6 @@ var SimpleTextForm = React.createClass({
         </div>
       );
     }
-    console.log("simpleTextForm: " + this.props.value + " " + this.props.max);
     if (this.props.value == null && this.props.max == 1) {
       add = (
         <a href="javascript:void(0)" onClick={this.props.handleAdd}

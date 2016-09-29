@@ -1170,7 +1170,6 @@
 	        )
 	      );
 	    }
-	    console.log("simpleTextForm: " + this.props.value + " " + this.props.max);
 	    if (this.props.value == null && this.props.max == 1) {
 	      add = React.createElement(
 	        "a",
@@ -2027,9 +2026,7 @@
 	    this.responseBody = '';
 	    this.error = null;
 	    this.result = "";
-
 	    this.showEvent = "json";
-
 	    this.events = [];
 
 	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
@@ -2337,7 +2334,6 @@
 	  addPersonalization: function () {
 	    this.dispatch(constants.ADD_PERSONALIZATION, { to: [{ email: "", name: "" }] });
 	  },
-
 	  delPersonalization: function (index) {
 	    this.dispatch(constants.DEL_PERSONALIZATION, index);
 	  },
@@ -2345,11 +2341,9 @@
 	  addToInpersonal: function (index) {
 	    this.dispatch(constants.ADD_TO_INPERSONAL, index);
 	  },
-
 	  delToInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_TO_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updToInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_TO_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2357,11 +2351,9 @@
 	  addCcInpersonal: function (index) {
 	    this.dispatch(constants.ADD_CC_INPERSONAL, index);
 	  },
-
 	  delCcInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_CC_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updCcInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_CC_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2369,11 +2361,9 @@
 	  addBccInpersonal: function (index) {
 	    this.dispatch(constants.ADD_BCC_INPERSONAL, index);
 	  },
-
 	  delBccInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_BCC_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updBccInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_BCC_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2391,11 +2381,9 @@
 	  addSubstitutionInpersonal: function (index) {
 	    this.dispatch(constants.ADD_SUBSTITUTION_INPERSONAL, index);
 	  },
-
 	  delSubstitutionInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_SUBSTITUTION_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updSubstitutionInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_SUBSTITUTION_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2403,11 +2391,9 @@
 	  addHeaderInpersonal: function (index) {
 	    this.dispatch(constants.ADD_HEADER_INPERSONAL, index);
 	  },
-
 	  delHeaderInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updHeaderInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_HEADER_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2415,11 +2401,9 @@
 	  addCustomargInpersonal: function (index) {
 	    this.dispatch(constants.ADD_CUSTOMARG_INPERSONAL, index);
 	  },
-
 	  delCustomargInpersonal: function (parentIndex, index) {
 	    this.dispatch(constants.DEL_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index });
 	  },
-
 	  updCustomargInpersonal: function (parentIndex, index, key, value) {
 	    this.dispatch(constants.UPD_CUSTOMARG_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
@@ -2441,11 +2425,9 @@
 	  addReplyto: function () {
 	    this.dispatch(constants.ADD_REPLYTO);
 	  },
-
 	  delReplyto: function () {
 	    this.dispatch(constants.DEL_REPLYTO);
 	  },
-
 	  updReplyto: function (key, value) {
 	    this.dispatch(constants.UPD_REPLYTO, { key: key, value: value });
 	  },
@@ -2463,11 +2445,9 @@
 	  addContent: function () {
 	    this.dispatch(constants.ADD_CONTENT);
 	  },
-
 	  delContent: function (type) {
 	    this.dispatch(constants.DEL_CONTENT, { type: type });
 	  },
-
 	  updContent: function (type, value) {
 	    this.dispatch(constants.UPD_CONTENT, { type: type, value: value });
 	  },
@@ -2504,12 +2484,10 @@
 	  },
 
 	  toggleShowEvent: function (buttonId) {
-	    // console.log("DemoboxAction#toggleShowEvent() " + buttonId);
 	    this.dispatch(constants.TOGGLE_SHOW_EVENT, { buttonId: buttonId });
 	  },
 
 	  addEvents: function (events) {
-	    // console.log("DemoboxAction#addEvents() " + events);
 	    this.dispatch(constants.ADD_EVENTS, { events: events });
 	  }
 	};
