@@ -38,6 +38,15 @@ var SendForm = React.createClass({
       this.getFlux().actions.updReplyto(key, value);
     },
 
+    handleAddSubject: function() {
+      this.getFlux().actions.addSubject();
+    },
+    handleDelSubject: function() {
+      this.getFlux().actions.delSubject();
+    },
+    handleUpdSubject: function() {
+      this.getFlux().actions.updSubject();
+    },
     handleUpdSubject: function(parentIndex, value) {
       this.getFlux().actions.updSubject(value);
     },
@@ -93,10 +102,13 @@ var SendForm = React.createClass({
 
             <SimpleTextForm
               title="subject"
-              required={true}
+              required={false}
               placeholder="subject"
               value={this.state.mailData.subject}
-              handleUpd={this.handleUpdSubject} />
+              handleAdd={this.handleAddSubject}
+              handleUpd={this.handleUpdSubject}
+              handleDel={this.handleDelSubject}
+              max={1} />
 
             <ContentForm
               data={this.state.mailData.content}

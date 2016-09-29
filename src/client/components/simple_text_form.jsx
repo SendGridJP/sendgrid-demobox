@@ -5,7 +5,10 @@ var SimpleTextForm = React.createClass({
     index: React.PropTypes.number.isRequired,
     placeholder: React.PropTypes.string.isRequired,
     value: React.PropTypes.string.isRequired,
+    handleAdd: React.PropTypes.func.isRequired,
+    handleDel: React.PropTypes.func.isRequired,
     handleUpd: React.PropTypes.func.isRequired,
+    max: React.PropTypes.number,
   },
 
   getInitialState: function() {
@@ -14,16 +17,9 @@ var SimpleTextForm = React.createClass({
     };
   },
 
-  _onChangeUse: function(e) {
-    this.setState({disabled: !e.target.checked});
-  },
-
-  _getDisabled: function() {
-    if (this.props.required) {
-      return false;
-    } else {
-      return this.state.disabled;
-    }
+  handleDel: function(e) {
+    e.preventDefault();
+    this.props.handleDel();
   },
 
   handleUpd: function(e) {
@@ -32,17 +28,28 @@ var SimpleTextForm = React.createClass({
   },
 
   render: function() {
+    var del;
+    if (typeof(this.props.handleDel) == "function") {
+      del = (
+        <a href="javascript:void(0)" onClick={this.handleDel}
+          className="removeIcon">
+          <span className="glyphicon glyphicon-remove"></span>
+        </a>
+      );
+    }
+
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
-    } else {
-      rq = <input type="checkbox" onChange={this._onChangeUse} />;
     }
-    return (
-      <div>
-        <label className="control-label">{rq}{this.props.title}</label>
+    var add;
+    var items;
+    if (this.props.value != null) {
+      items = (
         <div className="wrapper">
-          <div className="fixed"></div>
+          <div className="fixed">
+            {del}
+          </div>
           <div className="flex">
             <input
               type="text"
@@ -50,10 +57,27 @@ var SimpleTextForm = React.createClass({
               className="form-control"
               placeholder={this.props.placeholder}
               defaultValue={this.props.value}
-              disabled={this._getDisabled()}
               onChange={this.handleUpd} />
           </div>
         </div>
+      );
+    }
+    console.log("simpleTextForm: " + this.props.value + " " + this.props.max);
+    if (this.props.value == null && this.props.max == 1) {
+      add = (
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}
+          className="pull-right">
+          <span className="glyphicon glyphicon-plus"></span>
+        </a>
+      )
+    }
+    return (
+      <div>
+        <label className="control-label">{rq}{this.props.title}</label>
+        <div>
+          {items}
+        </div>
+        {add}
       </div>
     );
   }

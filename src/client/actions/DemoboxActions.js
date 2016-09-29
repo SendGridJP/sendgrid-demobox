@@ -67,6 +67,18 @@ var actions = {
     );
   },
 
+  addSubjectInpersonal: function(parentIndex) {
+    this.dispatch(
+      constants.ADD_SUBJECT_INPERSONAL,
+      {parentIndex: parentIndex}
+    );
+  },
+  delSubjectInpersonal: function(parentIndex) {
+    this.dispatch(
+      constants.DEL_SUBJECT_INPERSONAL,
+      {parentIndex: parentIndex}
+    );
+  },
   updSubjectInpersonal: function(parentIndex, value) {
     this.dispatch(
       constants.UPD_SUBJECT_INPERSONAL,
@@ -144,6 +156,12 @@ var actions = {
     this.dispatch(constants.UPD_REPLYTO, {key: key, value: value});
   },
 
+  addSubject: function() {
+    this.dispatch(constants.ADD_SUBJECT);
+  },
+  delSubject: function() {
+    this.dispatch(constants.DEL_SUBJECT);
+  },
   updSubject: function(value) {
     this.dispatch(constants.UPD_SUBJECT, {value: value});
   },

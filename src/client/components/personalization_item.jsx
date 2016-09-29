@@ -66,6 +66,12 @@ var PersonalizationItem = React.createClass({
     this.getFlux().actions.updBccInpersonal(this.props.index, index, key, value);
   },
 
+  handleAddSubjectInpersonal: function() {
+    this.getFlux().actions.addSubjectInpersonal(this.props.index);
+  },
+  handleDelSubjectInpersonal: function() {
+    this.getFlux().actions.delSubjectInpersonal(this.props.index);
+  },
   handleUpdSubjectInpersonal: function(parentIndex, value) {
     this.getFlux().actions.updSubjectInpersonal(parentIndex, value);
   },
@@ -137,10 +143,13 @@ var PersonalizationItem = React.createClass({
           <SimpleTextForm
             title="subject"
             required={false}
-            index={this.props.index}
             placeholder="subject"
+            index={this.props.index}
             value={this.state.personalization.subject}
-            handleUpd={this.handleUpdSubjectInpersonal} />
+            handleAdd={this.handleAddSubjectInpersonal}
+            handleUpd={this.handleUpdSubjectInpersonal}
+            handleDel={this.handleDelSubjectInpersonal}
+            max={1} />
 
           <KeyValueForm
             title="headers"

@@ -8,12 +8,13 @@ var DemoboxStore = Fluxxor.createStore({
           to: [{email: "", name: ""}],
           cc: [],
           bcc: [],
-          subject: "",
+          subject: null,
           headers: [],
           substitutions: [],
           custom_args: [],
         }
       ],
+      subject: null,
       from: {email: "", name: ""},
       "reply-to": null,
       content: [
@@ -44,6 +45,8 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal,
       constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal,
       constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal,
+      constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal,
+      constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal,
       constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal,
       constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal,
       constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal,
@@ -58,6 +61,8 @@ var DemoboxStore = Fluxxor.createStore({
       constants.DEL_REPLYTO, this.onDelReplyto,
       constants.UPD_REPLYTO, this.onUpdReplyto,
       constants.UPD_FROM, this.onUpdFrom,
+      constants.ADD_SUBJECT, this.onAddSubject,
+      constants.DEL_SUBJECT, this.onDelSubject,
       constants.UPD_SUBJECT, this.onUpdSubject,
       constants.ADD_CONTENT, this.onAddContent,
       constants.DEL_CONTENT, this.onDelContent,
@@ -92,9 +97,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onAddToInpersonal: function(index) {
-    this.mailData.personalizations[index].to.push(
-      {email: "", name: ""}
-    );
+    this.mailData.personalizations[index].to.push({email: "", name: ""});
     this.emit("change");
   },
 
@@ -109,9 +112,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onAddCcInpersonal: function(index) {
-    this.mailData.personalizations[index].cc.push(
-      {email: "", name: ""}
-    );
+    this.mailData.personalizations[index].cc.push({email: "", name: ""});
     this.emit("change");
   },
 
@@ -126,48 +127,46 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onAddBccInpersonal: function(index) {
-    this.mailData.personalizations[index].bcc.push(
-      {email: "", name: ""}
-    );
+    this.mailData.personalizations[index].bcc.push({email: "", name: ""});
     this.emit("change");
   },
-
   onDelBccInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
     this.emit("change");
   },
-
   onUpdBccInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].bcc[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 
+  onAddSubjectInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].subject = "";
+    this.emit("change");
+  },
+  onDelSubjectInpersonal: function(payload) {
+    this.mailData.personalizations[payload.parentIndex].subject = null;
+    this.emit("change");
+  },
   onUpdSubjectInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].subject = payload.value;
     this.emit("change");
   },
 
   onAddHeaderInpersonal: function(index) {
-    this.mailData.personalizations[index].headers.push(
-      {"": ""}
-    );
+    this.mailData.personalizations[index].headers.push({"": ""});
     this.emit("change");
   },
-
   onDelHeaderInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
     this.emit("change");
   },
-
   onUpdHeaderInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].headers[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 
   onAddSubstitutionInpersonal: function(index) {
-    this.mailData.personalizations[index].substitutions.push(
-      {"": ""}
-    );
+    this.mailData.personalizations[index].substitutions.push({"": ""});
     this.emit("change");
   },
 
@@ -182,9 +181,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onAddCustomargInpersonal: function(index) {
-    this.mailData.personalizations[index].custom_args.push(
-      {"": ""}
-    );
+    this.mailData.personalizations[index].custom_args.push({"": ""});
     this.emit("change");
   },
 
@@ -218,6 +215,14 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onAddSubject: function() {
+    this.mailData.subject = "";
+    this.emit("change");
+  },
+  onDelSubject: function() {
+    this.mailData.subject = null;
+    this.emit("change");
+  },
   onUpdSubject: function(payload) {
     this.mailData.subject = payload.value;
     this.emit("change");

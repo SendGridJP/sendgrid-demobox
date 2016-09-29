@@ -330,6 +330,15 @@
 	    this.getFlux().actions.updReplyto(key, value);
 	  },
 
+	  handleAddSubject: function () {
+	    this.getFlux().actions.addSubject();
+	  },
+	  handleDelSubject: function () {
+	    this.getFlux().actions.delSubject();
+	  },
+	  handleUpdSubject: function () {
+	    this.getFlux().actions.updSubject();
+	  },
 	  handleUpdSubject: function (parentIndex, value) {
 	    this.getFlux().actions.updSubject(value);
 	  },
@@ -383,10 +392,13 @@
 	          max: 1 }),
 	        React.createElement(SimpleTextForm, {
 	          title: 'subject',
-	          required: true,
+	          required: false,
 	          placeholder: 'subject',
 	          value: this.state.mailData.subject,
-	          handleUpd: this.handleUpdSubject }),
+	          handleAdd: this.handleAddSubject,
+	          handleUpd: this.handleUpdSubject,
+	          handleDel: this.handleDelSubject,
+	          max: 1 }),
 	        React.createElement(ContentForm, {
 	          data: this.state.mailData.content,
 	          handleAdd: this.handleAddContent,
@@ -792,6 +804,12 @@
 	    this.getFlux().actions.updBccInpersonal(this.props.index, index, key, value);
 	  },
 
+	  handleAddSubjectInpersonal: function () {
+	    this.getFlux().actions.addSubjectInpersonal(this.props.index);
+	  },
+	  handleDelSubjectInpersonal: function () {
+	    this.getFlux().actions.delSubjectInpersonal(this.props.index);
+	  },
 	  handleUpdSubjectInpersonal: function (parentIndex, value) {
 	    this.getFlux().actions.updSubjectInpersonal(parentIndex, value);
 	  },
@@ -867,10 +885,13 @@
 	        React.createElement(SimpleTextForm, {
 	          title: 'subject',
 	          required: false,
-	          index: this.props.index,
 	          placeholder: 'subject',
+	          index: this.props.index,
 	          value: this.state.personalization.subject,
-	          handleUpd: this.handleUpdSubjectInpersonal }),
+	          handleAdd: this.handleAddSubjectInpersonal,
+	          handleUpd: this.handleUpdSubjectInpersonal,
+	          handleDel: this.handleDelSubjectInpersonal,
+	          max: 1 }),
 	        React.createElement(KeyValueForm, {
 	          title: 'headers',
 	          required: false,
@@ -1071,7 +1092,10 @@
 	    index: React.PropTypes.number.isRequired,
 	    placeholder: React.PropTypes.string.isRequired,
 	    value: React.PropTypes.string.isRequired,
-	    handleUpd: React.PropTypes.func.isRequired
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired,
+	    max: React.PropTypes.number
 	  },
 
 	  getInitialState: function () {
@@ -1080,16 +1104,9 @@
 	    };
 	  },
 
-	  _onChangeUse: function (e) {
-	    this.setState({ disabled: !e.target.checked });
-	  },
-
-	  _getDisabled: function () {
-	    if (this.props.required) {
-	      return false;
-	    } else {
-	      return this.state.disabled;
-	    }
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.props.handleDel();
 	  },
 
 	  handleUpd: function (e) {
@@ -1098,6 +1115,16 @@
 	  },
 
 	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
@@ -1105,8 +1132,39 @@
 	        { className: "text-danger" },
 	        "*"
 	      );
-	    } else {
-	      rq = React.createElement("input", { type: "checkbox", onChange: this._onChangeUse });
+	    }
+	    var add;
+	    var items;
+	    if (this.props.value != null) {
+	      items = React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement("input", {
+	            type: "text",
+	            name: this.props.paramName,
+	            className: "form-control",
+	            placeholder: this.props.placeholder,
+	            defaultValue: this.props.value,
+	            onChange: this.handleUpd })
+	        )
+	      );
+	    }
+	    console.log("simpleTextForm: " + this.props.value + " " + this.props.max);
+	    if (this.props.value == null && this.props.max == 1) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
+	          className: "pull-right" },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
 	    }
 	    return React.createElement(
 	      "div",
@@ -1119,21 +1177,10 @@
 	      ),
 	      React.createElement(
 	        "div",
-	        { className: "wrapper" },
-	        React.createElement("div", { className: "fixed" }),
-	        React.createElement(
-	          "div",
-	          { className: "flex" },
-	          React.createElement("input", {
-	            type: "text",
-	            name: this.props.paramName,
-	            className: "form-control",
-	            placeholder: this.props.placeholder,
-	            defaultValue: this.props.value,
-	            disabled: this._getDisabled(),
-	            onChange: this.handleUpd })
-	        )
-	      )
+	        null,
+	        items
+	      ),
+	      add
 	    );
 	  }
 	});
@@ -1950,11 +1997,12 @@
 	        to: [{ email: "", name: "" }],
 	        cc: [],
 	        bcc: [],
-	        subject: "",
+	        subject: null,
 	        headers: [],
 	        substitutions: [],
 	        custom_args: []
 	      }],
+	      subject: null,
 	      from: { email: "", name: "" },
 	      "reply-to": null,
 	      content: [{ type: "text/plain", value: "hoge" }, { type: "text/html", value: "fuga" }]
@@ -1970,7 +2018,7 @@
 
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2024,17 +2072,23 @@
 	    this.mailData.personalizations[index].bcc.push({ email: "", name: "" });
 	    this.emit("change");
 	  },
-
 	  onDelBccInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
 	    this.emit("change");
 	  },
-
 	  onUpdBccInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].bcc[payload.index][payload.key] = payload.value;
 	    this.emit("change");
 	  },
 
+	  onAddSubjectInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].subject = "";
+	    this.emit("change");
+	  },
+	  onDelSubjectInpersonal: function (payload) {
+	    this.mailData.personalizations[payload.parentIndex].subject = null;
+	    this.emit("change");
+	  },
 	  onUpdSubjectInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].subject = payload.value;
 	    this.emit("change");
@@ -2044,12 +2098,10 @@
 	    this.mailData.personalizations[index].headers.push({ "": "" });
 	    this.emit("change");
 	  },
-
 	  onDelHeaderInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
 	    this.emit("change");
 	  },
-
 	  onUpdHeaderInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].headers[payload.index][payload.key] = payload.value;
 	    this.emit("change");
@@ -2105,6 +2157,14 @@
 	    this.emit("change");
 	  },
 
+	  onAddSubject: function () {
+	    this.mailData.subject = "";
+	    this.emit("change");
+	  },
+	  onDelSubject: function () {
+	    this.mailData.subject = null;
+	    this.emit("change");
+	  },
 	  onUpdSubject: function (payload) {
 	    this.mailData.subject = payload.value;
 	    this.emit("change");
@@ -2205,6 +2265,8 @@
 	  ADD_BCC_INPERSONAL: "ADD_BCC_INPERSONAL",
 	  DEL_BCC_INPERSONAL: "DEL_BCC_INPERSONAL",
 	  UPD_BCC_INPERSONAL: "UPD_BCC_INPERSONAL",
+	  ADD_SUBJECT_INPERSONAL: "ADD_SUBJECT_INPERSONAL",
+	  DEL_SUBJECT_INPERSONAL: "DEL_SUBJECT_INPERSONAL",
 	  UPD_SUBJECT_INPERSONAL: "UPD_SUBJECT_INPERSONAL",
 	  ADD_HEADER_INPERSONAL: "ADD_HEADER_INPERSONAL",
 	  DEL_HEADER_INPERSONAL: "DEL_HEADER_INPERSONAL",
@@ -2219,6 +2281,8 @@
 	  ADD_REPLYTO: "ADD_REPLYTO",
 	  DEL_REPLYTO: "DEL_REPLYTO",
 	  UPD_REPLYTO: "UPD_REPLYTO",
+	  ADD_SUBJECT: "ADD_SUBJECT",
+	  DEL_SUBJECT: "DEL_SUBJECT",
 	  UPD_SUBJECT: "UPD_SUBJECT",
 	  ADD_CONTENT: "ADD_CONTENT",
 	  DEL_CONTENT: "DEL_CONTENT",
@@ -2284,6 +2348,12 @@
 	    this.dispatch(constants.UPD_BCC_INPERSONAL, { parentIndex: parentIndex, index: index, key: key, value: value });
 	  },
 
+	  addSubjectInpersonal: function (parentIndex) {
+	    this.dispatch(constants.ADD_SUBJECT_INPERSONAL, { parentIndex: parentIndex });
+	  },
+	  delSubjectInpersonal: function (parentIndex) {
+	    this.dispatch(constants.DEL_SUBJECT_INPERSONAL, { parentIndex: parentIndex });
+	  },
 	  updSubjectInpersonal: function (parentIndex, value) {
 	    this.dispatch(constants.UPD_SUBJECT_INPERSONAL, { parentIndex: parentIndex, value: value });
 	  },
@@ -2340,6 +2410,12 @@
 	    this.dispatch(constants.UPD_REPLYTO, { key: key, value: value });
 	  },
 
+	  addSubject: function () {
+	    this.dispatch(constants.ADD_SUBJECT);
+	  },
+	  delSubject: function () {
+	    this.dispatch(constants.DEL_SUBJECT);
+	  },
 	  updSubject: function (value) {
 	    this.dispatch(constants.UPD_SUBJECT, { value: value });
 	  },
