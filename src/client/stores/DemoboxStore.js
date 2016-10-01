@@ -24,6 +24,7 @@ var DemoboxStore = Fluxxor.createStore({
       ],
       attachments: [],
       template_id: null,
+      sections: []
     };
     this.status = '';
     this.request = '';
@@ -77,6 +78,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_TEMPLATE_ID, this.onAddTemplateId,
       constants.DEL_TEMPLATE_ID, this.onDelTemplateId,
       constants.UPD_TEMPLATE_ID, this.onUpdTemplateId,
+      constants.ADD_SECTIONS, this.onAddSections,
+      constants.DEL_SECTIONS, this.onDelSections,
+      constants.UPD_SECTIONS, this.onUpdSections,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -268,7 +272,6 @@ var DemoboxStore = Fluxxor.createStore({
       this.mailData.content.push({type: type, value:""});
     this.emit("change");
   },
-
   onDelContent: function(payload) {
     for (var i = 0; i < this.mailData.content.length; i++) {
       if (this.mailData.content[i].type === payload.type) {
@@ -278,7 +281,6 @@ var DemoboxStore = Fluxxor.createStore({
     }
     this.emit("change");
   },
-
   onUpdContent: function(payload) {
     for (var i = 0; i < this.mailData.content.length; i++) {
       if (this.mailData.content[i].type === payload.type) {
@@ -321,6 +323,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdTemplateId: function(payload) {
     this.mailData.template_id = payload.value;
+    this.emit("change");
+  },
+
+  onAddSections: function() {
+    this.mailData.sections.push({"": ""});
+    this.emit("change");
+  },
+  onDelSections: function(payload) {
+    this.mailData.sections.splice(payload.index, 1);
+    this.emit("change");
+  },
+  onUpdSections: function(payload) {
+    this.mailData.sections[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 

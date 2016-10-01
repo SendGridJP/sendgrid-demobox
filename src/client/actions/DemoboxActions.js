@@ -189,6 +189,17 @@ var actions = {
   updTemplateId: function(value) {
     this.dispatch(constants.UPD_TEMPLATE_ID, {value: value});
   },
+
+  addSections: function() {
+    this.dispatch(constants.ADD_SECTIONS);
+  },
+  delSections: function(index) {
+    this.dispatch(constants.DEL_SECTIONS, {index: index});
+  },
+  updSections: function(index, key, value) {
+    this.dispatch(constants.UPD_SECTIONS, {index: index, key: key, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

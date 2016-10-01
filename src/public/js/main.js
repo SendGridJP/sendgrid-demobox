@@ -295,6 +295,7 @@
 	var SimpleTextForm = __webpack_require__(11);
 	var ContentForm = __webpack_require__(14);
 	var AttachmentForm = __webpack_require__(26);
+	var KeyValueForm = __webpack_require__(12);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -370,6 +371,16 @@
 	    this.getFlux().actions.updTemplateId(value);
 	  },
 
+	  handleAddSections: function () {
+	    this.getFlux().actions.addSections();
+	  },
+	  handleDelSections: function (index) {
+	    this.getFlux().actions.delSections(index);
+	  },
+	  handleUpdSections: function (index, key, value) {
+	    this.getFlux().actions.updSections(index, key, value);
+	  },
+
 	  handleSendMail: function (e) {
 	    e.preventDefault();
 	    // var form = $('#param');
@@ -434,6 +445,13 @@
 	          handleDel: this.handleDelTemplateId,
 	          handleUpd: this.handleUpdTemplateId,
 	          max: 1 }),
+	        React.createElement(KeyValueForm, {
+	          title: 'sections',
+	          required: false,
+	          data: this.state.mailData.sections,
+	          handleAdd: this.handleAddSections,
+	          handleDel: this.handleDelSections,
+	          handleUpd: this.handleUpdSections }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -2003,7 +2021,8 @@
 	      "reply-to": null,
 	      content: [{ type: "text/plain", value: "hoge" }, { type: "text/html", value: "fuga" }],
 	      attachments: [],
-	      template_id: null
+	      template_id: null,
+	      sections: []
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2014,7 +2033,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2194,7 +2213,6 @@
 	    if (type !== "") this.mailData.content.push({ type: type, value: "" });
 	    this.emit("change");
 	  },
-
 	  onDelContent: function (payload) {
 	    for (var i = 0; i < this.mailData.content.length; i++) {
 	      if (this.mailData.content[i].type === payload.type) {
@@ -2204,7 +2222,6 @@
 	    }
 	    this.emit("change");
 	  },
-
 	  onUpdContent: function (payload) {
 	    for (var i = 0; i < this.mailData.content.length; i++) {
 	      if (this.mailData.content[i].type === payload.type) {
@@ -2244,6 +2261,19 @@
 	  },
 	  onUpdTemplateId: function (payload) {
 	    this.mailData.template_id = payload.value;
+	    this.emit("change");
+	  },
+
+	  onAddSections: function () {
+	    this.mailData.sections.push({ "": "" });
+	    this.emit("change");
+	  },
+	  onDelSections: function (payload) {
+	    this.mailData.sections.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+	  onUpdSections: function (payload) {
+	    this.mailData.sections[payload.index][payload.key] = payload.value;
 	    this.emit("change");
 	  },
 
@@ -2337,6 +2367,9 @@
 	  ADD_TEMPLATE_ID: "ADD_TEMPLATE_ID",
 	  UPD_TEMPLATE_ID: "UPD_TEMPLATE_ID",
 	  DEL_TEMPLATE_ID: "DEL_TEMPLATE_ID",
+	  ADD_SECTIONS: "ADD_SECTIONS",
+	  DEL_SECTIONS: "DEL_SECTIONS",
+	  UPD_SECTIONS: "UPD_SECTIONS",
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
@@ -2494,6 +2527,17 @@
 	  updTemplateId: function (value) {
 	    this.dispatch(constants.UPD_TEMPLATE_ID, { value: value });
 	  },
+
+	  addSections: function () {
+	    this.dispatch(constants.ADD_SECTIONS);
+	  },
+	  delSections: function (index) {
+	    this.dispatch(constants.DEL_SECTIONS, { index: index });
+	  },
+	  updSections: function (index, key, value) {
+	    this.dispatch(constants.UPD_SECTIONS, { index: index, key: key, value: value });
+	  },
+
 	  // sendMail: function(param) {
 	  //   var requestParam = JSON.stringify(param);
 	  //   this.dispatch(constants.SEND_MAIL);
@@ -2559,6 +2603,7 @@
 	      mailData2.personalizations[i].substitutions = this.array2hash(mailData.personalizations[i].substitutions);
 	      mailData2.personalizations[i].custom_args = this.array2hash(mailData.personalizations[i].custom_args);
 	    }
+	    mailData2.sections = this.array2hash(mailData.sections);
 
 	    console.log(JSON.stringify(mailData));
 	    this.removeEmpty(mailData2);

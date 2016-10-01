@@ -3,6 +3,7 @@ var EmailForm = require('./email_form.jsx');
 var SimpleTextForm = require('./simple_text_form.jsx');
 var ContentForm = require('./content_form.jsx');
 var AttachmentForm = require('./attachment_form.jsx');
+var KeyValueForm = require('./key_value_form.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -78,6 +79,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updTemplateId(value);
     },
 
+    handleAddSections: function() {
+      this.getFlux().actions.addSections();
+    },
+    handleDelSections: function(index) {
+      this.getFlux().actions.delSections(index);
+    },
+    handleUpdSections: function(index, key, value) {
+      this.getFlux().actions.updSections(index, key, value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -147,6 +158,14 @@ var SendForm = React.createClass({
               handleDel={this.handleDelTemplateId}
               handleUpd={this.handleUpdTemplateId}
               max={1} />
+
+            <KeyValueForm
+              title="sections"
+              required={false}
+              data={this.state.mailData.sections}
+              handleAdd={this.handleAddSections}
+              handleDel={this.handleDelSections}
+              handleUpd={this.handleUpdSections} />
 
             <div id="accordion">
               <div className="panel panel-default">
