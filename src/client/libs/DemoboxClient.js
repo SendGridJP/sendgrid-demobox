@@ -19,6 +19,7 @@ var DemoboxClient = {
     }
     mailData2.sections = this.array2hash(mailData.sections);
     mailData2.headers = this.array2hash(mailData.headers);
+    mailData2.custom_args = this.array2hash(mailData.custom_args);
 
     console.log(JSON.stringify(mailData));
     this.removeEmpty(mailData2);

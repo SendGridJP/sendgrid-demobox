@@ -220,6 +220,16 @@ var actions = {
     this.dispatch(constants.UPD_CATEGORIES, {index: index, value: value});
   },
 
+  addCustomArgs: function() {
+    this.dispatch(constants.ADD_CUSTOM_ARGS);
+  },
+  delCustomArgs: function(index) {
+    this.dispatch(constants.DEL_CUSTOM_ARGS, {index: index});
+  },
+  updCustomArgs: function(index, key, value) {
+    this.dispatch(constants.UPD_CUSTOM_ARGS, {index: index, key: key, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

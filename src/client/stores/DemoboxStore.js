@@ -26,7 +26,8 @@ var DemoboxStore = Fluxxor.createStore({
       template_id: null,
       sections: [],
       headers: [],
-      categories: []
+      categories: [],
+      custom_args: []
     };
     this.status = '';
     this.request = '';
@@ -89,6 +90,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_CATEGORIES, this.onAddCategories,
       constants.DEL_CATEGORIES, this.onDelCategories,
       constants.UPD_CATEGORIES, this.onUpdCategories,
+      constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs,
+      constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs,
+      constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -370,6 +374,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdCategories: function(payload) {
     this.mailData.categories[payload.index] = payload.value;
+    this.emit("change");
+  },
+
+  onAddCustomArgs: function() {
+    this.mailData.custom_args.push({"": ""});
+    this.emit("change");
+  },
+  onDelCustomArgs: function(payload) {
+    this.mailData.custom_args.splice(payload.index, 1);
+    this.emit("change");
+  },
+  onUpdCustomArgs: function(payload) {
+    this.mailData.custom_args[payload.index][payload.key] = payload.value;
     this.emit("change");
   },
 

@@ -109,6 +109,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updCategories(index, value);
     },
 
+    handleAddCustomArgs: function() {
+      this.getFlux().actions.addCustomArgs();
+    },
+    handleDelCustomArgs: function(index) {
+      this.getFlux().actions.delCustomArgs(index);
+    },
+    handleUpdCustomArgs: function(index, key, value) {
+      this.getFlux().actions.updCustomArgs(index, key, value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -204,6 +214,14 @@ var SendForm = React.createClass({
               handleDel={this.handleDelCategories}
               handleUpd={this.handleUpdCategories}
               max={255} />
+
+            <KeyValueForm
+              title="custom_args"
+              required={false}
+              data={this.state.mailData.custom_args}
+              handleAdd={this.handleAddCustomArgs}
+              handleDel={this.handleDelCustomArgs}
+              handleUpd={this.handleUpdCustomArgs} />
 
             <div id="accordion">
               <div className="panel panel-default">
