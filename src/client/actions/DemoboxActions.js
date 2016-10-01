@@ -200,6 +200,16 @@ var actions = {
     this.dispatch(constants.UPD_SECTIONS, {index: index, key: key, value: value});
   },
 
+  addHeaders: function() {
+    this.dispatch(constants.ADD_HEADERS);
+  },
+  delHeaders: function(index) {
+    this.dispatch(constants.DEL_HEADERS, {index: index});
+  },
+  updHeaders: function(index, key, value) {
+    this.dispatch(constants.UPD_HEADERS, {index: index, key: key, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);
