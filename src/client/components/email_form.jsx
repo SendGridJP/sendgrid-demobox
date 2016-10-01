@@ -1,4 +1,4 @@
-var EmailItem = require('./email_item.jsx');
+var KeyValueItem = require('./key_value_item.jsx');
 
 var EmailForm = React.createClass({
   propTypes: {
@@ -26,9 +26,14 @@ var EmailForm = React.createClass({
     if (Array.isArray(this.props.data)) {
       items = this.props.data.map(function(data, index) {
         return (
-          <EmailItem
+          <KeyValueItem
             index={index}
-            data={data}
+            valueKey={data.email}
+            valueValue={data.name}
+            nameKey="email"
+            nameValue="name"
+            placeholderKey="Email"
+            placeholderValue="Name"
             handleDel={this.props.handleDel}
             handleUpd={this.props.handleUpd} />
         );
@@ -41,8 +46,13 @@ var EmailForm = React.createClass({
       )
     } else {
       if (this.props.data != null) {
-        items = <EmailItem
-          data={this.props.data}
+        items = <KeyValueItem
+          valueKey={this.props.data.email}
+          valueValue={this.props.data.name}
+          nameKey="email"
+          nameValue="name"
+          placeholderKey="Email"
+          placeholderValue="Name"
           handleDel={this.props.handleDel}
           handleUpd={this.props.handleUpd} />
       }

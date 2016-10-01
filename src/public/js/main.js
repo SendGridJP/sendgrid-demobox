@@ -973,7 +973,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var EmailItem = __webpack_require__(10);
+	var KeyValueItem = __webpack_require__(13);
 
 	var EmailForm = React.createClass({
 	  propTypes: {
@@ -1003,9 +1003,14 @@
 	    var items;
 	    if (Array.isArray(this.props.data)) {
 	      items = this.props.data.map(function (data, index) {
-	        return React.createElement(EmailItem, {
+	        return React.createElement(KeyValueItem, {
 	          index: index,
-	          data: data,
+	          valueKey: data.email,
+	          valueValue: data.name,
+	          nameKey: 'email',
+	          nameValue: 'name',
+	          placeholderKey: 'Email',
+	          placeholderValue: 'Name',
 	          handleDel: this.props.handleDel,
 	          handleUpd: this.props.handleUpd });
 	      }.bind(this));
@@ -1017,8 +1022,13 @@
 	      );
 	    } else {
 	      if (this.props.data != null) {
-	        items = React.createElement(EmailItem, {
-	          data: this.props.data,
+	        items = React.createElement(KeyValueItem, {
+	          valueKey: this.props.data.email,
+	          valueValue: this.props.data.name,
+	          nameKey: 'email',
+	          nameValue: 'name',
+	          placeholderKey: 'Email',
+	          placeholderValue: 'Name',
 	          handleDel: this.props.handleDel,
 	          handleUpd: this.props.handleUpd });
 	      }
@@ -1052,73 +1062,7 @@
 	module.exports = EmailForm;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	var EmailItem = React.createClass({
-	  propTypes: {
-	    index: React.PropTypes.number,
-	    data: React.PropTypes.array.isRequired,
-	    handleDel: React.PropTypes.func,
-	    handleUpd: React.PropTypes.func
-	  },
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  handleDel: function (e) {
-	    e.preventDefault();
-	    this.props.handleDel(this.props.index);
-	  },
-
-	  handleUpd: function (e) {
-	    e.preventDefault();
-	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
-	  },
-
-	  render: function () {
-	    var del;
-	    if (typeof this.props.handleDel == "function") {
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-
-	    return React.createElement(
-	      "div",
-	      { className: "wrapper" },
-	      React.createElement(
-	        "div",
-	        { className: "fixed" },
-	        del
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement("input", {
-	          type: "text",
-	          name: "email",
-	          className: "form-control",
-	          placeholder: "email",
-	          defaultValue: this.props.data.email,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: "name",
-	          className: "form-control",
-	          placeholder: "name",
-	          defaultValue: this.props.data.name,
-	          onChange: this.handleUpd })
-	      )
-	    );
-	  }
-	});
-	module.exports = EmailItem;
-
-/***/ },
+/* 10 */,
 /* 11 */
 /***/ function(module, exports) {
 
@@ -1266,9 +1210,12 @@
 	        this.props.data.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
 	            index: index,
+	            valueKey: data.key,
+	            valueValue: data.value,
+	            nameKey: 'key',
+	            nameValue: 'value',
 	            handleDel: this.props.handleDel,
-	            handleUpd: this.props.handleUpd,
-	            data: data });
+	            handleUpd: this.props.handleUpd });
 	        }.bind(this))
 	      ),
 	      React.createElement(
@@ -1289,9 +1236,23 @@
 	var KeyValueItem = React.createClass({
 	  propTypes: {
 	    index: React.PropTypes.number.isRequired,
-	    data: React.PropTypes.array.isRequired,
+	    valueKey: React.PropTypes.string.isRequired,
+	    valueValue: React.PropTypes.string.isRequired,
+	    nameKey: React.PropTypes.string,
+	    nameValue: React.PropTypes.string,
+	    placeholderKey: React.PropTypes.string,
+	    placeholderValue: React.PropTypes.string,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      nameKey: "key",
+	      nameValue: "value",
+	      placeholderKey: "Key",
+	      placeholderValue: "Value"
+	    };
 	  },
 
 	  getInitialState: function () {
@@ -1309,35 +1270,39 @@
 	  },
 
 	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
 	    return React.createElement(
 	      "div",
 	      { className: "wrapper" },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
-	        React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", onClick: this.handleDel,
-	            className: "removeIcon" },
-	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	        )
+	        del
 	      ),
 	      React.createElement(
 	        "div",
 	        { className: "flex" },
 	        React.createElement("input", {
 	          type: "text",
-	          name: "key",
+	          name: this.props.nameKey,
 	          className: "form-control",
-	          placeholder: "Key",
-	          defaultValue: this.props.data.key,
+	          placeholder: this.props.placeholderKey,
+	          defaultValue: this.props.valueKey,
 	          onChange: this.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
-	          name: "value",
+	          name: this.props.nameValue,
 	          className: "form-control",
-	          placeholder: "Value",
-	          defaultValue: this.props.data.value,
+	          placeholder: this.props.placeholderValue,
+	          defaultValue: this.props.valueValue,
 	          onChange: this.handleUpd })
 	      )
 	    );

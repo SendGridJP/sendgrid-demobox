@@ -28,9 +28,12 @@ var KeyValueForm = React.createClass({
             return (
               <KeyValueItem
                 index={index}
+                valueKey={data.key}
+                valueValue={data.value}
+                nameKey="key"
+                nameValue="value"
                 handleDel={this.props.handleDel}
-                handleUpd={this.props.handleUpd}
-                data={data} />
+                handleUpd={this.props.handleUpd} />
             );
           }.bind(this))}
         </div>
