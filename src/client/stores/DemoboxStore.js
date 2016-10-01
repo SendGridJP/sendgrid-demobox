@@ -22,7 +22,8 @@ var DemoboxStore = Fluxxor.createStore({
         {type: "text/plain", value:"hoge"},
         {type: "text/html", value: "fuga"}
       ],
-      attachments: []
+      attachments: [],
+      template_id: null,
     };
     this.status = '';
     this.request = '';
@@ -73,6 +74,10 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_ATTACHMENT, this.onAddAttachment,
       constants.DEL_ATTACHMENT, this.onDelAttachment,
       constants.UPD_ATTACHMENT, this.onUpdAttachment,
+      constants.ADD_TEMPLATE_ID, this.onAddTemplateId,
+      constants.DEL_TEMPLATE_ID, this.onDelTemplateId,
+      constants.UPD_TEMPLATE_ID, this.onUpdTemplateId,
+
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
       constants.SEND_MAIL_FAIL, this.onSendMailFail,
@@ -303,6 +308,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdAttachment: function(payload) {
     this.mailData.attachments[payload.index][payload.key] = payload.value;
+    this.emit("change");
+  },
+
+  onAddTemplateId: function() {
+    this.mailData.template_id = "";
+    this.emit("change");
+  },
+  onDelTemplateId: function() {
+    this.mailData.template_id = null;
+    this.emit("change");
+  },
+  onUpdTemplateId: function(payload) {
+    this.mailData.template_id = payload.value;
     this.emit("change");
   },
 

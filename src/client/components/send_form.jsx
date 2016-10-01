@@ -68,6 +68,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updAttachment(index, key, value);
     },
 
+    handleAddTemplateId: function() {
+      this.getFlux().actions.addTemplateId();
+    },
+    handleDelTemplateId: function() {
+      this.getFlux().actions.delTemplateId();
+    },
+    handleUpdTemplateId: function(parentIndex, value) {
+      this.getFlux().actions.updTemplateId(value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -111,8 +121,8 @@ var SendForm = React.createClass({
               placeholder="subject"
               value={this.state.mailData.subject}
               handleAdd={this.handleAddSubject}
-              handleUpd={this.handleUpdSubject}
               handleDel={this.handleDelSubject}
+              handleUpd={this.handleUpdSubject}
               max={1} />
 
             <ContentForm
@@ -127,6 +137,16 @@ var SendForm = React.createClass({
               handleDel={this.handleDelAttachment}
               handleUpd={this.handleUpdAttachment}
               />
+
+            <SimpleTextForm
+              title="template_id"
+              required={false}
+              placeholder="Template ID"
+              value={this.state.mailData.template_id}
+              handleAdd={this.handleAddTemplateId}
+              handleDel={this.handleDelTemplateId}
+              handleUpd={this.handleUpdTemplateId}
+              max={1} />
 
             <div id="accordion">
               <div className="panel panel-default">

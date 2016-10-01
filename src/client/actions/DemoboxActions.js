@@ -180,6 +180,15 @@ var actions = {
     this.dispatch(constants.UPD_ATTACHMENT, {index: index, key: key, value: value});
   },
 
+  addTemplateId: function() {
+    this.dispatch(constants.ADD_TEMPLATE_ID);
+  },
+  delTemplateId: function() {
+    this.dispatch(constants.DEL_TEMPLATE_ID);
+  },
+  updTemplateId: function(value) {
+    this.dispatch(constants.UPD_TEMPLATE_ID, {value: value});
+  },
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);
