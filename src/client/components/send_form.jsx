@@ -119,6 +119,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updCustomArgs(index, key, value);
     },
 
+    handleAddSendAt: function() {
+      this.getFlux().actions.addSendAt();
+    },
+    handleDelSendAt: function() {
+      this.getFlux().actions.delSendAt();
+    },
+    handleUpdSendAt: function(parentIndex, value) {
+      this.getFlux().actions.updSendAt(value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -222,6 +232,16 @@ var SendForm = React.createClass({
               handleAdd={this.handleAddCustomArgs}
               handleDel={this.handleDelCustomArgs}
               handleUpd={this.handleUpdCustomArgs} />
+
+            <SimpleTextForm
+              title="send_at"
+              required={false}
+              placeholder="UNIXTIME"
+              value={this.state.mailData.send_at}
+              handleAdd={this.handleAddSendAt}
+              handleDel={this.handleDelSendAt}
+              handleUpd={this.handleUpdSendAt}
+              max={1} />
 
             <div id="accordion">
               <div className="panel panel-default">

@@ -230,6 +230,16 @@ var actions = {
     this.dispatch(constants.UPD_CUSTOM_ARGS, {index: index, key: key, value: value});
   },
 
+  addSendAt: function() {
+    this.dispatch(constants.ADD_SEND_AT);
+  },
+  delSendAt: function() {
+    this.dispatch(constants.DEL_SEND_AT);
+  },
+  updSendAt: function(value) {
+    this.dispatch(constants.UPD_SEND_AT, {value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

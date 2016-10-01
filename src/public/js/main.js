@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(21);
+	var flux = __webpack_require__(23);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -239,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(20);
+	var ReceivePage = __webpack_require__(22);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -260,7 +260,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(16);
+	var EventsPain = __webpack_require__(18);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -294,8 +294,8 @@
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
 	var ContentForm = __webpack_require__(14);
-	var AttachmentForm = __webpack_require__(26);
-	var KeyValueForm = __webpack_require__(12);
+	var AttachmentForm = __webpack_require__(16);
+	var KeyValueForm = __webpack_require__(13);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -411,6 +411,16 @@
 	    this.getFlux().actions.updCustomArgs(index, key, value);
 	  },
 
+	  handleAddSendAt: function () {
+	    this.getFlux().actions.addSendAt();
+	  },
+	  handleDelSendAt: function () {
+	    this.getFlux().actions.delSendAt();
+	  },
+	  handleUpdSendAt: function (parentIndex, value) {
+	    this.getFlux().actions.updSendAt(value);
+	  },
+
 	  handleSendMail: function (e) {
 	    e.preventDefault();
 	    // var form = $('#param');
@@ -505,6 +515,15 @@
 	          handleAdd: this.handleAddCustomArgs,
 	          handleDel: this.handleDelCustomArgs,
 	          handleUpd: this.handleUpdCustomArgs }),
+	        React.createElement(SimpleTextForm, {
+	          title: 'send_at',
+	          required: false,
+	          placeholder: 'UNIXTIME',
+	          value: this.state.mailData.send_at,
+	          handleAdd: this.handleAddSendAt,
+	          handleDel: this.handleDelSendAt,
+	          handleUpd: this.handleUpdSendAt,
+	          max: 1 }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -845,7 +864,7 @@
 
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
-	var KeyValueForm = __webpack_require__(12);
+	var KeyValueForm = __webpack_require__(13);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -1044,7 +1063,7 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var KeyValueItem = __webpack_require__(13);
+	var KeyValueItem = __webpack_require__(10);
 
 	var EmailForm = React.createClass({
 	  propTypes: {
@@ -1133,11 +1152,91 @@
 	module.exports = EmailForm;
 
 /***/ },
-/* 10 */,
+/* 10 */
+/***/ function(module, exports) {
+
+	var KeyValueItem = React.createClass({
+	  propTypes: {
+	    index: React.PropTypes.number.isRequired,
+	    valueKey: React.PropTypes.string.isRequired,
+	    valueValue: React.PropTypes.string.isRequired,
+	    nameKey: React.PropTypes.string,
+	    nameValue: React.PropTypes.string,
+	    placeholderKey: React.PropTypes.string,
+	    placeholderValue: React.PropTypes.string,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      nameKey: "key",
+	      nameValue: "value",
+	      placeholderKey: "Key",
+	      placeholderValue: "Value"
+	    };
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
+	  },
+
+	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        del
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.nameKey,
+	          className: "form-control",
+	          placeholder: this.props.placeholderKey,
+	          defaultValue: this.props.valueKey,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.nameValue,
+	          className: "form-control",
+	          placeholder: this.props.placeholderValue,
+	          defaultValue: this.props.valueValue,
+	          onChange: this.handleUpd })
+	      )
+	    );
+	  }
+	});
+	module.exports = KeyValueItem;
+
+/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var SimpleTextItem = __webpack_require__(28);
+	var SimpleTextItem = __webpack_require__(12);
 
 	var SimpleTextForm = React.createClass({
 	  propTypes: {
@@ -1243,9 +1342,77 @@
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	var SimpleTextItem = React.createClass({
+	  propTypes: {
+	    index: React.PropTypes.number.isRequired,
+	    value: React.PropTypes.string.isRequired,
+	    placeholder: React.PropTypes.string,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      nameValue: "value",
+	      placeholderValue: "Value"
+	    };
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.value);
+	  },
+
+	  render: function () {
+	    var del;
+	    if (typeof this.props.handleDel == "function") {
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        del
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: this.props.nameValue,
+	          className: "form-control",
+	          placeholder: this.props.placeholderValue,
+	          defaultValue: this.props.valueValue,
+	          onChange: this.handleUpd })
+	      )
+	    );
+	  }
+	});
+	module.exports = SimpleTextItem;
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var KeyValueItem = __webpack_require__(13);
+	var KeyValueItem = __webpack_require__(10);
 
 	var KeyValueForm = React.createClass({
 	  propTypes: {
@@ -1303,87 +1470,6 @@
 	  }
 	});
 	module.exports = KeyValueForm;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	var KeyValueItem = React.createClass({
-	  propTypes: {
-	    index: React.PropTypes.number.isRequired,
-	    valueKey: React.PropTypes.string.isRequired,
-	    valueValue: React.PropTypes.string.isRequired,
-	    nameKey: React.PropTypes.string,
-	    nameValue: React.PropTypes.string,
-	    placeholderKey: React.PropTypes.string,
-	    placeholderValue: React.PropTypes.string,
-	    handleDel: React.PropTypes.func.isRequired,
-	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getDefaultProps: function () {
-	    return {
-	      nameKey: "key",
-	      nameValue: "value",
-	      placeholderKey: "Key",
-	      placeholderValue: "Value"
-	    };
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  handleDel: function (e) {
-	    e.preventDefault();
-	    this.props.handleDel(this.props.index);
-	  },
-
-	  handleUpd: function (e) {
-	    e.preventDefault();
-	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
-	  },
-
-	  render: function () {
-	    var del;
-	    if (typeof this.props.handleDel == "function") {
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      { className: "wrapper" },
-	      React.createElement(
-	        "div",
-	        { className: "fixed" },
-	        del
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.nameKey,
-	          className: "form-control",
-	          placeholder: this.props.placeholderKey,
-	          defaultValue: this.props.valueKey,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.nameValue,
-	          className: "form-control",
-	          placeholder: this.props.placeholderValue,
-	          defaultValue: this.props.valueValue,
-	          onChange: this.handleUpd })
-	      )
-	    );
-	  }
-	});
-	module.exports = KeyValueItem;
 
 /***/ },
 /* 14 */
@@ -1511,9 +1597,146 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(17);
-	var EventItemTable = __webpack_require__(18);
-	var EventItemJson = __webpack_require__(19);
+	var AttachmentItem = __webpack_require__(17);
+
+	var AttachmentForm = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  render: function () {
+	    var add;
+	    if (this.props.data.length < 2) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
+	          className: "pull-right" },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "attachments"
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        this.props.data.map(function (data, index) {
+	          return React.createElement(AttachmentItem, {
+	            index: index,
+	            data: data,
+	            handleDel: this.props.handleDel,
+	            handleUpd: this.props.handleUpd });
+	        }.bind(this))
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = AttachmentForm;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	var AttachmentItem = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    index: React.PropTypes.number.isRequired,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function () {
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        React.createElement(
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleDel,
+	            className: "removeIcon" },
+	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        )
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: "content",
+	          className: "form-control",
+	          placeholder: "Base64 encoded content",
+	          defaultValue: this.props.data.content,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "type",
+	          className: "form-control",
+	          placeholder: "The mime type",
+	          defaultValue: this.props.data.type,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "filename",
+	          className: "form-control",
+	          placeholder: "Filename",
+	          defaultValue: this.props.data.filename,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "disposition",
+	          className: "form-control",
+	          placeholder: "Disposition",
+	          defaultValue: this.props.data.disposition,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "content_id",
+	          className: "form-control",
+	          placeholder: "Content ID",
+	          defaultValue: this.props.data['content_id'],
+	          onChange: this.handleUpd })
+	      )
+	    );
+	  }
+	});
+	module.exports = AttachmentItem;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ShowButton = __webpack_require__(19);
+	var EventItemTable = __webpack_require__(20);
+	var EventItemJson = __webpack_require__(21);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1782,7 +2005,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -1812,7 +2035,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -1974,7 +2197,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -2008,7 +2231,7 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -2023,11 +2246,11 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(22);
-	var DemoboxActions = __webpack_require__(24);
+	var DemoboxStore = __webpack_require__(24);
+	var DemoboxActions = __webpack_require__(26);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -2055,10 +2278,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(23);
+	var constants = __webpack_require__(25);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -2082,7 +2305,8 @@
 	      sections: [],
 	      headers: [],
 	      categories: [],
-	      custom_args: []
+	      custom_args: [],
+	      send_at: null
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2093,7 +2317,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2376,6 +2600,19 @@
 	    this.emit("change");
 	  },
 
+	  onAddSendAt: function () {
+	    this.mailData.send_at = "";
+	    this.emit("change");
+	  },
+	  onDelSendAt: function () {
+	    this.mailData.send_at = null;
+	    this.emit("change");
+	  },
+	  onUpdSendAt: function (payload) {
+	    this.mailData.send_at = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2420,7 +2657,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -2478,6 +2715,10 @@
 	  ADD_CUSTOM_ARGS: "ADD_CUSTOM_ARGS",
 	  DEL_CUSTOM_ARGS: "DEL_CUSTOM_ARGS",
 	  UPD_CUSTOM_ARGS: "UPD_CUSTOM_ARGS",
+	  ADD_SEND_AT: "ADD_SEND_AT",
+	  DEL_SEND_AT: "DEL_SEND_AT",
+	  UPD_SEND_AT: "UPD_SEND_AT",
+
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
@@ -2488,11 +2729,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(23);
-	var DemoboxClient = __webpack_require__(25);
+	var constants = __webpack_require__(25);
+	var DemoboxClient = __webpack_require__(27);
 
 	var actions = {
 	  addPersonalization: function () {
@@ -2676,6 +2917,16 @@
 	    this.dispatch(constants.UPD_CUSTOM_ARGS, { index: index, key: key, value: value });
 	  },
 
+	  addSendAt: function () {
+	    this.dispatch(constants.ADD_SEND_AT);
+	  },
+	  delSendAt: function () {
+	    this.dispatch(constants.DEL_SEND_AT);
+	  },
+	  updSendAt: function (value) {
+	    this.dispatch(constants.UPD_SEND_AT, { value: value });
+	  },
+
 	  // sendMail: function(param) {
 	  //   var requestParam = JSON.stringify(param);
 	  //   this.dispatch(constants.SEND_MAIL);
@@ -2719,7 +2970,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
@@ -2785,211 +3036,6 @@
 	};
 
 	module.exports = DemoboxClient;
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AttachmentItem = __webpack_require__(27);
-
-	var AttachmentForm = React.createClass({
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired,
-	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  render: function () {
-	    var add;
-	    if (this.props.data.length < 2) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	          className: "pull-right" },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    }
-
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "attachments"
-	      ),
-	      React.createElement(
-	        "div",
-	        null,
-	        this.props.data.map(function (data, index) {
-	          return React.createElement(AttachmentItem, {
-	            index: index,
-	            data: data,
-	            handleDel: this.props.handleDel,
-	            handleUpd: this.props.handleUpd });
-	        }.bind(this))
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = AttachmentForm;
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	var AttachmentItem = React.createClass({
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    index: React.PropTypes.number.isRequired,
-	    handleDel: React.PropTypes.func.isRequired,
-	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  handleDel: function () {
-	    this.props.handleDel(this.props.index);
-	  },
-
-	  handleUpd: function (e) {
-	    e.preventDefault();
-	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "wrapper" },
-	      React.createElement(
-	        "div",
-	        { className: "fixed" },
-	        React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", onClick: this.handleDel,
-	            className: "removeIcon" },
-	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	        )
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement("input", {
-	          type: "text",
-	          name: "content",
-	          className: "form-control",
-	          placeholder: "Base64 encoded content",
-	          defaultValue: this.props.data.content,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: "type",
-	          className: "form-control",
-	          placeholder: "The mime type",
-	          defaultValue: this.props.data.type,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: "filename",
-	          className: "form-control",
-	          placeholder: "Filename",
-	          defaultValue: this.props.data.filename,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: "disposition",
-	          className: "form-control",
-	          placeholder: "Disposition",
-	          defaultValue: this.props.data.disposition,
-	          onChange: this.handleUpd }),
-	        React.createElement("input", {
-	          type: "text",
-	          name: "content_id",
-	          className: "form-control",
-	          placeholder: "Content ID",
-	          defaultValue: this.props.data['content_id'],
-	          onChange: this.handleUpd })
-	      )
-	    );
-	  }
-	});
-	module.exports = AttachmentItem;
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	var SimpleTextItem = React.createClass({
-	  propTypes: {
-	    index: React.PropTypes.number.isRequired,
-	    value: React.PropTypes.string.isRequired,
-	    placeholder: React.PropTypes.string,
-	    handleDel: React.PropTypes.func.isRequired,
-	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getDefaultProps: function () {
-	    return {
-	      nameValue: "value",
-	      placeholderValue: "Value"
-	    };
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  handleDel: function (e) {
-	    e.preventDefault();
-	    this.props.handleDel(this.props.index);
-	  },
-
-	  handleUpd: function (e) {
-	    e.preventDefault();
-	    this.props.handleUpd(this.props.index, e.target.value);
-	  },
-
-	  render: function () {
-	    var del;
-	    if (typeof this.props.handleDel == "function") {
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      { className: "wrapper" },
-	      React.createElement(
-	        "div",
-	        { className: "fixed" },
-	        del
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement("input", {
-	          type: "text",
-	          name: this.props.nameValue,
-	          className: "form-control",
-	          placeholder: this.props.placeholderValue,
-	          defaultValue: this.props.valueValue,
-	          onChange: this.handleUpd })
-	      )
-	    );
-	  }
-	});
-	module.exports = SimpleTextItem;
 
 /***/ }
 /******/ ]);
