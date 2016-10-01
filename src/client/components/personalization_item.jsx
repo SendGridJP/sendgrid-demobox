@@ -167,9 +167,7 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.headers}
             handleAdd={this.handleAddHeaderInpersonal}
             handleDel={this.handleDelHeaderInpersonal}
-            handleUpd={this.handleUpdHeaderInpersonal}
-            placeholderKey="header-key"
-            placeholderValue="header-value" />
+            handleUpd={this.handleUpdHeaderInpersonal} />
 
           <KeyValueForm
             title="substitutions"
@@ -177,9 +175,7 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.substitutions}
             handleAdd={this.handleAddSubstitutionInpersonal}
             handleDel={this.handleDelSubstitutionInpersonal}
-            handleUpd={this.handleUpdSubstitutionInpersonal}
-            placeholderKey="substitution-key"
-            placeholderValue="substitution-value" />
+            handleUpd={this.handleUpdSubstitutionInpersonal} />
 
           <KeyValueForm
             title="custom_args"
@@ -187,9 +183,7 @@ var PersonalizationItem = React.createClass({
             data={this.state.personalization.custom_args}
             handleAdd={this.handleAddCustomargInpersonal}
             handleDel={this.handleDelCustomargInpersonal}
-            handleUpd={this.handleUpdCustomargInpersonal}
-            placeholderKey="custom-args-key"
-            placeholderValue="custom-args-value" />
+            handleUpd={this.handleUpdCustomargInpersonal} />
 
           <SimpleTextForm
             title="send_at"

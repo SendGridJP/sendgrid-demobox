@@ -2,8 +2,6 @@ var KeyValueItem = React.createClass({
   propTypes: {
     index: React.PropTypes.number.isRequired,
     data: React.PropTypes.array.isRequired,
-    placeholderKey: React.PropTypes.string.isRequired,
-    placeholderValue: React.PropTypes.string.isRequired,
     handleDel: React.PropTypes.func.isRequired,
     handleUpd: React.PropTypes.func.isRequired
   },
@@ -37,14 +35,14 @@ var KeyValueItem = React.createClass({
             type="text"
             name="key"
             className="form-control"
-            placeholder={this.props.placeholderKey}
+            placeholder="Key"
             defaultValue={this.props.data.key}
             onChange={this.handleUpd} />
           <input
             type="text"
             name="value"
             className="form-control"
-            placeholder={this.props.placeholderValue}
+            placeholder="Value"
             defaultValue={this.props.data.value}
             onChange={this.handleUpd} />
         </div>

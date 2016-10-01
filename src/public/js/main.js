@@ -938,27 +938,21 @@
 	          data: this.state.personalization.headers,
 	          handleAdd: this.handleAddHeaderInpersonal,
 	          handleDel: this.handleDelHeaderInpersonal,
-	          handleUpd: this.handleUpdHeaderInpersonal,
-	          placeholderKey: 'header-key',
-	          placeholderValue: 'header-value' }),
+	          handleUpd: this.handleUpdHeaderInpersonal }),
 	        React.createElement(KeyValueForm, {
 	          title: 'substitutions',
 	          required: false,
 	          data: this.state.personalization.substitutions,
 	          handleAdd: this.handleAddSubstitutionInpersonal,
 	          handleDel: this.handleDelSubstitutionInpersonal,
-	          handleUpd: this.handleUpdSubstitutionInpersonal,
-	          placeholderKey: 'substitution-key',
-	          placeholderValue: 'substitution-value' }),
+	          handleUpd: this.handleUpdSubstitutionInpersonal }),
 	        React.createElement(KeyValueForm, {
 	          title: 'custom_args',
 	          required: false,
 	          data: this.state.personalization.custom_args,
 	          handleAdd: this.handleAddCustomargInpersonal,
 	          handleDel: this.handleDelCustomargInpersonal,
-	          handleUpd: this.handleUpdCustomargInpersonal,
-	          placeholderKey: 'custom-args-key',
-	          placeholderValue: 'custom-args-value' }),
+	          handleUpd: this.handleUpdCustomargInpersonal }),
 	        React.createElement(SimpleTextForm, {
 	          title: 'send_at',
 	          required: false,
@@ -1239,8 +1233,6 @@
 	    title: React.PropTypes.string.isRequired,
 	    required: React.PropTypes.bool.isRequired,
 	    data: React.PropTypes.array.isRequired,
-	    placeholderKey: React.PropTypes.string.isRequired,
-	    placeholderValue: React.PropTypes.string.isRequired,
 	    handleAdd: React.PropTypes.func.isRequired,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
@@ -1276,8 +1268,6 @@
 	            index: index,
 	            handleDel: this.props.handleDel,
 	            handleUpd: this.props.handleUpd,
-	            placeholderKey: this.props.placeholderKey,
-	            placeholderValue: this.props.placeholderValue,
 	            data: data });
 	        }.bind(this))
 	      ),
@@ -1300,8 +1290,6 @@
 	  propTypes: {
 	    index: React.PropTypes.number.isRequired,
 	    data: React.PropTypes.array.isRequired,
-	    placeholderKey: React.PropTypes.string.isRequired,
-	    placeholderValue: React.PropTypes.string.isRequired,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
 	  },
@@ -1341,14 +1329,14 @@
 	          type: "text",
 	          name: "key",
 	          className: "form-control",
-	          placeholder: this.props.placeholderKey,
+	          placeholder: "Key",
 	          defaultValue: this.props.data.key,
 	          onChange: this.handleUpd }),
 	        React.createElement("input", {
 	          type: "text",
 	          name: "value",
 	          className: "form-control",
-	          placeholder: this.props.placeholderValue,
+	          placeholder: "Value",
 	          defaultValue: this.props.data.value,
 	          onChange: this.handleUpd })
 	      )
