@@ -170,6 +170,16 @@ var actions = {
     this.dispatch(constants.UPD_CONTENT, {type: type, value: value});
   },
 
+  addAttachment: function() {
+    this.dispatch(constants.ADD_ATTACHMENT);
+  },
+  delAttachment: function(index) {
+    this.dispatch(constants.DEL_ATTACHMENT, {index: index});
+  },
+  updAttachment: function(index, key, value) {
+    this.dispatch(constants.UPD_ATTACHMENT, {index: index, key: key, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

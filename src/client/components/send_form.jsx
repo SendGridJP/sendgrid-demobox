@@ -2,6 +2,7 @@ var PersonalizationList = require('./personalization_list.jsx');
 var EmailForm = require('./email_form.jsx');
 var SimpleTextForm = require('./simple_text_form.jsx');
 var ContentForm = require('./content_form.jsx');
+var AttachmentForm = require('./attachment_form.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -26,14 +27,13 @@ var SendForm = React.createClass({
     handleUpdFrom: function(id, key, value) {
       this.getFlux().actions.updFrom(key, value);
     },
+
     handleAddReplyto: function() {
       this.getFlux().actions.addReplyto();
     },
-
     handleDelReplyto: function() {
       this.getFlux().actions.delReplyto();
     },
-
     handleUpdReplyto: function(id, key, value) {
       this.getFlux().actions.updReplyto(key, value);
     },
@@ -44,9 +44,6 @@ var SendForm = React.createClass({
     handleDelSubject: function() {
       this.getFlux().actions.delSubject();
     },
-    handleUpdSubject: function() {
-      this.getFlux().actions.updSubject();
-    },
     handleUpdSubject: function(parentIndex, value) {
       this.getFlux().actions.updSubject(value);
     },
@@ -54,13 +51,21 @@ var SendForm = React.createClass({
     handleAddContent: function() {
       this.getFlux().actions.addContent();
     },
-
     handleDelContent: function(type) {
       this.getFlux().actions.delContent(type);
     },
-
     handleUpdContent: function(type, value) {
       this.getFlux().actions.updContent(type, value);
+    },
+
+    handleAddAttachment: function() {
+      this.getFlux().actions.addAttachment();
+    },
+    handleDelAttachment: function() {
+      this.getFlux().actions.delAttachment();
+    },
+    handleUpdAttachment: function(index, key, value) {
+      this.getFlux().actions.updAttachment(index, key, value);
     },
 
     handleSendMail: function(e) {
@@ -115,6 +120,13 @@ var SendForm = React.createClass({
               handleAdd={this.handleAddContent}
               handleDel={this.handleDelContent}
               handleUpd={this.handleUpdContent} />
+
+            <AttachmentForm
+              data={this.state.mailData.attachments}
+              handleAdd={this.handleAddAttachment}
+              handleDel={this.handleDelAttachment}
+              handleUpd={this.handleUpdAttachment}
+              />
 
             <div id="accordion">
               <div className="panel panel-default">

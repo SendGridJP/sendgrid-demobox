@@ -294,6 +294,7 @@
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
 	var ContentForm = __webpack_require__(14);
+	var AttachmentForm = __webpack_require__(26);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -318,14 +319,13 @@
 	  handleUpdFrom: function (id, key, value) {
 	    this.getFlux().actions.updFrom(key, value);
 	  },
+
 	  handleAddReplyto: function () {
 	    this.getFlux().actions.addReplyto();
 	  },
-
 	  handleDelReplyto: function () {
 	    this.getFlux().actions.delReplyto();
 	  },
-
 	  handleUpdReplyto: function (id, key, value) {
 	    this.getFlux().actions.updReplyto(key, value);
 	  },
@@ -336,9 +336,6 @@
 	  handleDelSubject: function () {
 	    this.getFlux().actions.delSubject();
 	  },
-	  handleUpdSubject: function () {
-	    this.getFlux().actions.updSubject();
-	  },
 	  handleUpdSubject: function (parentIndex, value) {
 	    this.getFlux().actions.updSubject(value);
 	  },
@@ -346,13 +343,21 @@
 	  handleAddContent: function () {
 	    this.getFlux().actions.addContent();
 	  },
-
 	  handleDelContent: function (type) {
 	    this.getFlux().actions.delContent(type);
 	  },
-
 	  handleUpdContent: function (type, value) {
 	    this.getFlux().actions.updContent(type, value);
+	  },
+
+	  handleAddAttachment: function () {
+	    this.getFlux().actions.addAttachment();
+	  },
+	  handleDelAttachment: function () {
+	    this.getFlux().actions.delAttachment();
+	  },
+	  handleUpdAttachment: function (index, key, value) {
+	    this.getFlux().actions.updAttachment(index, key, value);
 	  },
 
 	  handleSendMail: function (e) {
@@ -404,6 +409,12 @@
 	          handleAdd: this.handleAddContent,
 	          handleDel: this.handleDelContent,
 	          handleUpd: this.handleUpdContent }),
+	        React.createElement(AttachmentForm, {
+	          data: this.state.mailData.attachments,
+	          handleAdd: this.handleAddAttachment,
+	          handleDel: this.handleDelAttachment,
+	          handleUpd: this.handleUpdAttachment
+	        }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -2018,7 +2029,8 @@
 	      subject: null,
 	      from: { email: "", name: "" },
 	      "reply-to": null,
-	      content: [{ type: "text/plain", value: "hoge" }, { type: "text/html", value: "fuga" }]
+	      content: [{ type: "text/plain", value: "hoge" }, { type: "text/html", value: "fuga" }],
+	      attachments: []
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2029,7 +2041,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2230,6 +2242,25 @@
 	    this.emit("change");
 	  },
 
+	  onAddAttachment: function () {
+	    this.mailData.attachments.push({
+	      content: "",
+	      type: "",
+	      filename: "",
+	      disposition: "",
+	      content_id: ""
+	    });
+	    this.emit("change");
+	  },
+	  onDelAttachment: function (payload) {
+	    this.mailData.attachments.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+	  onUpdAttachment: function (payload) {
+	    this.mailData.attachments[payload.index][payload.key] = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2314,6 +2345,9 @@
 	  ADD_CONTENT: "ADD_CONTENT",
 	  DEL_CONTENT: "DEL_CONTENT",
 	  UPD_CONTENT: "UPD_CONTENT",
+	  ADD_ATTACHMENT: "ADD_ATTACHMENT",
+	  DEL_ATTACHMENT: "DEL_ATTACHMENT",
+	  UPD_ATTACHMENT: "UPD_ATTACHMENT",
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
@@ -2452,6 +2486,16 @@
 	    this.dispatch(constants.UPD_CONTENT, { type: type, value: value });
 	  },
 
+	  addAttachment: function () {
+	    this.dispatch(constants.ADD_ATTACHMENT);
+	  },
+	  delAttachment: function (index) {
+	    this.dispatch(constants.DEL_ATTACHMENT, { index: index });
+	  },
+	  updAttachment: function (index, key, value) {
+	    this.dispatch(constants.UPD_ATTACHMENT, { index: index, key: key, value: value });
+	  },
+
 	  // sendMail: function(param) {
 	  //   var requestParam = JSON.stringify(param);
 	  //   this.dispatch(constants.SEND_MAIL);
@@ -2558,6 +2602,143 @@
 	};
 
 	module.exports = DemoboxClient;
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AttachmentItem = __webpack_require__(27);
+
+	var AttachmentForm = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  render: function () {
+	    var add;
+	    if (this.props.data.length < 2) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
+	          className: "pull-right" },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    }
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "attachments"
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        this.props.data.map(function (data, index) {
+	          return React.createElement(AttachmentItem, {
+	            index: index,
+	            data: data,
+	            handleDel: this.props.handleDel,
+	            handleUpd: this.props.handleUpd });
+	        }.bind(this))
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = AttachmentForm;
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	var AttachmentItem = React.createClass({
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    index: React.PropTypes.number.isRequired,
+	    handleDel: React.PropTypes.func.isRequired,
+	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  handleDel: function () {
+	    this.props.handleDel(this.props.index);
+	  },
+
+	  handleUpd: function (e) {
+	    e.preventDefault();
+	    this.props.handleUpd(this.props.index, e.target.name, e.target.value);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "wrapper" },
+	      React.createElement(
+	        "div",
+	        { className: "fixed" },
+	        React.createElement(
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleDel,
+	            className: "removeIcon" },
+	          React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        )
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement("input", {
+	          type: "text",
+	          name: "content",
+	          className: "form-control",
+	          placeholder: "Base64 encoded content",
+	          defaultValue: this.props.data.content,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "type",
+	          className: "form-control",
+	          placeholder: "The mime type",
+	          defaultValue: this.props.data.type,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "filename",
+	          className: "form-control",
+	          placeholder: "Filename",
+	          defaultValue: this.props.data.filename,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "disposition",
+	          className: "form-control",
+	          placeholder: "Disposition",
+	          defaultValue: this.props.data.disposition,
+	          onChange: this.handleUpd }),
+	        React.createElement("input", {
+	          type: "text",
+	          name: "content_id",
+	          className: "form-control",
+	          placeholder: "Content ID",
+	          defaultValue: this.props.data['content_id'],
+	          onChange: this.handleUpd })
+	      )
+	    );
+	  }
+	});
+	module.exports = AttachmentItem;
 
 /***/ }
 /******/ ]);
