@@ -210,6 +210,16 @@ var actions = {
     this.dispatch(constants.UPD_HEADERS, {index: index, key: key, value: value});
   },
 
+  addCategories: function() {
+    this.dispatch(constants.ADD_CATEGORIES);
+  },
+  delCategories: function(index) {
+    this.dispatch(constants.DEL_CATEGORIES, {index: index});
+  },
+  updCategories: function(index, value) {
+    this.dispatch(constants.UPD_CATEGORIES, {index: index, value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);

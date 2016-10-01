@@ -1,3 +1,5 @@
+var SimpleTextItem = require('./simple_text_item.jsx');
+
 var SimpleTextForm = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
@@ -44,31 +46,39 @@ var SimpleTextForm = React.createClass({
     }
     var add;
     var items;
-    if (this.props.value != null) {
-      items = (
-        <div className="wrapper">
-          <div className="fixed">
-            {del}
-          </div>
-          <div className="flex">
-            <input
-              type="text"
-              name={this.props.paramName}
-              className="form-control"
-              placeholder={this.props.placeholder}
-              defaultValue={this.props.value}
-              onChange={this.handleUpd} />
-          </div>
-        </div>
-      );
-    }
-    if (this.props.value == null && this.props.max == 1) {
+    if (Array.isArray(this.props.value)) {
+      items = this.props.value.map(function(data, index) {
+        return (
+          <SimpleTextItem
+            index={index}
+            value={data}
+            placeholder={this.props.placeholder}
+            handleDel={this.props.handleDel}
+            handleUpd={this.props.handleUpd} />
+        )
+      }.bind(this));
       add = (
         <a href="javascript:void(0)" onClick={this.props.handleAdd}
           className="pull-right">
           <span className="glyphicon glyphicon-plus"></span>
         </a>
       )
+    } else {
+      if (this.props.value != null) {
+        items = <SimpleTextItem
+          value={this.props.value}
+          placeholder="Value"
+          handleDel={this.props.handleDel}
+          handleUpd={this.props.handleUpd} />
+      }
+      if (this.props.value == null && this.props.max == 1) {
+        add = (
+          <a href="javascript:void(0)" onClick={this.props.handleAdd}
+            className="pull-right">
+            <span className="glyphicon glyphicon-plus"></span>
+          </a>
+        )
+      }
     }
     return (
       <div>

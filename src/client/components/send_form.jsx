@@ -99,6 +99,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updHeaders(index, key, value);
     },
 
+    handleAddCategories: function() {
+      this.getFlux().actions.addCategories();
+    },
+    handleDelCategories: function(index) {
+      this.getFlux().actions.delCategories(index);
+    },
+    handleUpdCategories: function(index, value) {
+      this.getFlux().actions.updCategories(index, value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -184,6 +194,16 @@ var SendForm = React.createClass({
               handleAdd={this.handleAddHeaders}
               handleDel={this.handleDelHeaders}
               handleUpd={this.handleUpdHeaders} />
+
+            <SimpleTextForm
+              title="categories"
+              required={false}
+              placeholder="categories"
+              value={this.state.mailData.categories}
+              handleAdd={this.handleAddCategories}
+              handleDel={this.handleDelCategories}
+              handleUpd={this.handleUpdCategories}
+              max={255} />
 
             <div id="accordion">
               <div className="panel panel-default">
