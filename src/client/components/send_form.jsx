@@ -129,6 +129,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.updSendAt(value);
     },
 
+    handleAddBatchId: function() {
+      this.getFlux().actions.addBatchId();
+    },
+    handleDelBatchId: function() {
+      this.getFlux().actions.delBatchId();
+    },
+    handleUpdBatchId: function(parentIndex, value) {
+      this.getFlux().actions.updBatchId(value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -241,6 +251,16 @@ var SendForm = React.createClass({
               handleAdd={this.handleAddSendAt}
               handleDel={this.handleDelSendAt}
               handleUpd={this.handleUpdSendAt}
+              max={1} />
+
+            <SimpleTextForm
+              title="batch_id"
+              required={false}
+              placeholder="Batch ID"
+              value={this.state.mailData.batch_id}
+              handleAdd={this.handleAddBatchId}
+              handleDel={this.handleDelBatchId}
+              handleUpd={this.handleUpdBatchId}
               max={1} />
 
             <div id="accordion">

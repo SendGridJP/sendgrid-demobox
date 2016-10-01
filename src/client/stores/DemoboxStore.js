@@ -97,6 +97,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_SEND_AT, this.onAddSendAt,
       constants.DEL_SEND_AT, this.onDelSendAt,
       constants.UPD_SEND_AT, this.onUpdSendAt,
+      constants.ADD_BATCH_ID, this.onAddBatchId,
+      constants.DEL_BATCH_ID, this.onDelBatchId,
+      constants.UPD_BATCH_ID, this.onUpdBatchId,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -404,6 +407,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdSendAt: function(payload) {
     this.mailData.send_at = payload.value;
+    this.emit("change");
+  },
+
+  onAddBatchId: function() {
+    this.mailData.batch_id = "";
+    this.emit("change");
+  },
+  onDelBatchId: function() {
+    this.mailData.batch_id = null;
+    this.emit("change");
+  },
+  onUpdBatchId: function(payload) {
+    this.mailData.batch_id = payload.value;
     this.emit("change");
   },
 

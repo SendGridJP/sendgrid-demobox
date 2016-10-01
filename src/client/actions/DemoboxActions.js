@@ -240,6 +240,16 @@ var actions = {
     this.dispatch(constants.UPD_SEND_AT, {value: value});
   },
 
+  addBatchId: function() {
+    this.dispatch(constants.ADD_BATCH_ID);
+  },
+  delBatchId: function() {
+    this.dispatch(constants.DEL_BATCH_ID);
+  },
+  updBatchId: function(value) {
+    this.dispatch(constants.UPD_BATCH_ID, {value: value});
+  },
+
   // sendMail: function(param) {
   //   var requestParam = JSON.stringify(param);
   //   this.dispatch(constants.SEND_MAIL);
