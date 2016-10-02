@@ -250,25 +250,27 @@ var actions = {
     this.dispatch(constants.UPD_BATCH_ID, {value: value});
   },
 
-  // sendMail: function(param) {
-  //   var requestParam = JSON.stringify(param);
-  //   this.dispatch(constants.SEND_MAIL);
-  //   DemoboxClient.sendMail(
-  //     requestParam,
-  //     function(result) {
-  //       this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
-  //     }.bind(this),
-  //     function(xhr, status, err) {
-  //       this.dispatch(
-  //         constants.SEND_MAIL_FAIL,
-  //         {
-  //           responseCode: xhr.status,
-  //           responseBody: err.message
-  //         }
-  //       );
-  //     }.bind(this)
-  //   );
-  // },
+  addAsm: function() {
+    this.dispatch(constants.ADD_ASM);
+  },
+  delAsm: function() {
+    this.dispatch(constants.DEL_ASM);
+  },
+
+  updGroupId: function(value) {
+    this.dispatch(constants.UPD_GROUP_ID, {value: value});
+  },
+
+  addGroupsToDisplay: function() {
+    this.dispatch(constants.ADD_GROUPS_TO_DISPLAY);
+  },
+  delGroupsToDisplay: function(index) {
+    this.dispatch(constants.DEL_GROUPS_TO_DISPLAY, {index: index});
+  },
+  updGroupsToDisplay: function(index, value) {
+    this.dispatch(constants.UPD_GROUPS_TO_DISPLAY, {index: index, value: value});
+  },
+
   sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(

@@ -296,6 +296,7 @@
 	var ContentForm = __webpack_require__(14);
 	var AttachmentForm = __webpack_require__(16);
 	var KeyValueForm = __webpack_require__(13);
+	var AsmForm = __webpack_require__(28);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -431,6 +432,13 @@
 	    this.getFlux().actions.updBatchId(value);
 	  },
 
+	  handleAddAsm: function () {
+	    this.getFlux().actions.addAsm();
+	  },
+	  handleDelAsm: function () {
+	    this.getFlux().actions.delAsm();
+	  },
+
 	  handleSendMail: function (e) {
 	    e.preventDefault();
 	    // var form = $('#param');
@@ -543,6 +551,10 @@
 	          handleDel: this.handleDelBatchId,
 	          handleUpd: this.handleUpdBatchId,
 	          max: 1 }),
+	        React.createElement(AsmForm, {
+	          data: this.state.mailData.asm,
+	          handleAdd: this.handleAddAsm,
+	          handleDel: this.handleDelAsm }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -867,8 +879,7 @@
 	        null,
 	        React.createElement(
 	          "a",
-	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization,
-	            className: "pull-right" },
+	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization },
 	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	        )
 	      )
@@ -1125,8 +1136,7 @@
 	      }.bind(this));
 	      add = React.createElement(
 	        'a',
-	        { href: 'javascript:void(0)', onClick: this.props.handleAdd,
-	          className: 'pull-right' },
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd },
 	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
@@ -1144,8 +1154,7 @@
 	      if (this.props.data == null && this.props.max == 1) {
 	        add = React.createElement(
 	          'a',
-	          { href: 'javascript:void(0)', onClick: this.props.handleAdd,
-	            className: 'pull-right' },
+	          { href: 'javascript:void(0)', onClick: this.props.handleAdd },
 	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	        );
 	      }
@@ -1318,8 +1327,7 @@
 	      }.bind(this));
 	      add = React.createElement(
 	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	          className: "pull-right" },
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
 	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	      );
 	    } else {
@@ -1333,8 +1341,7 @@
 	      if (this.props.value == null && this.props.max == 1) {
 	        add = React.createElement(
 	          "a",
-	          { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	            className: "pull-right" },
+	          { href: "javascript:void(0)", onClick: this.props.handleAdd },
 	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	        );
 	      }
@@ -1374,8 +1381,8 @@
 
 	  getDefaultProps: function () {
 	    return {
-	      nameValue: "value",
-	      placeholderValue: "Value"
+	      name: "value",
+	      placeholder: "Value"
 	    };
 	  },
 
@@ -1416,10 +1423,10 @@
 	        { className: "flex" },
 	        React.createElement("input", {
 	          type: "text",
-	          name: this.props.nameValue,
+	          name: this.props.name,
 	          className: "form-control",
-	          placeholder: this.props.placeholderValue,
-	          defaultValue: this.props.valueValue,
+	          placeholder: this.props.placeholder,
+	          defaultValue: this.props.value,
 	          onChange: this.handleUpd })
 	      )
 	    );
@@ -1481,8 +1488,7 @@
 	      ),
 	      React.createElement(
 	        'a',
-	        { href: 'javascript:void(0)', onClick: this.props.handleAdd,
-	          className: 'pull-right' },
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd },
 	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      )
 	    );
@@ -1513,8 +1519,7 @@
 	    if (this.props.data.length < 2) {
 	      add = React.createElement(
 	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	          className: "pull-right" },
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
 	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	      );
 	    }
@@ -1635,8 +1640,7 @@
 	    if (this.props.data.length < 2) {
 	      add = React.createElement(
 	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd,
-	          className: "pull-right" },
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
 	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
 	      );
 	    }
@@ -2325,7 +2329,8 @@
 	      headers: [],
 	      categories: [],
 	      custom_args: [],
-	      send_at: null
+	      send_at: null,
+	      asm: null
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2336,7 +2341,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2645,6 +2650,33 @@
 	    this.emit("change");
 	  },
 
+	  onAddAsm: function () {
+	    this.mailData.asm = { group_id: "", groups_to_display: [""] };
+	    this.emit("change");
+	  },
+	  onDelAsm: function () {
+	    this.mailData.asm = null;
+	    this.emit("change");
+	  },
+
+	  onUpdGroupId: function (payload) {
+	    this.mailData.asm.group_id = payload.value;
+	    this.emit("change");
+	  },
+
+	  onAddGroupsToDisplay: function () {
+	    this.mailData.asm.groups_to_display.push("");
+	    this.emit("change");
+	  },
+	  onDelGroupsToDisplay: function (payload) {
+	    this.mailData.asm.groups_to_display.splice(payload.index, 1);
+	    this.emit("change");
+	  },
+	  onUpdGroupsToDisplay: function (payload) {
+	    this.mailData.asm.groups_to_display[payload.index] = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2753,6 +2785,12 @@
 	  ADD_BATCH_ID: "ADD_BATCH_ID",
 	  DEL_BATCH_ID: "DEL_BATCH_ID",
 	  UPD_BATCH_ID: "UPD_BATCH_ID",
+	  ADD_ASM: "ADD_ASM",
+	  DEL_ASM: "DEL_ASM",
+	  UPD_GROUP_ID: "UPD_GROUP_ID",
+	  ADD_GROUPS_TO_DISPLAY: "ADD_GROUPS_TO_DISPLAY",
+	  DEL_GROUPS_TO_DISPLAY: "DEL_GROUPS_TO_DISPLAY",
+	  UPD_GROUPS_TO_DISPLAY: "UPD_GROUPS_TO_DISPLAY",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -2972,25 +3010,27 @@
 	    this.dispatch(constants.UPD_BATCH_ID, { value: value });
 	  },
 
-	  // sendMail: function(param) {
-	  //   var requestParam = JSON.stringify(param);
-	  //   this.dispatch(constants.SEND_MAIL);
-	  //   DemoboxClient.sendMail(
-	  //     requestParam,
-	  //     function(result) {
-	  //       this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
-	  //     }.bind(this),
-	  //     function(xhr, status, err) {
-	  //       this.dispatch(
-	  //         constants.SEND_MAIL_FAIL,
-	  //         {
-	  //           responseCode: xhr.status,
-	  //           responseBody: err.message
-	  //         }
-	  //       );
-	  //     }.bind(this)
-	  //   );
-	  // },
+	  addAsm: function () {
+	    this.dispatch(constants.ADD_ASM);
+	  },
+	  delAsm: function () {
+	    this.dispatch(constants.DEL_ASM);
+	  },
+
+	  updGroupId: function (value) {
+	    this.dispatch(constants.UPD_GROUP_ID, { value: value });
+	  },
+
+	  addGroupsToDisplay: function () {
+	    this.dispatch(constants.ADD_GROUPS_TO_DISPLAY);
+	  },
+	  delGroupsToDisplay: function (index) {
+	    this.dispatch(constants.DEL_GROUPS_TO_DISPLAY, { index: index });
+	  },
+	  updGroupsToDisplay: function (index, value) {
+	    this.dispatch(constants.UPD_GROUPS_TO_DISPLAY, { index: index, value: value });
+	  },
+
 	  sendMail: function (mailData) {
 	    this.dispatch(constants.SEND_MAIL);
 	    DemoboxClient.sendMail(mailData, function (result) {
@@ -3081,6 +3121,124 @@
 	};
 
 	module.exports = DemoboxClient;
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SimpleTextItem = __webpack_require__(12);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var AsmForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleUpdGroupId: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updGroupId(e.target.value);
+	  },
+
+	  handleAddGroupsToDisplay: function () {
+	    this.getFlux().actions.addGroupsToDisplay();
+	  },
+	  handleDelGroupsToDisplay: function (index) {
+	    this.getFlux().actions.delGroupsToDisplay(index);
+	  },
+	  handleUpdGroupsToDisplay: function (index, value) {
+	    this.getFlux().actions.updGroupsToDisplay(index, value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var form;
+	    var items;
+	    console.log(this.props.data);
+	    if (this.props.data === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      items = this.props.data.groups_to_display.map(function (data, index) {
+	        return React.createElement(SimpleTextItem, {
+	          index: index,
+	          value: data,
+	          placeholder: "groups_to_display",
+	          handleDel: this.handleDelGroupsToDisplay,
+	          handleUpd: this.handleUpdGroupsToDisplay });
+	      }.bind(this));
+	      form = React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          React.createElement(
+	            "a",
+	            { href: "javascript:void(0)", onClick: this.props.handleDel,
+	              className: "removeIcon" },
+	            React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(
+	            "div",
+	            { className: "wrapper" },
+	            React.createElement("input", { type: "text",
+	              name: "group_id",
+	              className: "form-control",
+	              placeholder: "group_id",
+	              defaultValue: this.props.data.group_id,
+	              onChange: this.handleUpdGroupId })
+	          ),
+	          React.createElement(
+	            "div",
+	            null,
+	            items
+	          ),
+	          React.createElement(
+	            "a",
+	            { href: "javascript:void(0)", onClick: this.handleAddGroupsToDisplay },
+	            React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "asm"
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = AsmForm;
 
 /***/ }
 /******/ ]);

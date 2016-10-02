@@ -37,8 +37,7 @@ var KeyValueForm = React.createClass({
             );
           }.bind(this))}
         </div>
-        <a href="javascript:void(0)" onClick={this.props.handleAdd}
-          className="pull-right">
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
         </a>
       </div>

@@ -4,6 +4,7 @@ var SimpleTextForm = require('./simple_text_form.jsx');
 var ContentForm = require('./content_form.jsx');
 var AttachmentForm = require('./attachment_form.jsx');
 var KeyValueForm = require('./key_value_form.jsx');
+var AsmForm = require('./asm_form.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -139,6 +140,13 @@ var SendForm = React.createClass({
       this.getFlux().actions.updBatchId(value);
     },
 
+    handleAddAsm: function() {
+      this.getFlux().actions.addAsm();
+    },
+    handleDelAsm: function() {
+      this.getFlux().actions.delAsm();
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -262,6 +270,11 @@ var SendForm = React.createClass({
               handleDel={this.handleDelBatchId}
               handleUpd={this.handleUpdBatchId}
               max={1} />
+
+            <AsmForm
+              data={this.state.mailData.asm}
+              handleAdd={this.handleAddAsm}
+              handleDel={this.handleDelAsm} />
 
             <div id="accordion">
               <div className="panel panel-default">

@@ -28,7 +28,8 @@ var DemoboxStore = Fluxxor.createStore({
       headers: [],
       categories: [],
       custom_args: [],
-      send_at: null
+      send_at: null,
+      asm: null
     };
     this.status = '';
     this.request = '';
@@ -100,6 +101,12 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_BATCH_ID, this.onAddBatchId,
       constants.DEL_BATCH_ID, this.onDelBatchId,
       constants.UPD_BATCH_ID, this.onUpdBatchId,
+      constants.ADD_ASM, this.onAddAsm,
+      constants.DEL_ASM, this.onDelAsm,
+      constants.UPD_GROUP_ID, this.onUpdGroupId,
+      constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay,
+      constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay,
+      constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -420,6 +427,33 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdBatchId: function(payload) {
     this.mailData.batch_id = payload.value;
+    this.emit("change");
+  },
+
+  onAddAsm: function() {
+    this.mailData.asm = {group_id: "", groups_to_display: [""]};
+    this.emit("change");
+  },
+  onDelAsm: function() {
+    this.mailData.asm = null;
+    this.emit("change");
+  },
+
+  onUpdGroupId: function(payload) {
+    this.mailData.asm.group_id = payload.value;
+    this.emit("change");
+  },
+
+  onAddGroupsToDisplay: function() {
+    this.mailData.asm.groups_to_display.push("");
+    this.emit("change");
+  },
+  onDelGroupsToDisplay: function(payload) {
+    this.mailData.asm.groups_to_display.splice(payload.index, 1);
+    this.emit("change");
+  },
+  onUpdGroupsToDisplay: function(payload) {
+    this.mailData.asm.groups_to_display[payload.index] = payload.value;
     this.emit("change");
   },
 

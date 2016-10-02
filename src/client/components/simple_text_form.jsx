@@ -58,8 +58,7 @@ var SimpleTextForm = React.createClass({
         )
       }.bind(this));
       add = (
-        <a href="javascript:void(0)" onClick={this.props.handleAdd}
-          className="pull-right">
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
         </a>
       )
@@ -73,8 +72,7 @@ var SimpleTextForm = React.createClass({
       }
       if (this.props.value == null && this.props.max == 1) {
         add = (
-          <a href="javascript:void(0)" onClick={this.props.handleAdd}
-            className="pull-right">
+          <a href="javascript:void(0)" onClick={this.props.handleAdd}>
             <span className="glyphicon glyphicon-plus"></span>
           </a>
         )

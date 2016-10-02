@@ -30,8 +30,7 @@ var PersonalizationList = React.createClass({
         })}
 
         <div>
-          <a href="javascript:void(0)" onClick={this.handleAddPersonalization}
-            className="pull-right">
+          <a href="javascript:void(0)" onClick={this.handleAddPersonalization}>
             <span className="glyphicon glyphicon-plus"></span>
           </a>
         </div>

@@ -9,8 +9,8 @@ var SimpleTextItem = React.createClass({
 
   getDefaultProps: function() {
     return {
-      nameValue: "value",
-      placeholderValue: "Value",
+      name: "value",
+      placeholder: "Value",
     };
   },
 
@@ -47,10 +47,10 @@ var SimpleTextItem = React.createClass({
         <div className="flex">
           <input
             type="text"
-            name={this.props.nameValue}
+            name={this.props.name}
             className="form-control"
-            placeholder={this.props.placeholderValue}
-            defaultValue={this.props.valueValue}
+            placeholder={this.props.placeholder}
+            defaultValue={this.props.value}
             onChange={this.handleUpd} />
         </div>
       </div>

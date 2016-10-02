@@ -17,8 +17,7 @@ var AttachmentForm = React.createClass({
     var add;
     if (this.props.data.length < 2) {
       add = (
-        <a href="javascript:void(0)" onClick={this.props.handleAdd}
-          className="pull-right">
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
         </a>
       );
