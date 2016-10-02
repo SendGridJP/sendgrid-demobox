@@ -304,6 +304,22 @@ var actions = {
     this.dispatch(constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, {value: value});
   },
 
+  addFooter: function() {
+    this.dispatch(constants.ADD_FOOTER);
+  },
+  delFooter: function() {
+    this.dispatch(constants.DEL_FOOTER);
+  },
+  updFooterEnable: function(value) {
+    this.dispatch(constants.UPD_FOOTER_ENABLE, {value: value});
+  },
+  updFooterText: function(value) {
+    this.dispatch(constants.UPD_FOOTER_TEXT, {value: value});
+  },
+  updFooterHtml: function(value) {
+    this.dispatch(constants.UPD_FOOTER_HTML, {value: value});
+  },
+
   sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(

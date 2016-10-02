@@ -125,6 +125,11 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_BYPASS_LIST_MANAGEMENT, this.onAddBypassListManagement,
       constants.DEL_BYPASS_LIST_MANAGEMENT, this.onDelBypassListManagement,
       constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, this.onUpdBypassListManagementEnable,
+      constants.ADD_FOOTER, this.onAddFooter,
+      constants.DEL_FOOTER, this.onDelFooter,
+      constants.UPD_FOOTER_ENABLE, this.onUpdFooterEnable,
+      constants.UPD_FOOTER_TEXT, this.onUpdFooterText,
+      constants.UPD_FOOTER_HTML, this.onUpdFooterHtml,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -515,6 +520,27 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdBypassListManagementEnable: function(payload) {
     this.mailData.mail_settings.bypass_list_management.enable = payload.value;
+    this.emit("change");
+  },
+
+  onAddFooter: function() {
+    this.mailData.mail_settings.footer = {enable: false, text: "", html: ""};
+    this.emit("change");
+  },
+  onDelFooter: function() {
+    this.mailData.mail_settings.footer = null;
+    this.emit("change");
+  },
+  onUpdFooterEnable: function(payload) {
+    this.mailData.mail_settings.footer.enable = payload.value;
+    this.emit("change");
+  },
+  onUpdFooterText: function(payload) {
+    this.mailData.mail_settings.footer.text = payload.value;
+    this.emit("change");
+  },
+  onUpdFooterHtml: function(payload) {
+    this.mailData.mail_settings.footer.html = payload.value;
     this.emit("change");
   },
 

@@ -1,5 +1,6 @@
 var BccForm = require('./bcc_form.jsx');
 var BypassListManagementForm = require('./bypass_list_management_form.jsx');
+var FooterForm = require('./footer_form.jsx');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -28,6 +29,13 @@ var MailSettingsForm = React.createClass({
     this.getFlux().actions.delBypassListManagement();
   },
 
+  handleAddFooter: function() {
+    this.getFlux().actions.addFooter();
+  },
+  handleDelFooter: function() {
+    this.getFlux().actions.delFooter();
+  },
+
   render: function() {
     return (
       <div>
@@ -47,6 +55,11 @@ var MailSettingsForm = React.createClass({
               data={this.state.mail_settings.bypass_list_management}
               handleAdd={this.handleAddBypassListManagement}
               handleDel={this.handleDelBypassListManagement} />
+
+            <FooterForm
+              data={this.state.mail_settings.footer}
+              handleAdd={this.handleAddFooter}
+              handleDel={this.handleDelFooter} />
 
           </div>
         </div>
