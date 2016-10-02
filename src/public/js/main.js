@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(23);
+	var flux = __webpack_require__(30);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -239,7 +239,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(22);
+	var ReceivePage = __webpack_require__(29);
 
 	var Article = React.createClass({
 	  propTypes: {
@@ -260,7 +260,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(18);
+	var EventsPain = __webpack_require__(25);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -296,8 +296,8 @@
 	var ContentForm = __webpack_require__(14);
 	var AttachmentForm = __webpack_require__(16);
 	var KeyValueForm = __webpack_require__(13);
-	var AsmForm = __webpack_require__(28);
-	var MailSettingsForm = __webpack_require__(29);
+	var AsmForm = __webpack_require__(18);
+	var MailSettingsForm = __webpack_require__(19);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -1532,9 +1532,342 @@
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(19);
-	var EventItemTable = __webpack_require__(20);
-	var EventItemJson = __webpack_require__(21);
+	var SimpleTextItem = __webpack_require__(12);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var AsmForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
+	  },
+
+	  getInitialState: function () {
+	    return {};
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleUpdGroupId: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updGroupId(e.target.value);
+	  },
+
+	  handleAddGroupsToDisplay: function () {
+	    this.getFlux().actions.addGroupsToDisplay();
+	  },
+	  handleDelGroupsToDisplay: function (index) {
+	    this.getFlux().actions.delGroupsToDisplay(index);
+	  },
+	  handleUpdGroupsToDisplay: function (index, value) {
+	    this.getFlux().actions.updGroupsToDisplay(index, value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var form;
+	    var items;
+	    console.log(this.props.data);
+	    if (this.props.data === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      items = this.props.data.groups_to_display.map(function (data, index) {
+	        return React.createElement(SimpleTextItem, {
+	          index: index,
+	          value: data,
+	          placeholder: "groups_to_display",
+	          handleDel: this.handleDelGroupsToDisplay,
+	          handleUpd: this.handleUpdGroupsToDisplay });
+	      }.bind(this));
+	      form = React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          React.createElement(
+	            "a",
+	            { href: "javascript:void(0)", onClick: this.props.handleDel,
+	              className: "removeIcon" },
+	            React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(
+	            "div",
+	            { className: "wrapper" },
+	            React.createElement("input", { type: "text",
+	              name: "group_id",
+	              className: "form-control",
+	              placeholder: "group_id",
+	              defaultValue: this.props.data.group_id,
+	              onChange: this.handleUpdGroupId })
+	          ),
+	          React.createElement(
+	            "div",
+	            null,
+	            items
+	          ),
+	          React.createElement(
+	            "a",
+	            { href: "javascript:void(0)", onClick: this.handleAddGroupsToDisplay },
+	            React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "asm"
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = AsmForm;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var MailSettingsItem = __webpack_require__(20);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var MailSettingsForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      mail_settings: store.mailData.mail_settings
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "mail_settings"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement("div", { className: "fixed" }),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(MailSettingsItem, {
+	            data: this.state.mail_settings,
+	            parent: "bcc" }),
+	          React.createElement(MailSettingsItem, {
+	            data: this.state.mail_settings,
+	            parent: "bypass_list_management" }),
+	          React.createElement(MailSettingsItem, {
+	            data: this.state.mail_settings,
+	            parent: "footer" }),
+	          React.createElement(MailSettingsItem, {
+	            data: this.state.mail_settings,
+	            parent: "sandbox_mode" }),
+	          React.createElement(MailSettingsItem, {
+	            data: this.state.mail_settings,
+	            parent: "spam_check" })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = MailSettingsForm;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var MailSettingsItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    parent: React.PropTypes.string.isRequired
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleAdd: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.addMailSettingsItem(this.props.parent);
+	  },
+
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.delMailSettingsItem(this.props.parent);
+	  },
+
+	  handleUpdEnable: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updMailSettings(this.props.parent, e.target.name, e.target.value == 'true');
+	  },
+
+	  handleUpdMailSettings: function (e) {
+	    e.preventDefault();
+	    var value = e.target.value;
+	    if (this.props.name === "enable") {
+	      value = e.target.value == "true";
+	    }
+	    if (this.props.parent === "spam_check" && e.target.name === "threshold") {
+	      value = Number(e.target.value);
+	    }
+	    this.getFlux().actions.updMailSettings(this.props.parent, e.target.name, value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var del;
+	    if (this.props.data[this.props.parent] === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      var items;
+	      switch (this.props.parent) {
+	        case "bcc":
+	          items = React.createElement("input", { type: "text",
+	            name: "email",
+	            className: "form-control",
+	            placeholder: "email",
+	            defaultValue: this.props.data[this.props.parent].email,
+	            onChange: this.handleUpdMailSettings });
+	          break;
+	        case "footer":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "text",
+	              className: "form-control",
+	              placeholder: "text",
+	              defaultValue: this.props.data[this.props.parent].text,
+	              onChange: this.handleUpdMailSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "html",
+	              className: "form-control",
+	              placeholder: "html",
+	              defaultValue: this.props.data[this.props.parent].html,
+	              onChange: this.handleUpdMailSettings })
+	          );
+	          break;
+	        case "spam_check":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "threshold",
+	              className: "form-control",
+	              placeholder: "threshold",
+	              defaultValue: this.props.data[this.props.parent].threshold,
+	              onChange: this.handleUpdMailSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "post_to_url",
+	              className: "form-control",
+	              placeholder: "post_to_url",
+	              defaultValue: this.props.data[this.props.parent].post_to_url,
+	              onChange: this.handleUpdMailSettings })
+	          );
+	          break;
+	      }
+	      var form = React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "select",
+	          { className: "form-control", name: "enable",
+	            value: this.props.data[this.props.parent].enable,
+	            onChange: this.handleUpdEnable },
+	          React.createElement(
+	            "option",
+	            { value: "false" },
+	            "false"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "true" },
+	            "true"
+	          )
+	        ),
+	        items
+	      );
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        this.props.parent
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = MailSettingsItem;
+
+/***/ },
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ShowButton = __webpack_require__(26);
+	var EventItemTable = __webpack_require__(27);
+	var EventItemJson = __webpack_require__(28);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1803,7 +2136,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 19 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -1833,7 +2166,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 20 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -1995,7 +2328,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 21 */
+/* 28 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -2029,7 +2362,7 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 22 */
+/* 29 */
 /***/ function(module, exports) {
 
 	var ReceivePage = React.createClass({
@@ -2044,11 +2377,11 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 23 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(24);
-	var DemoboxActions = __webpack_require__(26);
+	var DemoboxStore = __webpack_require__(31);
+	var DemoboxActions = __webpack_require__(33);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -2076,10 +2409,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 24 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(25);
+	var constants = __webpack_require__(32);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -2124,7 +2457,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.ADD_BCC, this.onAddBcc, constants.DEL_BCC, this.onDelBcc, constants.UPD_BCC_ENABLE, this.onUpdBccEnable, constants.UPD_BCC_EMAIL, this.onUpdBccEmail, constants.ADD_BYPASS_LIST_MANAGEMENT, this.onAddBypassListManagement, constants.DEL_BYPASS_LIST_MANAGEMENT, this.onDelBypassListManagement, constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, this.onUpdBypassListManagementEnable, constants.ADD_FOOTER, this.onAddFooter, constants.DEL_FOOTER, this.onDelFooter, constants.UPD_FOOTER_ENABLE, this.onUpdFooterEnable, constants.UPD_FOOTER_TEXT, this.onUpdFooterText, constants.UPD_FOOTER_HTML, this.onUpdFooterHtml, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2473,54 +2806,34 @@
 	    this.emit("change");
 	  },
 
-	  onAddBcc: function () {
-	    this.mailData.mail_settings.bcc = { enable: false, email: "" };
+	  onUpdMailSettings: function (payload) {
+	    this.mailData.mail_settings[payload.parent][payload.name] = payload.value;
 	    this.emit("change");
 	  },
-	  onDelBcc: function () {
-	    this.mailData.mail_settings.bcc = null;
+	  onAddMailSettingsItem: function (payload) {
+	    var value = {};
+	    switch (payload.parent) {
+	      case "bcc":
+	        value = { enable: false, email: "" };
+	        break;
+	      case "bypass_list_management":
+	        value = { enable: false };
+	        break;
+	      case "footer":
+	        value = { enable: false, text: "", html: "" };
+	        break;
+	      case "sandbox_mode":
+	        value = { enable: false };
+	        break;
+	      case "spam_check":
+	        value = { enable: false, threshold: 5, post_to_url: "" };
+	        break;
+	    }
+	    this.mailData.mail_settings[payload.parent] = value;
 	    this.emit("change");
 	  },
-	  onUpdBccEnable: function (payload) {
-	    this.mailData.mail_settings.bcc.enable = payload.value;
-	    this.emit("change");
-	  },
-	  onUpdBccEmail: function (payload) {
-	    this.mailData.mail_settings.bcc.email = payload.value;
-	    this.emit("change");
-	  },
-
-	  onAddBypassListManagement: function () {
-	    this.mailData.mail_settings.bypass_list_management = { enable: false };
-	    this.emit("change");
-	  },
-	  onDelBypassListManagement: function () {
-	    this.mailData.mail_settings.bypass_list_management = null;
-	    this.emit("change");
-	  },
-	  onUpdBypassListManagementEnable: function (payload) {
-	    this.mailData.mail_settings.bypass_list_management.enable = payload.value;
-	    this.emit("change");
-	  },
-
-	  onAddFooter: function () {
-	    this.mailData.mail_settings.footer = { enable: false, text: "", html: "" };
-	    this.emit("change");
-	  },
-	  onDelFooter: function () {
-	    this.mailData.mail_settings.footer = null;
-	    this.emit("change");
-	  },
-	  onUpdFooterEnable: function (payload) {
-	    this.mailData.mail_settings.footer.enable = payload.value;
-	    this.emit("change");
-	  },
-	  onUpdFooterText: function (payload) {
-	    this.mailData.mail_settings.footer.text = payload.value;
-	    this.emit("change");
-	  },
-	  onUpdFooterHtml: function (payload) {
-	    this.mailData.mail_settings.footer.html = payload.value;
+	  onDelMailSettingsItem: function (payload) {
+	    this.mailData.mail_settings[payload.parent] = null;
 	    this.emit("change");
 	  },
 
@@ -2568,7 +2881,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 25 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -2641,18 +2954,9 @@
 	  ADD_IP_POOL_NAME: "ADD_IP_POOL_NAME",
 	  DEL_IP_POOL_NAME: "DEL_IP_POOL_NAME",
 	  UPD_IP_POOL_NAME: "UPD_IP_POOL_NAME",
-	  ADD_BCC: "ADD_BCC",
-	  DEL_BCC: "DEL_BCC",
-	  UPD_BCC_ENABLE: "UPD_BCC_ENABLE",
-	  UPD_BCC_EMAIL: "UPD_BCC_EMAIL",
-	  ADD_BYPASS_LIST_MANAGEMENT: "ADD_BYPASS_LIST_MANAGEMENT",
-	  DEL_BYPASS_LIST_MANAGEMENT: "DEL_BYPASS_LIST_MANAGEMENT",
-	  UPD_BYPASS_LIST_MANAGEMENT_ENABLE: "UPD_BYPASS_LIST_MANAGEMENT_ENABLE",
-	  ADD_FOOTER: "ADD_FOOTER",
-	  DEL_FOOTER: "DEL_FOOTER",
-	  UPD_FOOTER_ENABLE: "UPD_FOOTER_ENABLE",
-	  UPD_FOOTER_TEXT: "UPD_FOOTER_TEXT",
-	  UPD_FOOTER_HTML: "UPD_FOOTER_HTML",
+	  UPD_MAIL_SETTINGS: "UPD_MAIL_SETTINGS",
+	  ADD_MAIL_SETTINGS_ITEM: "ADD_MAIL_SETTINGS_ITEM",
+	  DEL_MAIL_SETTINGS_ITEM: "DEL_MAIL_SETTINGS_ITEM",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -2664,11 +2968,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 26 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(25);
-	var DemoboxClient = __webpack_require__(27);
+	var constants = __webpack_require__(32);
+	var DemoboxClient = __webpack_require__(34);
 
 	var actions = {
 	  addPersonalization: function () {
@@ -2903,43 +3207,14 @@
 	    this.dispatch(constants.UPD_IP_POOL_NAME, { value: value });
 	  },
 
-	  addBcc: function () {
-	    this.dispatch(constants.ADD_BCC);
+	  addMailSettingsItem: function (parent) {
+	    this.dispatch(constants.ADD_MAIL_SETTINGS_ITEM, { parent: parent });
 	  },
-	  delBcc: function () {
-	    this.dispatch(constants.DEL_BCC);
+	  delMailSettingsItem: function (parent) {
+	    this.dispatch(constants.DEL_MAIL_SETTINGS_ITEM, { parent: parent });
 	  },
-	  updBccEnable: function (value) {
-	    this.dispatch(constants.UPD_BCC_ENABLE, { value: value });
-	  },
-	  updBccEmail: function (value) {
-	    this.dispatch(constants.UPD_BCC_EMAIL, { value: value });
-	  },
-
-	  addBypassListManagement: function () {
-	    this.dispatch(constants.ADD_BYPASS_LIST_MANAGEMENT);
-	  },
-	  delBypassListManagement: function () {
-	    this.dispatch(constants.DEL_BYPASS_LIST_MANAGEMENT);
-	  },
-	  updBypassListManagementEnable: function (value) {
-	    this.dispatch(constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, { value: value });
-	  },
-
-	  addFooter: function () {
-	    this.dispatch(constants.ADD_FOOTER);
-	  },
-	  delFooter: function () {
-	    this.dispatch(constants.DEL_FOOTER);
-	  },
-	  updFooterEnable: function (value) {
-	    this.dispatch(constants.UPD_FOOTER_ENABLE, { value: value });
-	  },
-	  updFooterText: function (value) {
-	    this.dispatch(constants.UPD_FOOTER_TEXT, { value: value });
-	  },
-	  updFooterHtml: function (value) {
-	    this.dispatch(constants.UPD_FOOTER_HTML, { value: value });
+	  updMailSettings: function (parent, name, value) {
+	    this.dispatch(constants.UPD_MAIL_SETTINGS, { parent: parent, name: name, value: value });
 	  },
 
 	  sendMail: function (mailData) {
@@ -2966,7 +3241,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 27 */
+/* 34 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
@@ -3032,492 +3307,6 @@
 	};
 
 	module.exports = DemoboxClient;
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SimpleTextItem = __webpack_require__(12);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var AsmForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
-	  },
-
-	  getStateFromFlux: function () {
-	    return {};
-	  },
-
-	  handleUpdGroupId: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updGroupId(e.target.value);
-	  },
-
-	  handleAddGroupsToDisplay: function () {
-	    this.getFlux().actions.addGroupsToDisplay();
-	  },
-	  handleDelGroupsToDisplay: function (index) {
-	    this.getFlux().actions.delGroupsToDisplay(index);
-	  },
-	  handleUpdGroupsToDisplay: function (index, value) {
-	    this.getFlux().actions.updGroupsToDisplay(index, value);
-	  },
-
-	  render: function () {
-	    var add;
-	    var form;
-	    var items;
-	    console.log(this.props.data);
-	    if (this.props.data === null) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    } else {
-	      items = this.props.data.groups_to_display.map(function (data, index) {
-	        return React.createElement(SimpleTextItem, {
-	          index: index,
-	          value: data,
-	          placeholder: "groups_to_display",
-	          handleDel: this.handleDelGroupsToDisplay,
-	          handleUpd: this.handleUpdGroupsToDisplay });
-	      }.bind(this));
-	      form = React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          React.createElement(
-	            "a",
-	            { href: "javascript:void(0)", onClick: this.props.handleDel,
-	              className: "removeIcon" },
-	            React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	          )
-	        ),
-	        React.createElement(
-	          "div",
-	          { className: "flex" },
-	          React.createElement(
-	            "div",
-	            { className: "wrapper" },
-	            React.createElement("input", { type: "text",
-	              name: "group_id",
-	              className: "form-control",
-	              placeholder: "group_id",
-	              defaultValue: this.props.data.group_id,
-	              onChange: this.handleUpdGroupId })
-	          ),
-	          React.createElement(
-	            "div",
-	            null,
-	            items
-	          ),
-	          React.createElement(
-	            "a",
-	            { href: "javascript:void(0)", onClick: this.handleAddGroupsToDisplay },
-	            React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	          )
-	        )
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "asm"
-	      ),
-	      React.createElement(
-	        "div",
-	        null,
-	        form
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = AsmForm;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var BccForm = __webpack_require__(30);
-	var BypassListManagementForm = __webpack_require__(31);
-	var FooterForm = __webpack_require__(32);
-
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var MailSettingsForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {
-	      mail_settings: store.mailData.mail_settings
-	    };
-	  },
-
-	  handleAddBcc: function () {
-	    this.getFlux().actions.addBcc();
-	  },
-	  handleDelBcc: function () {
-	    this.getFlux().actions.delBcc();
-	  },
-
-	  handleAddBypassListManagement: function () {
-	    this.getFlux().actions.addBypassListManagement();
-	  },
-	  handleDelBypassListManagement: function () {
-	    this.getFlux().actions.delBypassListManagement();
-	  },
-
-	  handleAddFooter: function () {
-	    this.getFlux().actions.addFooter();
-	  },
-	  handleDelFooter: function () {
-	    this.getFlux().actions.delFooter();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'label',
-	        { className: 'control-label' },
-	        'mail_settings'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'wrapper' },
-	        React.createElement('div', { className: 'fixed' }),
-	        React.createElement(
-	          'div',
-	          { className: 'flex' },
-	          React.createElement(BccForm, {
-	            data: this.state.mail_settings.bcc,
-	            handleAdd: this.handleAddBcc,
-	            handleDel: this.handleDelBcc }),
-	          React.createElement(BypassListManagementForm, {
-	            data: this.state.mail_settings.bypass_list_management,
-	            handleAdd: this.handleAddBypassListManagement,
-	            handleDel: this.handleDelBypassListManagement }),
-	          React.createElement(FooterForm, {
-	            data: this.state.mail_settings.footer,
-	            handleAdd: this.handleAddFooter,
-	            handleDel: this.handleDelFooter })
-	        )
-	      )
-	    );
-	  }
-	});
-	module.exports = MailSettingsForm;
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var BccForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
-	  },
-
-	  getStateFromFlux: function () {
-	    return {};
-	  },
-
-	  handleUpdEnable: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updBccEnable(e.target.value == 'true');
-	  },
-
-	  handleUpdEmail: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updBccEmail(e.target.value);
-	  },
-
-	  render: function () {
-	    var add;
-	    var del;
-	    if (this.props.data === null) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    } else {
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement(
-	          "select",
-	          { className: "form-control",
-	            value: this.props.data.enable,
-	            onChange: this.handleUpdEnable },
-	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
-	          )
-	        ),
-	        React.createElement("input", { type: "text",
-	          name: "email",
-	          className: "form-control",
-	          placeholder: "email",
-	          defaultValue: this.props.data.email,
-	          onChange: this.handleUpdEmail })
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "bcc"
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
-	        form
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = BccForm;
-
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var BypassListManagementForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
-	  },
-
-	  getStateFromFlux: function () {
-	    return {};
-	  },
-
-	  handleUpdEnable: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updBypassListManagementEnable(e.target.value == 'true');
-	  },
-
-	  render: function () {
-	    var add;
-	    var del;
-	    if (this.props.data === null) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    } else {
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement(
-	          "select",
-	          { className: "form-control",
-	            value: this.props.data.enable,
-	            onChange: this.handleUpdEnable },
-	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
-	          )
-	        )
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "bypass_list_management"
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
-	        form
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = BypassListManagementForm;
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var FooterForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    handleAdd: React.PropTypes.func.isRequired,
-	    handleDel: React.PropTypes.func.isRequired
-	  },
-
-	  getStateFromFlux: function () {
-	    return {};
-	  },
-
-	  handleUpdEnable: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updFooterEnable(e.target.value == 'true');
-	  },
-
-	  handleUpdText: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updFooterText(e.target.value);
-	  },
-
-	  handleUpdHtml: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updFooterHtml(e.target.value);
-	  },
-
-	  render: function () {
-	    var add;
-	    var del;
-	    if (this.props.data === null) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    } else {
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement(
-	          "select",
-	          { className: "form-control",
-	            value: this.props.data.enable,
-	            onChange: this.handleUpdEnable },
-	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
-	          )
-	        ),
-	        React.createElement("input", { type: "text",
-	          name: "text",
-	          className: "form-control",
-	          placeholder: "text",
-	          defaultValue: this.props.data.text,
-	          onChange: this.handleUpdText }),
-	        React.createElement("input", { type: "text",
-	          name: "html",
-	          className: "form-control",
-	          placeholder: "html",
-	          defaultValue: this.props.data.html,
-	          onChange: this.handleUpdHtml })
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "footer"
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
-	        form
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = FooterForm;
 
 /***/ }
 /******/ ]);

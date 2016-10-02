@@ -1,7 +1,4 @@
-var BccForm = require('./bcc_form.jsx');
-var BypassListManagementForm = require('./bypass_list_management_form.jsx');
-var FooterForm = require('./footer_form.jsx');
-
+var MailSettingsItem = require('./mail_settings_item.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -15,27 +12,6 @@ var MailSettingsForm = React.createClass({
     }
   },
 
-  handleAddBcc: function() {
-    this.getFlux().actions.addBcc();
-  },
-  handleDelBcc: function() {
-    this.getFlux().actions.delBcc();
-  },
-
-  handleAddBypassListManagement: function() {
-    this.getFlux().actions.addBypassListManagement();
-  },
-  handleDelBypassListManagement: function() {
-    this.getFlux().actions.delBypassListManagement();
-  },
-
-  handleAddFooter: function() {
-    this.getFlux().actions.addFooter();
-  },
-  handleDelFooter: function() {
-    this.getFlux().actions.delFooter();
-  },
-
   render: function() {
     return (
       <div>
@@ -46,20 +22,26 @@ var MailSettingsForm = React.createClass({
           <div className="fixed">
           </div>
           <div className="flex">
-            <BccForm
-              data={this.state.mail_settings.bcc}
-              handleAdd={this.handleAddBcc}
-              handleDel={this.handleDelBcc} />
+            <MailSettingsItem
+              data={this.state.mail_settings}
+              parent="bcc" />
 
-            <BypassListManagementForm
-              data={this.state.mail_settings.bypass_list_management}
-              handleAdd={this.handleAddBypassListManagement}
-              handleDel={this.handleDelBypassListManagement} />
+            <MailSettingsItem
+              data={this.state.mail_settings}
+              parent="bypass_list_management" />
 
-            <FooterForm
-              data={this.state.mail_settings.footer}
-              handleAdd={this.handleAddFooter}
-              handleDel={this.handleDelFooter} />
+            <MailSettingsItem
+              data={this.state.mail_settings}
+              parent="footer" />
+
+            <MailSettingsItem
+              data={this.state.mail_settings}
+              parent="sandbox_mode" />
+
+            <MailSettingsItem
+              data={this.state.mail_settings}
+              parent="spam_check" />
+
 
           </div>
         </div>

@@ -118,18 +118,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_IP_POOL_NAME, this.onAddIpPoolName,
       constants.DEL_IP_POOL_NAME, this.onDelIpPoolName,
       constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName,
-      constants.ADD_BCC, this.onAddBcc,
-      constants.DEL_BCC, this.onDelBcc,
-      constants.UPD_BCC_ENABLE, this.onUpdBccEnable,
-      constants.UPD_BCC_EMAIL, this.onUpdBccEmail,
-      constants.ADD_BYPASS_LIST_MANAGEMENT, this.onAddBypassListManagement,
-      constants.DEL_BYPASS_LIST_MANAGEMENT, this.onDelBypassListManagement,
-      constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, this.onUpdBypassListManagementEnable,
-      constants.ADD_FOOTER, this.onAddFooter,
-      constants.DEL_FOOTER, this.onDelFooter,
-      constants.UPD_FOOTER_ENABLE, this.onUpdFooterEnable,
-      constants.UPD_FOOTER_TEXT, this.onUpdFooterText,
-      constants.UPD_FOOTER_HTML, this.onUpdFooterHtml,
+      constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings,
+      constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem,
+      constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -493,54 +484,34 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onAddBcc: function() {
-    this.mailData.mail_settings.bcc = {enable: false, email: ""};
+  onUpdMailSettings: function(payload) {
+    this.mailData.mail_settings[payload.parent][payload.name] = payload.value;
     this.emit("change");
   },
-  onDelBcc: function() {
-    this.mailData.mail_settings.bcc = null;
+  onAddMailSettingsItem: function(payload) {
+    var value = {};
+    switch (payload.parent) {
+      case "bcc":
+        value = {enable: false, email: ""};
+        break;
+      case "bypass_list_management":
+        value = {enable: false};
+        break;
+      case "footer":
+        value = {enable: false, text: "", html: ""};
+        break;
+      case "sandbox_mode":
+        value = {enable: false};
+        break;
+      case "spam_check":
+        value = {enable: false, threshold: 5, post_to_url: ""};
+        break;
+    }
+    this.mailData.mail_settings[payload.parent] = value;
     this.emit("change");
   },
-  onUpdBccEnable: function(payload) {
-    this.mailData.mail_settings.bcc.enable = payload.value;
-    this.emit("change");
-  },
-  onUpdBccEmail: function(payload) {
-    this.mailData.mail_settings.bcc.email = payload.value;
-    this.emit("change");
-  },
-
-  onAddBypassListManagement: function() {
-    this.mailData.mail_settings.bypass_list_management = {enable: false};
-    this.emit("change");
-  },
-  onDelBypassListManagement: function() {
-    this.mailData.mail_settings.bypass_list_management = null;
-    this.emit("change");
-  },
-  onUpdBypassListManagementEnable: function(payload) {
-    this.mailData.mail_settings.bypass_list_management.enable = payload.value;
-    this.emit("change");
-  },
-
-  onAddFooter: function() {
-    this.mailData.mail_settings.footer = {enable: false, text: "", html: ""};
-    this.emit("change");
-  },
-  onDelFooter: function() {
-    this.mailData.mail_settings.footer = null;
-    this.emit("change");
-  },
-  onUpdFooterEnable: function(payload) {
-    this.mailData.mail_settings.footer.enable = payload.value;
-    this.emit("change");
-  },
-  onUpdFooterText: function(payload) {
-    this.mailData.mail_settings.footer.text = payload.value;
-    this.emit("change");
-  },
-  onUpdFooterHtml: function(payload) {
-    this.mailData.mail_settings.footer.html = payload.value;
+  onDelMailSettingsItem: function(payload) {
+    this.mailData.mail_settings[payload.parent] = null;
     this.emit("change");
   },
 

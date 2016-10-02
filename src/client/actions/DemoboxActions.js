@@ -281,43 +281,14 @@ var actions = {
     this.dispatch(constants.UPD_IP_POOL_NAME, {value: value});
   },
 
-  addBcc: function() {
-    this.dispatch(constants.ADD_BCC);
+  addMailSettingsItem: function(parent) {
+    this.dispatch(constants.ADD_MAIL_SETTINGS_ITEM, {parent: parent});
   },
-  delBcc: function() {
-    this.dispatch(constants.DEL_BCC);
+  delMailSettingsItem: function(parent) {
+    this.dispatch(constants.DEL_MAIL_SETTINGS_ITEM, {parent: parent});
   },
-  updBccEnable: function(value) {
-    this.dispatch(constants.UPD_BCC_ENABLE, {value: value});
-  },
-  updBccEmail: function(value) {
-    this.dispatch(constants.UPD_BCC_EMAIL, {value: value});
-  },
-
-  addBypassListManagement: function() {
-    this.dispatch(constants.ADD_BYPASS_LIST_MANAGEMENT);
-  },
-  delBypassListManagement: function() {
-    this.dispatch(constants.DEL_BYPASS_LIST_MANAGEMENT);
-  },
-  updBypassListManagementEnable: function(value) {
-    this.dispatch(constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, {value: value});
-  },
-
-  addFooter: function() {
-    this.dispatch(constants.ADD_FOOTER);
-  },
-  delFooter: function() {
-    this.dispatch(constants.DEL_FOOTER);
-  },
-  updFooterEnable: function(value) {
-    this.dispatch(constants.UPD_FOOTER_ENABLE, {value: value});
-  },
-  updFooterText: function(value) {
-    this.dispatch(constants.UPD_FOOTER_TEXT, {value: value});
-  },
-  updFooterHtml: function(value) {
-    this.dispatch(constants.UPD_FOOTER_HTML, {value: value});
+  updMailSettings: function(parent, name, value) {
+    this.dispatch(constants.UPD_MAIL_SETTINGS, {parent: parent, name: name, value: value});
   },
 
   sendMail: function(mailData) {
