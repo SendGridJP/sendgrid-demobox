@@ -31,6 +31,13 @@ var DemoboxStore = Fluxxor.createStore({
       send_at: null,
       asm: null,
       ip_pool_name: null,
+      mail_settings: {
+        bcc: null,
+        bypass_list_management: null,
+        footer: null,
+        sandbox_mode: null,
+        spam_check: null,
+      }
     };
     this.status = '';
     this.request = '';
@@ -111,6 +118,10 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_IP_POOL_NAME, this.onAddIpPoolName,
       constants.DEL_IP_POOL_NAME, this.onDelIpPoolName,
       constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName,
+      constants.ADD_BCC, this.onAddBcc,
+      constants.DEL_BCC, this.onDelBcc,
+      constants.UPD_BCC_ENABLE, this.onUpdBccEnable,
+      constants.UPD_BCC_EMAIL, this.onUpdBccEmail,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -471,6 +482,23 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdIpPoolName: function(payload) {
     this.mailData.ip_pool_name = payload.value;
+    this.emit("change");
+  },
+
+  onAddBcc: function() {
+    this.mailData.mail_settings.bcc = {enable: false, email: ""};
+    this.emit("change");
+  },
+  onDelBcc: function() {
+    this.mailData.mail_settings.bcc = null;
+    this.emit("change");
+  },
+  onUpdBccEnable: function(payload) {
+    this.mailData.mail_settings.bcc.enable = payload.value;
+    this.emit("change");
+  },
+  onUpdBccEmail: function(payload) {
+    this.mailData.mail_settings.bcc.email = payload.value;
     this.emit("change");
   },
 

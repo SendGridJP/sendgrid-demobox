@@ -297,6 +297,7 @@
 	var AttachmentForm = __webpack_require__(16);
 	var KeyValueForm = __webpack_require__(13);
 	var AsmForm = __webpack_require__(28);
+	var MailSettingsForm = __webpack_require__(29);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -574,252 +575,7 @@
 	          handleDel: this.handleDelIpPoolName,
 	          handleUpd: this.handleUpdIpPoolName,
 	          max: 1 }),
-	        React.createElement(
-	          'div',
-	          { id: 'accordion' },
-	          React.createElement(
-	            'div',
-	            { className: 'panel panel-default' },
-	            React.createElement(
-	              'div',
-	              { className: 'panel-heading' },
-	              React.createElement(
-	                'h4',
-	                { className: 'panel-title' },
-	                React.createElement(
-	                  'a',
-	                  { 'data-toggle': 'collapse', 'data-parent': '#accordion',
-	                    href: '#collapseOne' },
-	                  React.createElement('i', { className: 'glyphicon glyphicon-chevron-right' }),
-	                  'オプション'
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { id: 'collapseOne', className: 'panel-collapse collapse' },
-	            React.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Substitution'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usesub', name: 'usesub', defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement('input', { type: 'text', id: 'subkey', name: 'subkey', className: 'form-control',
-	                    placeholder: '-name-', defaultValue: '-name-', disabled: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement('input', { type: 'text', id: 'subval', name: 'subval', className: 'form-control',
-	                    placeholder: '田中, 鈴木', defaultValue: '田中, 鈴木', disabled: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Bcc'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usebcc', name: 'usebcc', defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement('input', { type: 'text', id: 'bcc', name: 'bcc', className: 'form-control',
-	                    placeholder: 'bcc@address.com', defaultValue: '<%= @bcc %>', disabled: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Category'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usecategory', name: 'usecategory',
-	                    defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement('input', { type: 'text', id: 'category', name: 'category', className: 'form-control',
-	                    placeholder: 'sendgrid-demo', defaultValue: 'sendgrid-demo', disabled: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Unique Args'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'useuniqueargs', name: 'useuniqueargs',
-	                    defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement('input', { type: 'text', id: 'uniquekey', name: 'uniquekey', className: 'form-control',
-	                    placeholder: 'emailtoken', defaultValue: 'emailtoken', disabled: 'true' }),
-	                  React.createElement('input', { type: 'text', id: 'uniqueval', name: 'uniqueval', className: 'form-control',
-	                    placeholder: '20140901123456', defaultValue: '20140901123456', disabled: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Click Tracking'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'useclick', name: 'useclick', defaultValue: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Open Tracking'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'useopen', name: 'useopen', defaultValue: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Subscription Tracking'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usesubscription', name: 'usesubscription',
-	                    defaultValue: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Template'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usetemplate', name: 'usetemplate',
-	                    defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'select',
-	                    { className: 'form-control', id: 'template', name: 'template', disabled: 'true' },
-	                    React.createElement(
-	                      'option',
-	                      null,
-	                      'sendgrid_demo_template_1'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      null,
-	                      'sendgrid_demo_template_2'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      null,
-	                      'sendgrid_demo_template_3'
-	                    )
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Footer'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usefooter', name: 'usefooter',
-	                    defaultValue: 'true' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'form-group' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'label',
-	                    null,
-	                    'Send at timezone'
-	                  ),
-	                  React.createElement('input', { type: 'checkbox', id: 'usesendat', name: 'usesendat',
-	                    defaultValue: 'true' })
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'col-md-12' },
-	                  React.createElement(
-	                    'div',
-	                    { className: 'input-group clockpicker', id: 'clockpicker' },
-	                    React.createElement('input', { type: 'text', name: 'sendat', className: 'form-control sendat', defaultValue: '<%= @now_time %>', disabled: 'true' }),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'input-group-addon' },
-	                      React.createElement('span', { className: 'glyphicon glyphicon-time' })
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
+	        React.createElement(MailSettingsForm, null)
 	      ),
 	      React.createElement(
 	        'button',
@@ -2350,7 +2106,14 @@
 	      custom_args: [],
 	      send_at: null,
 	      asm: null,
-	      ip_pool_name: null
+	      ip_pool_name: null,
+	      mail_settings: {
+	        bcc: null,
+	        bypass_list_management: null,
+	        footer: null,
+	        sandbox_mode: null,
+	        spam_check: null
+	      }
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2361,7 +2124,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.ADD_BCC, this.onAddBcc, constants.DEL_BCC, this.onDelBcc, constants.UPD_BCC_ENABLE, this.onUpdBccEnable, constants.UPD_BCC_EMAIL, this.onUpdBccEmail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2710,6 +2473,23 @@
 	    this.emit("change");
 	  },
 
+	  onAddBcc: function () {
+	    this.mailData.mail_settings.bcc = { enable: false, email: "" };
+	    this.emit("change");
+	  },
+	  onDelBcc: function () {
+	    this.mailData.mail_settings.bcc = null;
+	    this.emit("change");
+	  },
+	  onUpdBccEnable: function (payload) {
+	    this.mailData.mail_settings.bcc.enable = payload.value;
+	    this.emit("change");
+	  },
+	  onUpdBccEmail: function (payload) {
+	    this.mailData.mail_settings.bcc.email = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2827,6 +2607,10 @@
 	  ADD_IP_POOL_NAME: "ADD_IP_POOL_NAME",
 	  DEL_IP_POOL_NAME: "DEL_IP_POOL_NAME",
 	  UPD_IP_POOL_NAME: "UPD_IP_POOL_NAME",
+	  ADD_BCC: "ADD_BCC",
+	  DEL_BCC: "DEL_BCC",
+	  UPD_BCC_ENABLE: "UPD_BCC_ENABLE",
+	  UPD_BCC_EMAIL: "UPD_BCC_EMAIL",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -3077,6 +2861,20 @@
 	    this.dispatch(constants.UPD_IP_POOL_NAME, { value: value });
 	  },
 
+	  addBcc: function () {
+	    this.dispatch(constants.ADD_BCC);
+	  },
+	  delBcc: function () {
+	    this.dispatch(constants.DEL_BCC);
+	  },
+
+	  updBccEnable: function (value) {
+	    this.dispatch(constants.UPD_BCC_ENABLE, { value: value });
+	  },
+	  updBccEmail: function (value) {
+	    this.dispatch(constants.UPD_BCC_EMAIL, { value: value });
+	  },
+
 	  sendMail: function (mailData) {
 	    this.dispatch(constants.SEND_MAIL);
 	    DemoboxClient.sendMail(mailData, function (result) {
@@ -3285,6 +3083,156 @@
 	  }
 	});
 	module.exports = AsmForm;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var BccForm = __webpack_require__(30);
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var MailSettingsForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      mail_settings: store.mailData.mail_settings
+	    };
+	  },
+
+	  handleAddBcc: function () {
+	    this.getFlux().actions.addBcc();
+	  },
+	  handleDelBcc: function () {
+	    this.getFlux().actions.delBcc();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "mail_settings"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement("div", { className: "fixed" }),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(BccForm, {
+	            data: this.state.mail_settings.bcc,
+	            handleAdd: this.handleAddBcc,
+	            handleDel: this.handleDelBcc })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = MailSettingsForm;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var BccForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleUpdEnable: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updBccEnable(e.target.value == 'true');
+	  },
+
+	  handleUpdEmail: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updBccEmail(e.target.value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var del;
+	    if (this.props.data === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      var form = React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "select",
+	          { className: "form-control",
+	            value: this.props.data.enable,
+	            onChange: this.handleUpdEnable },
+	          React.createElement(
+	            "option",
+	            { value: "false" },
+	            "false"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "true" },
+	            "true"
+	          )
+	        ),
+	        React.createElement("input", { type: "text",
+	          name: "email",
+	          className: "form-control",
+	          placeholder: "email",
+	          defaultValue: this.props.data.email,
+	          onChange: this.handleUpdEmail })
+	      );
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "bcc"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = BccForm;
 
 /***/ }
 /******/ ]);

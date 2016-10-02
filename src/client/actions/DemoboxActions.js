@@ -281,6 +281,20 @@ var actions = {
     this.dispatch(constants.UPD_IP_POOL_NAME, {value: value});
   },
 
+  addBcc: function() {
+    this.dispatch(constants.ADD_BCC);
+  },
+  delBcc: function() {
+    this.dispatch(constants.DEL_BCC);
+  },
+
+  updBccEnable: function(value) {
+    this.dispatch(constants.UPD_BCC_ENABLE, {value: value});
+  },
+  updBccEmail: function(value) {
+    this.dispatch(constants.UPD_BCC_EMAIL, {value: value});
+  },
+
   sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(
