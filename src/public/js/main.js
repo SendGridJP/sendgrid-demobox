@@ -2124,7 +2124,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.ADD_BCC, this.onAddBcc, constants.DEL_BCC, this.onDelBcc, constants.UPD_BCC_ENABLE, this.onUpdBccEnable, constants.UPD_BCC_EMAIL, this.onUpdBccEmail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.ADD_BCC, this.onAddBcc, constants.DEL_BCC, this.onDelBcc, constants.UPD_BCC_ENABLE, this.onUpdBccEnable, constants.UPD_BCC_EMAIL, this.onUpdBccEmail, constants.ADD_BYPASS_LIST_MANAGEMENT, this.onAddBypassListManagement, constants.DEL_BYPASS_LIST_MANAGEMENT, this.onDelBypassListManagement, constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, this.onUpdBypassListManagementEnable, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2490,6 +2490,19 @@
 	    this.emit("change");
 	  },
 
+	  onAddBypassListManagement: function () {
+	    this.mailData.mail_settings.bypass_list_management = { enable: false };
+	    this.emit("change");
+	  },
+	  onDelBypassListManagement: function () {
+	    this.mailData.mail_settings.bypass_list_management = null;
+	    this.emit("change");
+	  },
+	  onUpdBypassListManagementEnable: function (payload) {
+	    this.mailData.mail_settings.bypass_list_management.enable = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2611,6 +2624,9 @@
 	  DEL_BCC: "DEL_BCC",
 	  UPD_BCC_ENABLE: "UPD_BCC_ENABLE",
 	  UPD_BCC_EMAIL: "UPD_BCC_EMAIL",
+	  ADD_BYPASS_LIST_MANAGEMENT: "ADD_BYPASS_LIST_MANAGEMENT",
+	  DEL_BYPASS_LIST_MANAGEMENT: "DEL_BYPASS_LIST_MANAGEMENT",
+	  UPD_BYPASS_LIST_MANAGEMENT_ENABLE: "UPD_BYPASS_LIST_MANAGEMENT_ENABLE",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -2867,12 +2883,21 @@
 	  delBcc: function () {
 	    this.dispatch(constants.DEL_BCC);
 	  },
-
 	  updBccEnable: function (value) {
 	    this.dispatch(constants.UPD_BCC_ENABLE, { value: value });
 	  },
 	  updBccEmail: function (value) {
 	    this.dispatch(constants.UPD_BCC_EMAIL, { value: value });
+	  },
+
+	  addBypassListManagement: function () {
+	    this.dispatch(constants.ADD_BYPASS_LIST_MANAGEMENT);
+	  },
+	  delBypassListManagement: function () {
+	    this.dispatch(constants.DEL_BYPASS_LIST_MANAGEMENT);
+	  },
+	  updBypassListManagementEnable: function (value) {
+	    this.dispatch(constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, { value: value });
 	  },
 
 	  sendMail: function (mailData) {
@@ -3089,6 +3114,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var BccForm = __webpack_require__(30);
+	var BypassListManagementForm = __webpack_require__(31);
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -3110,26 +3136,37 @@
 	    this.getFlux().actions.delBcc();
 	  },
 
+	  handleAddBypassListManagement: function () {
+	    this.getFlux().actions.addBypassListManagement();
+	  },
+	  handleDelBypassListManagement: function () {
+	    this.getFlux().actions.delBypassListManagement();
+	  },
+
 	  render: function () {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "mail_settings"
+	        'label',
+	        { className: 'control-label' },
+	        'mail_settings'
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement("div", { className: "fixed" }),
+	        'div',
+	        { className: 'wrapper' },
+	        React.createElement('div', { className: 'fixed' }),
 	        React.createElement(
-	          "div",
-	          { className: "flex" },
+	          'div',
+	          { className: 'flex' },
 	          React.createElement(BccForm, {
 	            data: this.state.mail_settings.bcc,
 	            handleAdd: this.handleAddBcc,
-	            handleDel: this.handleDelBcc })
+	            handleDel: this.handleDelBcc }),
+	          React.createElement(BypassListManagementForm, {
+	            data: this.state.mail_settings.bypass_list_management,
+	            handleAdd: this.handleAddBypassListManagement,
+	            handleDel: this.handleDelBypassListManagement })
 	        )
 	      )
 	    );
@@ -3233,6 +3270,92 @@
 	  }
 	});
 	module.exports = BccForm;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var BypassListManagementForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    handleAdd: React.PropTypes.func.isRequired,
+	    handleDel: React.PropTypes.func.isRequired
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleUpdEnable: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updBypassListManagementEnable(e.target.value == 'true');
+	  },
+
+	  render: function () {
+	    var add;
+	    var del;
+	    if (this.props.data === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      var form = React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "select",
+	          { className: "form-control",
+	            value: this.props.data.enable,
+	            onChange: this.handleUpdEnable },
+	          React.createElement(
+	            "option",
+	            { value: "false" },
+	            "false"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "true" },
+	            "true"
+	          )
+	        )
+	      );
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "bypass_list_management"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = BypassListManagementForm;
 
 /***/ }
 /******/ ]);

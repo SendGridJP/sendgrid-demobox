@@ -122,6 +122,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.DEL_BCC, this.onDelBcc,
       constants.UPD_BCC_ENABLE, this.onUpdBccEnable,
       constants.UPD_BCC_EMAIL, this.onUpdBccEmail,
+      constants.ADD_BYPASS_LIST_MANAGEMENT, this.onAddBypassListManagement,
+      constants.DEL_BYPASS_LIST_MANAGEMENT, this.onDelBypassListManagement,
+      constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, this.onUpdBypassListManagementEnable,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -499,6 +502,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdBccEmail: function(payload) {
     this.mailData.mail_settings.bcc.email = payload.value;
+    this.emit("change");
+  },
+
+  onAddBypassListManagement: function() {
+    this.mailData.mail_settings.bypass_list_management = {enable: false};
+    this.emit("change");
+  },
+  onDelBypassListManagement: function() {
+    this.mailData.mail_settings.bypass_list_management = null;
+    this.emit("change");
+  },
+  onUpdBypassListManagementEnable: function(payload) {
+    this.mailData.mail_settings.bypass_list_management.enable = payload.value;
     this.emit("change");
   },
 

@@ -287,12 +287,21 @@ var actions = {
   delBcc: function() {
     this.dispatch(constants.DEL_BCC);
   },
-
   updBccEnable: function(value) {
     this.dispatch(constants.UPD_BCC_ENABLE, {value: value});
   },
   updBccEmail: function(value) {
     this.dispatch(constants.UPD_BCC_EMAIL, {value: value});
+  },
+
+  addBypassListManagement: function() {
+    this.dispatch(constants.ADD_BYPASS_LIST_MANAGEMENT);
+  },
+  delBypassListManagement: function() {
+    this.dispatch(constants.DEL_BYPASS_LIST_MANAGEMENT);
+  },
+  updBypassListManagementEnable: function(value) {
+    this.dispatch(constants.UPD_BYPASS_LIST_MANAGEMENT_ENABLE, {value: value});
   },
 
   sendMail: function(mailData) {
