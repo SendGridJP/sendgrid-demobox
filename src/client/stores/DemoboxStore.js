@@ -29,7 +29,8 @@ var DemoboxStore = Fluxxor.createStore({
       categories: [],
       custom_args: [],
       send_at: null,
-      asm: null
+      asm: null,
+      ip_pool_name: null,
     };
     this.status = '';
     this.request = '';
@@ -107,6 +108,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay,
       constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay,
       constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay,
+      constants.ADD_IP_POOL_NAME, this.onAddIpPoolName,
+      constants.DEL_IP_POOL_NAME, this.onDelIpPoolName,
+      constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -454,6 +458,19 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdGroupsToDisplay: function(payload) {
     this.mailData.asm.groups_to_display[payload.index] = payload.value;
+    this.emit("change");
+  },
+
+  onAddIpPoolName: function() {
+    this.mailData.ip_pool_name = "";
+    this.emit("change");
+  },
+  onDelIpPoolName: function() {
+    this.mailData.ip_pool_name = null;
+    this.emit("change");
+  },
+  onUpdIpPoolName: function(payload) {
+    this.mailData.ip_pool_name = payload.value;
     this.emit("change");
   },
 

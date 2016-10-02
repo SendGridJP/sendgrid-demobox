@@ -271,6 +271,16 @@ var actions = {
     this.dispatch(constants.UPD_GROUPS_TO_DISPLAY, {index: index, value: value});
   },
 
+  addIpPoolName: function() {
+    this.dispatch(constants.ADD_IP_POOL_NAME);
+  },
+  delIpPoolName: function() {
+    this.dispatch(constants.DEL_IP_POOL_NAME);
+  },
+  updIpPoolName: function(value) {
+    this.dispatch(constants.UPD_IP_POOL_NAME, {value: value});
+  },
+
   sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(

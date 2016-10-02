@@ -439,6 +439,16 @@
 	    this.getFlux().actions.delAsm();
 	  },
 
+	  handleAddIpPoolName: function () {
+	    this.getFlux().actions.addIpPoolName();
+	  },
+	  handleDelIpPoolName: function () {
+	    this.getFlux().actions.delIpPoolName();
+	  },
+	  handleUpdIpPoolName: function (parentIndex, value) {
+	    this.getFlux().actions.updIpPoolName(value);
+	  },
+
 	  handleSendMail: function (e) {
 	    e.preventDefault();
 	    // var form = $('#param');
@@ -555,6 +565,15 @@
 	          data: this.state.mailData.asm,
 	          handleAdd: this.handleAddAsm,
 	          handleDel: this.handleDelAsm }),
+	        React.createElement(SimpleTextForm, {
+	          title: 'ip_pool_name',
+	          required: false,
+	          placeholder: 'IP pool name',
+	          value: this.state.mailData.ip_pool_name,
+	          handleAdd: this.handleAddIpPoolName,
+	          handleDel: this.handleDelIpPoolName,
+	          handleUpd: this.handleUpdIpPoolName,
+	          max: 1 }),
 	        React.createElement(
 	          'div',
 	          { id: 'accordion' },
@@ -2330,7 +2349,8 @@
 	      categories: [],
 	      custom_args: [],
 	      send_at: null,
-	      asm: null
+	      asm: null,
+	      ip_pool_name: null
 	    };
 	    this.status = '';
 	    this.request = '';
@@ -2341,7 +2361,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2677,6 +2697,19 @@
 	    this.emit("change");
 	  },
 
+	  onAddIpPoolName: function () {
+	    this.mailData.ip_pool_name = "";
+	    this.emit("change");
+	  },
+	  onDelIpPoolName: function () {
+	    this.mailData.ip_pool_name = null;
+	    this.emit("change");
+	  },
+	  onUpdIpPoolName: function (payload) {
+	    this.mailData.ip_pool_name = payload.value;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2791,6 +2824,9 @@
 	  ADD_GROUPS_TO_DISPLAY: "ADD_GROUPS_TO_DISPLAY",
 	  DEL_GROUPS_TO_DISPLAY: "DEL_GROUPS_TO_DISPLAY",
 	  UPD_GROUPS_TO_DISPLAY: "UPD_GROUPS_TO_DISPLAY",
+	  ADD_IP_POOL_NAME: "ADD_IP_POOL_NAME",
+	  DEL_IP_POOL_NAME: "DEL_IP_POOL_NAME",
+	  UPD_IP_POOL_NAME: "UPD_IP_POOL_NAME",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -3029,6 +3065,16 @@
 	  },
 	  updGroupsToDisplay: function (index, value) {
 	    this.dispatch(constants.UPD_GROUPS_TO_DISPLAY, { index: index, value: value });
+	  },
+
+	  addIpPoolName: function () {
+	    this.dispatch(constants.ADD_IP_POOL_NAME);
+	  },
+	  delIpPoolName: function () {
+	    this.dispatch(constants.DEL_IP_POOL_NAME);
+	  },
+	  updIpPoolName: function (value) {
+	    this.dispatch(constants.UPD_IP_POOL_NAME, { value: value });
 	  },
 
 	  sendMail: function (mailData) {

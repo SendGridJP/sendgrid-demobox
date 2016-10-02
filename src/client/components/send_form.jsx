@@ -147,6 +147,16 @@ var SendForm = React.createClass({
       this.getFlux().actions.delAsm();
     },
 
+    handleAddIpPoolName: function() {
+      this.getFlux().actions.addIpPoolName();
+    },
+    handleDelIpPoolName: function() {
+      this.getFlux().actions.delIpPoolName();
+    },
+    handleUpdIpPoolName: function(parentIndex, value) {
+      this.getFlux().actions.updIpPoolName(value);
+    },
+
     handleSendMail: function(e) {
       e.preventDefault();
       // var form = $('#param');
@@ -275,6 +285,16 @@ var SendForm = React.createClass({
               data={this.state.mailData.asm}
               handleAdd={this.handleAddAsm}
               handleDel={this.handleDelAsm} />
+
+            <SimpleTextForm
+              title="ip_pool_name"
+              required={false}
+              placeholder="IP pool name"
+              value={this.state.mailData.ip_pool_name}
+              handleAdd={this.handleAddIpPoolName}
+              handleDel={this.handleDelIpPoolName}
+              handleUpd={this.handleUpdIpPoolName}
+              max={1} />
 
             <div id="accordion">
               <div className="panel panel-default">
