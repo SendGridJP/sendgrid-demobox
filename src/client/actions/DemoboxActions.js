@@ -291,6 +291,16 @@ var actions = {
     this.dispatch(constants.UPD_MAIL_SETTINGS, {parent: parent, name: name, value: value});
   },
 
+  addTrackingSettingsItem: function(parent) {
+    this.dispatch(constants.ADD_TRACKING_SETTINGS_ITEM, {parent: parent});
+  },
+  delTrackingSettingsItem: function(parent) {
+    this.dispatch(constants.DEL_TRACKING_SETTINGS_ITEM, {parent: parent});
+  },
+  updTrackingSettings: function(parent, name, value) {
+    this.dispatch(constants.UPD_TRACKING_SETTINGS, {parent: parent, name: name, value: value});
+  },
+
   sendMail: function(mailData) {
     this.dispatch(constants.SEND_MAIL);
     DemoboxClient.sendMail(

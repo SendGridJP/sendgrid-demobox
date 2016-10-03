@@ -37,6 +37,12 @@ var DemoboxStore = Fluxxor.createStore({
         footer: null,
         sandbox_mode: null,
         spam_check: null,
+      },
+      tracking_settings: {
+        click_tracking: null,
+        open_tracking: null,
+        subscription_tracking: null,
+        ganalytics: null,
       }
     };
     this.status = '';
@@ -121,6 +127,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings,
       constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem,
       constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem,
+      constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings,
+      constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem,
+      constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -512,6 +521,34 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onDelMailSettingsItem: function(payload) {
     this.mailData.mail_settings[payload.parent] = null;
+    this.emit("change");
+  },
+
+  onUpdTrackingSettings: function(payload) {
+    this.mailData.tracking_settings[payload.parent][payload.name] = payload.value;
+    this.emit("change");
+  },
+  onAddTrackingSettingsItem: function(payload) {
+    var value = {};
+    switch (payload.parent) {
+      case "click_tracking":
+        value = {enable: false, enable_text: false};
+        break;
+      case "open_tracking":
+        value = {enable: false, substitution_tag: ""};
+        break;
+      case "subscription_tracking":
+        value = {enable: false, text: "", html: "", substitution_tag: ""};
+        break;
+      case "ganalytics":
+        value = {enable: false};
+        break;
+    }
+    this.mailData.tracking_settings[payload.parent] = value;
+    this.emit("change");
+  },
+  onDelTrackingSettingsItem: function(payload) {
+    this.mailData.tracking_settings[payload.parent] = null;
     this.emit("change");
   },
 

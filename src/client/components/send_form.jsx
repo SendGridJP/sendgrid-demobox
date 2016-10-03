@@ -6,6 +6,7 @@ var AttachmentForm = require('./attachment_form.jsx');
 var KeyValueForm = require('./key_value_form.jsx');
 var AsmForm = require('./asm_form.jsx');
 var MailSettingsForm = require('./mail_settings_form.jsx');
+var TrackingSettingsForm = require('./tracking_settings_form.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -298,6 +299,8 @@ var SendForm = React.createClass({
               max={1} />
 
             <MailSettingsForm />
+
+            <TrackingSettingsForm />
 
           </form>
 

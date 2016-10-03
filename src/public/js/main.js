@@ -298,6 +298,7 @@
 	var KeyValueForm = __webpack_require__(13);
 	var AsmForm = __webpack_require__(18);
 	var MailSettingsForm = __webpack_require__(19);
+	var TrackingSettingsForm = __webpack_require__(35);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -575,7 +576,8 @@
 	          handleDel: this.handleDelIpPoolName,
 	          handleUpd: this.handleUpdIpPoolName,
 	          max: 1 }),
-	        React.createElement(MailSettingsForm, null)
+	        React.createElement(MailSettingsForm, null),
+	        React.createElement(TrackingSettingsForm, null)
 	      ),
 	      React.createElement(
 	        'button',
@@ -2446,6 +2448,12 @@
 	        footer: null,
 	        sandbox_mode: null,
 	        spam_check: null
+	      },
+	      tracking_settings: {
+	        click_tracking: null,
+	        open_tracking: null,
+	        subscription_tracking: null,
+	        ganalytics: null
 	      }
 	    };
 	    this.status = '';
@@ -2457,7 +2465,7 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onAddPersonalization: function () {
@@ -2837,6 +2845,34 @@
 	    this.emit("change");
 	  },
 
+	  onUpdTrackingSettings: function (payload) {
+	    this.mailData.tracking_settings[payload.parent][payload.name] = payload.value;
+	    this.emit("change");
+	  },
+	  onAddTrackingSettingsItem: function (payload) {
+	    var value = {};
+	    switch (payload.parent) {
+	      case "click_tracking":
+	        value = { enable: false, enable_text: false };
+	        break;
+	      case "open_tracking":
+	        value = { enable: false, substitution_tag: "" };
+	        break;
+	      case "subscription_tracking":
+	        value = { enable: false, text: "", html: "", substitution_tag: "" };
+	        break;
+	      case "ganalytics":
+	        value = { enable: false };
+	        break;
+	    }
+	    this.mailData.tracking_settings[payload.parent] = value;
+	    this.emit("change");
+	  },
+	  onDelTrackingSettingsItem: function (payload) {
+	    this.mailData.tracking_settings[payload.parent] = null;
+	    this.emit("change");
+	  },
+
 	  onSendMail: function () {
 	    this.status = '送信中...';
 	    this.request = '';
@@ -2957,6 +2993,9 @@
 	  UPD_MAIL_SETTINGS: "UPD_MAIL_SETTINGS",
 	  ADD_MAIL_SETTINGS_ITEM: "ADD_MAIL_SETTINGS_ITEM",
 	  DEL_MAIL_SETTINGS_ITEM: "DEL_MAIL_SETTINGS_ITEM",
+	  UPD_TRACKING_SETTINGS: "UPD_TRACKING_SETTINGS",
+	  ADD_TRACKING_SETTINGS_ITEM: "ADD_TRACKING_SETTINGS_ITEM",
+	  DEL_TRACKING_SETTINGS_ITEM: "DEL_TRACKING_SETTINGS_ITEM",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -3217,6 +3256,16 @@
 	    this.dispatch(constants.UPD_MAIL_SETTINGS, { parent: parent, name: name, value: value });
 	  },
 
+	  addTrackingSettingsItem: function (parent) {
+	    this.dispatch(constants.ADD_TRACKING_SETTINGS_ITEM, { parent: parent });
+	  },
+	  delTrackingSettingsItem: function (parent) {
+	    this.dispatch(constants.DEL_TRACKING_SETTINGS_ITEM, { parent: parent });
+	  },
+	  updTrackingSettings: function (parent, name, value) {
+	    this.dispatch(constants.UPD_TRACKING_SETTINGS, { parent: parent, name: name, value: value });
+	  },
+
 	  sendMail: function (mailData) {
 	    this.dispatch(constants.SEND_MAIL);
 	    DemoboxClient.sendMail(mailData, function (result) {
@@ -3307,6 +3356,256 @@
 	};
 
 	module.exports = DemoboxClient;
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var TrackingSettingsItem = __webpack_require__(36);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var TrackingSettingsForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      tracking_settings: store.mailData.tracking_settings
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "tracking_settings"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement("div", { className: "fixed" }),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "click_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "open_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "subscription_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "ganalytics" })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = TrackingSettingsForm;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var TrackingSettingsItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    parent: React.PropTypes.string.isRequired
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleAdd: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.addTrackingSettingsItem(this.props.parent);
+	  },
+
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.delTrackingSettingsItem(this.props.parent);
+	  },
+
+	  handleUpdEnable: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, e.target.value == 'true');
+	  },
+
+	  handleUpdTrackingSettings: function (e) {
+	    e.preventDefault();
+	    var value = e.target.value;
+	    if (this.props.name === "enable") {
+	      value = e.target.value == "true";
+	    }
+	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var del;
+	    if (this.props.data[this.props.parent] === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      var items;
+	      switch (this.props.parent) {
+	        case "click_tracking":
+	          items = React.createElement(
+	            "select",
+	            { className: "form-control", name: "enable_text",
+	              value: this.props.data[this.props.parent].enable_text,
+	              onChange: this.handleUpdTrackingSettings },
+	            React.createElement(
+	              "option",
+	              { value: "false" },
+	              "false"
+	            ),
+	            React.createElement(
+	              "option",
+	              { value: "true" },
+	              "true"
+	            )
+	          );
+	          break;
+	        case "open_tracking":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "substitution_tag",
+	              className: "form-control",
+	              placeholder: "substitution_tag",
+	              defaultValue: this.props.data[this.props.parent].substitution_tag,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	          break;
+	        case "subscription_tracking":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "text",
+	              className: "form-control",
+	              placeholder: "text",
+	              defaultValue: this.props.data[this.props.parent].text,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "html",
+	              className: "form-control",
+	              placeholder: "html",
+	              defaultValue: this.props.data[this.props.parent].html,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "substitution_tag",
+	              className: "form-control",
+	              placeholder: "substitution_tag",
+	              defaultValue: this.props.data[this.props.parent].substitution_tag,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	          break;
+	        case "ganalytics":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "utm_source",
+	              className: "form-control",
+	              placeholder: "utm_source",
+	              defaultValue: this.props.data[this.props.parent].utm_source,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_medium",
+	              className: "form-control",
+	              placeholder: "utm_medium",
+	              defaultValue: this.props.data[this.props.parent].utm_medium,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_term",
+	              className: "form-control",
+	              placeholder: "utm_term",
+	              defaultValue: this.props.data[this.props.parent].utm_term,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_content",
+	              className: "form-control",
+	              placeholder: "utm_content",
+	              defaultValue: this.props.data[this.props.parent].utm_content,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_campaign",
+	              className: "form-control",
+	              placeholder: "utm_campaign",
+	              defaultValue: this.props.data[this.props.parent].utm_campaign,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	      }
+	      var form = React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "select",
+	          { className: "form-control", name: "enable",
+	            value: this.props.data[this.props.parent].enable,
+	            onChange: this.handleUpdEnable },
+	          React.createElement(
+	            "option",
+	            { value: "false" },
+	            "false"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "true" },
+	            "true"
+	          )
+	        ),
+	        items
+	      );
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        this.props.parent
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = TrackingSettingsItem;
 
 /***/ }
 /******/ ]);
