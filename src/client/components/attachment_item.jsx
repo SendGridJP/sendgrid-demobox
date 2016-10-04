@@ -21,8 +21,9 @@ var AttachmentItem = React.createClass({
   },
 
   render: function() {
+    var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className="wrapper">
+      <div className={className}>
         <div className="fixed">
           <a href="javascript:void(0)" onClick={this.handleDel}
             className="removeIcon">

@@ -161,14 +161,6 @@ var SendForm = React.createClass({
 
     handleSendMail: function(e) {
       e.preventDefault();
-      // var form = $('#param');
-      // var param = {};
-      // $(form.serializeArray()).each(function(i, v) {
-      //   param[v.name] = v.value;
-      // });
-      // // console.log(param);
-      // this.getFlux().actions.sendMail(param);
-
       this.getFlux().actions.sendMail(this.state.mailData);
     },
 

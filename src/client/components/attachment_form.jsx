@@ -14,15 +14,6 @@ var AttachmentForm = React.createClass({
   },
 
   render: function() {
-    var add;
-    if (this.props.data.length < 2) {
-      add = (
-        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
-          <span className="glyphicon glyphicon-plus"></span>
-        </a>
-      );
-    }
-
     return (
       <div>
         <label className="control-label">attachments</label>
@@ -37,7 +28,9 @@ var AttachmentForm = React.createClass({
             );
           }.bind(this))}
         </div>
-        {add}
+        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
+          <span className="glyphicon glyphicon-plus"></span>
+        </a>
       </div>
     );
   }

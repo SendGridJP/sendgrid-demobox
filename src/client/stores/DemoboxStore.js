@@ -552,9 +552,9 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onSendMail: function() {
+  onSendMail: function(payload) {
     this.status = '送信中...';
-    this.request = '';
+    this.request = payload.param;
     this.responseCode = '';
     this.responseBody = '';
     this.emit("change");
@@ -562,7 +562,7 @@ var DemoboxStore = Fluxxor.createStore({
 
   onSendMailSuccess: function(payload) {
     this.status = '送信完了';
-    this.request = payload.result.request;
+    //this.request = payload.result.request;
     this.responseCode = payload.result.responseCode;
     this.responseBody = payload.result.responseBody;
     this.emit("change");

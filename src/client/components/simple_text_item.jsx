@@ -39,8 +39,9 @@ var SimpleTextItem = React.createClass({
         </a>
       );
     }
+    var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className="wrapper">
+      <div className={className}>
         <div className="fixed">
           {del}
         </div>

@@ -39,7 +39,6 @@ var AsmForm = React.createClass({
     var add;
     var form;
     var items;
-    console.log(this.props.data);
     if (this.props.data === null) {
       add = (
         <a href="javascript:void(0)" onClick={this.props.handleAdd}>

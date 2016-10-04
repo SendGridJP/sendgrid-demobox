@@ -302,9 +302,10 @@ var actions = {
   },
 
   sendMail: function(mailData) {
-    this.dispatch(constants.SEND_MAIL);
+    var param = DemoboxClient.makeParam(mailData);
+    this.dispatch(constants.SEND_MAIL, {param: param});
     DemoboxClient.sendMail(
-      mailData,
+      param,
       function(result) {
         this.dispatch(constants.SEND_MAIL_SUCCESS, {result: result});
       }.bind(this),

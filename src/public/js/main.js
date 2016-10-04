@@ -453,14 +453,6 @@
 
 	  handleSendMail: function (e) {
 	    e.preventDefault();
-	    // var form = $('#param');
-	    // var param = {};
-	    // $(form.serializeArray()).each(function(i, v) {
-	    //   param[v.name] = v.value;
-	    // });
-	    // // console.log(param);
-	    // this.getFlux().actions.sendMail(param);
-
 	    this.getFlux().actions.sendMail(this.state.mailData);
 	  },
 
@@ -782,9 +774,10 @@
 	  },
 
 	  render: function () {
+	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      'div',
-	      { className: 'wrapper' },
+	      { className: className },
 	      React.createElement(
 	        'div',
 	        { className: 'fixed' },
@@ -1006,9 +999,10 @@
 	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
 	      );
 	    }
+	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: "wrapper" },
+	      { className: className },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1187,9 +1181,10 @@
 	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
 	      );
 	    }
+	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: "wrapper" },
+	      { className: className },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1413,15 +1408,6 @@
 	  },
 
 	  render: function () {
-	    var add;
-	    if (this.props.data.length < 2) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    }
-
 	    return React.createElement(
 	      "div",
 	      null,
@@ -1441,7 +1427,11 @@
 	            handleUpd: this.props.handleUpd });
 	        }.bind(this))
 	      ),
-	      add
+	      React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      )
 	    );
 	  }
 	});
@@ -1473,9 +1463,10 @@
 	  },
 
 	  render: function () {
+	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: "wrapper" },
+	      { className: className },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1574,7 +1565,6 @@
 	    var add;
 	    var form;
 	    var items;
-	    console.log(this.props.data);
 	    if (this.props.data === null) {
 	      add = React.createElement(
 	        "a",
@@ -2873,9 +2863,9 @@
 	    this.emit("change");
 	  },
 
-	  onSendMail: function () {
+	  onSendMail: function (payload) {
 	    this.status = '送信中...';
-	    this.request = '';
+	    this.request = payload.param;
 	    this.responseCode = '';
 	    this.responseBody = '';
 	    this.emit("change");
@@ -2883,7 +2873,7 @@
 
 	  onSendMailSuccess: function (payload) {
 	    this.status = '送信完了';
-	    this.request = payload.result.request;
+	    //this.request = payload.result.request;
 	    this.responseCode = payload.result.responseCode;
 	    this.responseBody = payload.result.responseBody;
 	    this.emit("change");
@@ -3267,8 +3257,9 @@
 	  },
 
 	  sendMail: function (mailData) {
-	    this.dispatch(constants.SEND_MAIL);
-	    DemoboxClient.sendMail(mailData, function (result) {
+	    var param = DemoboxClient.makeParam(mailData);
+	    this.dispatch(constants.SEND_MAIL, { param: param });
+	    DemoboxClient.sendMail(param, function (result) {
 	      this.dispatch(constants.SEND_MAIL_SUCCESS, { result: result });
 	    }.bind(this), function (xhr, status, err) {
 	      this.dispatch(constants.SEND_MAIL_FAIL, {
@@ -3299,7 +3290,7 @@
 	      url: '/send',
 	      dataType: 'json',
 	      type: 'POST',
-	      data: this.makeParam(mailData),
+	      data: mailData,
 	      success: success,
 	      error: failure
 	    });

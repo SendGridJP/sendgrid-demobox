@@ -4,7 +4,7 @@ var DemoboxClient = {
       url: '/send',
       dataType: 'json',
       type: 'POST',
-      data: this.makeParam(mailData),
+      data: mailData,
       success: success,
       error: failure,
     });
