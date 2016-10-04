@@ -1,25 +1,32 @@
-Airmail Welcome
+Go Welcome Email
 
-Company Name
+(#)
+
+(#)
+ (#)
+ (#)
  (#)
 
-Welcome to Awesome Co!
+Thank you for signing up!
+
+Your new Awesome account is almost ready to use. Please verify your email by clicking the button below.
+
 <%body%>
 
-Coupon code: 13448278949
+Activate Account (http://)
 
-Hey {{ first_name }}, thanks for signing up
+Your account information:
 
-We're really excited for you to join our community! You're just one click away from activate your account.
+Account name: bob1031 (#)
 
-Activate Account! (#)
+Email: bob@bob.com (#)
 
-Thanks so much,
+Questions?
 
-Get in touch (#) if you have any questions or feedback
+Feel free to contact us (#) anytime for questions about your account.
 
-Contact Us (#)  |  
+Sincerely,
 
-Facebook (#)  |  
- Twitter (#)  |  
- Support (#)
+Your Awesome Team
+
+© 2014 All Rights Reserved
