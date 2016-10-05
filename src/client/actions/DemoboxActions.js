@@ -301,6 +301,23 @@ var actions = {
     this.dispatch(constants.UPD_TRACKING_SETTINGS, {parent: parent, name: name, value: value});
   },
 
+  getSendInit: function() {
+    DemoboxClient.getSendInit(
+      function(result) {
+        this.dispatch(constants.GET_SEND_INIT_SUCCESS, {result: result});
+      }.bind(this),
+      function(xhr, status, err) {
+        this.dispatch(
+          constants.GET_SEND_INIT_FAIL,
+          {
+            responseCode: xhr.status,
+            responseBody: err.message
+          }
+        );
+      }.bind(this)
+    );
+  },
+
   sendMail: function(mailData) {
     var param = DemoboxClient.makeParam(mailData);
     this.dispatch(constants.SEND_MAIL, {param: param});

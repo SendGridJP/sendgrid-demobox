@@ -3,20 +3,9 @@ var constants = require("../constants.js");
 var DemoboxStore = Fluxxor.createStore({
   initialize: function() {
     this.mailData = {
-      personalizations: [
-        {
-          to: [{email: "", name: ""}],
-          cc: [],
-          bcc: [],
-          subject: null,
-          headers: [],
-          substitutions: [],
-          custom_args: [],
-          sned_at: null,
-        }
-      ],
-      subject: null,
-      from: {email: "", name: ""},
+      personalizations: [],
+      subject: "Mail From Demobox",
+      from: null,
       "reply-to": null,
       content: [
         {type: "text/plain", value:"hoge"},
@@ -130,6 +119,9 @@ var DemoboxStore = Fluxxor.createStore({
       constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings,
       constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem,
       constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem,
+
+      constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess,
+      constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -273,6 +265,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onUpdFrom: function(payload) {
+    console.log("onUpdFrom: " + JSON.stringify(payload));
     this.mailData.from[payload.key] = payload.value;
     this.emit("change");
   },
@@ -550,6 +543,25 @@ var DemoboxStore = Fluxxor.createStore({
   onDelTrackingSettingsItem: function(payload) {
     this.mailData.tracking_settings[payload.parent] = null;
     this.emit("change");
+  },
+
+  onGetSendInitSuccess: function(payload) {
+    this.mailData.from = {email: payload.result.from, name: ""};
+    this.mailData.personalizations.push(
+      {
+        to: [{email: payload.result.to, name: ""}],
+        cc: [],
+        bcc: [],
+        headers: [],
+        substitutions: [],
+        custom_args: []
+      }
+    );
+    this.emit("change");
+  },
+
+  onGetSendInitFail: function(payload) {
+
   },
 
   onSendMail: function(payload) {

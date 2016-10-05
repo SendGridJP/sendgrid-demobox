@@ -25,6 +25,10 @@ var Root = React.createClass({
     }
   },
 
+  componentDidMount: function() {
+    this.getFlux().actions.getSendInit();
+  },
+
   render: function() {
     return (
       <div className="Root">

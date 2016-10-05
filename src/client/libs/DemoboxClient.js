@@ -49,14 +49,28 @@ var DemoboxClient = {
     if (_.isObject(element)) {
       // Loop with object property
       _.each(_.keys(element), function(key) {
-        // delete property if the property value is null,[],{}
         if ((element[key] === null) || (_.isObject(element[key]) && _.isEmpty(element[key])) ){
+          // delete property if the property value is null,[],{}
+          delete element[key];
+        } else if (_.isObject(element[key]) && _.reject(_.values(element[key]), function(value) {return value === null;}).length === 0) {
+          // delete property if the values of object are all null
           delete element[key];
         } else {
           this.removeEmpty(element[key]);
         }
       }.bind(this));
     }
+  },
+
+  getSendInit: function(success, failure) {
+    $.ajax({
+      url: '/send_init',
+      dataType: 'json',
+      type: 'GET',
+      data: null,
+      success: success,
+      error: failure,
+    });
   }
 };
 
