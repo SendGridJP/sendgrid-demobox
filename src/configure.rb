@@ -1,7 +1,7 @@
 module Configure
 
   TEMP_NAME = [
-    "sendgrid_demo_template_1", "sendgrid_demo_template_2", "sendgrid_demo_template_3"
+    "sendgrid_demo_template_0", "sendgrid_demo_template_1", "sendgrid_demo_template_2"
   ]
 
   def get_url(app_url, basic_auth_username, basic_auth_password)
@@ -97,7 +97,6 @@ module Configure
   module_function :init_sendgrid
   module_function :init_apps
   module_function :init_template
-  module_function :get_template
   module_function :create_template
   module_function :init_parse_webhook
 
