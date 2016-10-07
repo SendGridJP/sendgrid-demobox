@@ -54,10 +54,6 @@
 	var Root = React.createClass({
 	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
 
-	  _onSelectPage: function (pageId) {
-	    this.setState({ activePage: pageId });
-	  },
-
 	  getInitialState: function () {
 	    return { activePage: 'send' };
 	  },
@@ -72,16 +68,25 @@
 	  },
 
 	  componentDidMount: function () {
+	    this.handleRouting(window.location.href);
 	    this.getFlux().actions.getSendInit();
+	  },
+
+	  handleRouting: function (href) {
+	    var uri = new URI(href);
+	    var activePage = "send";
+	    var p = uri.search(true).p;
+	    if (p != null) {
+	      activePage = p;
+	    }
+	    this.getFlux().actions.updActivePage(activePage);
 	  },
 
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'Root' },
-	      React.createElement(Header, {
-	        activePage: this.state.activePage,
-	        onSelectPage: this._onSelectPage }),
+	      React.createElement(Header, null),
 	      React.createElement(Article, { activePage: this.state.activePage })
 	    );
 	  }
@@ -96,13 +101,7 @@
 	var LeftMenu = __webpack_require__(2);
 
 	var Header = React.createClass({
-	  propTypes: {
-	    activePage: React.PropTypes.string.isRequired,
-	    onSelectPage: React.PropTypes.func.isRequired
-	  },
-	  _onSelectPage: function (pageId) {
-	    this.props.onSelectPage(pageId);
-	  },
+	  propTypes: {},
 	  render: function () {
 	    return React.createElement(
 	      "nav",
@@ -129,9 +128,7 @@
 	      React.createElement(
 	        "div",
 	        { className: "collapse navbar-collapse target" },
-	        React.createElement(LeftMenu, {
-	          activePage: this.props.activePage,
-	          onSelectPage: this._onSelectPage }),
+	        React.createElement(LeftMenu, null),
 	        React.createElement(
 	          "ul",
 	          { className: "nav navbar-nav navbar-right" },
@@ -176,29 +173,19 @@
 	var LeftMenuItem = __webpack_require__(3);
 
 	var LeftMenu = React.createClass({
-	  propTypes: {
-	    activePage: React.PropTypes.string.isRequired,
-	    onSelectPage: React.PropTypes.func.isRequired
-	  },
-	  _onSelectPage: function (pageId) {
-	    this.props.onSelectPage(pageId);
-	  },
+	  propTypes: {},
 	  render: function () {
 	    return React.createElement(
 	      "ul",
 	      { className: "nav navbar-nav" },
 	      React.createElement(LeftMenuItem, {
 	        pageId: "send",
-	        activePage: this.props.activePage,
-	        href: "/index.html",
-	        text: "メールを送る",
-	        onSelectPage: this._onSelectPage }),
+	        href: "/index.html?p=send",
+	        text: "メールを送る" }),
 	      React.createElement(LeftMenuItem, {
 	        pageId: "receive",
-	        activePage: this.props.activePage,
-	        href: "/parse.html",
-	        text: "メールを受ける",
-	        onSelectPage: this._onSelectPage })
+	        href: "/index.html?p=receive",
+	        text: "メールを受ける" })
 	    );
 	  }
 	});
@@ -208,30 +195,40 @@
 /* 3 */
 /***/ function(module, exports) {
 
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
 	var LeftMenuItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      activePage: store.activePage
+	    };
+	  },
+
 	  propTypes: {
 	    pageId: React.PropTypes.string.isRequired,
 	    href: React.PropTypes.string.isRequired,
-	    text: React.PropTypes.string.isRequired,
-	    activePage: React.PropTypes.string.isRequired,
-	    onSelectPage: React.PropTypes.func.isRequired
+	    text: React.PropTypes.string.isRequired
 	  },
-	  _onSelectPage: function () {
-	    this.props.onSelectPage(this.props.pageId);
-	  },
+
 	  getActive: function (pageId, activePage) {
 	    if (pageId === activePage) return 'active';else return '';
 	  },
+
 	  render: function () {
 	    return React.createElement(
-	      'li',
+	      "li",
 	      {
 	        id: this.props.pageId,
-	        className: this.getActive(this.props.pageId, this.props.activePage) },
+	        className: this.getActive(this.props.pageId, this.state.activePage) },
 	      React.createElement(
-	        'a',
-	        { href: this.props.href, className: 'subtree-name',
-	          onClick: this._onSelectPage },
+	        "a",
+	        {
+	          className: "subtree-name",
+	          href: this.props.href },
 	        this.props.text
 	      )
 	    );
@@ -245,15 +242,25 @@
 
 	var SendPage = __webpack_require__(5);
 	var ReceivePage = __webpack_require__(29);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var Article = React.createClass({
-	  propTypes: {
-	    activePage: React.PropTypes.string.isRequired
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      activePage: store.activePage
+	    };
 	  },
+
+	  propTypes: {},
+
 	  render: function () {
-	    if (this.props.activePage === 'send') {
+	    if (this.state.activePage === 'send') {
 	      return React.createElement(SendPage, null);
-	    } else if (this.props.activePage === 'receive') {
+	    } else if (this.state.activePage === 'receive') {
 	      return React.createElement(ReceivePage, null);
 	    }
 	  }
@@ -2413,6 +2420,7 @@
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
+	    this.activePage = "send";
 	    this.mailData = {
 	      personalizations: [],
 	      subject: "Mail From Demobox",
@@ -2451,7 +2459,12 @@
 	    this.showEvent = "json";
 	    this.events = [];
 
-	    this.bindActions(constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.UPD_ACTIVE_PAGE, this.onUpdActivePage, constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	  },
+
+	  onUpdActivePage: function (payload) {
+	    this.activePage = payload.activePage;
+	    this.emit("change");
 	  },
 
 	  onAddPersonalization: function () {
@@ -2923,6 +2936,8 @@
 /***/ function(module, exports) {
 
 	var constants = {
+	  UPD_ACTIVE_PAGE: "UPD_ACTIVE_PAGE",
+
 	  ADD_PERSONALIZATION: "ADD_PERSONALIZATION",
 	  DEL_PERSONALIZATION: "DEL_PERSONALIZATION",
 	  ADD_TO_INPERSONAL: "ADD_TO_INPERSONAL",
@@ -3019,6 +3034,10 @@
 	var DemoboxClient = __webpack_require__(34);
 
 	var actions = {
+	  updActivePage: function (activePage) {
+	    this.dispatch(constants.UPD_ACTIVE_PAGE, { activePage: activePage });
+	  },
+
 	  addPersonalization: function () {
 	    this.dispatch(constants.ADD_PERSONALIZATION, { to: [{ email: "", name: "" }] });
 	  },

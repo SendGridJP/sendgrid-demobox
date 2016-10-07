@@ -2,6 +2,7 @@ var constants = require("../constants.js");
 
 var DemoboxStore = Fluxxor.createStore({
   initialize: function() {
+    this.activePage = "send";
     this.mailData = {
       personalizations: [],
       subject: "Mail From Demobox",
@@ -44,6 +45,8 @@ var DemoboxStore = Fluxxor.createStore({
     this.events = [];
 
     this.bindActions(
+      constants.UPD_ACTIVE_PAGE, this.onUpdActivePage,
+
       constants.ADD_PERSONALIZATION, this.onAddPersonalization,
       constants.DEL_PERSONALIZATION, this.onDelPersonalization,
       constants.ADD_TO_INPERSONAL, this.onAddToInpersonal,
@@ -131,6 +134,11 @@ var DemoboxStore = Fluxxor.createStore({
 
       constants.ADD_EVENTS, this.onAddEvents
     );
+  },
+
+  onUpdActivePage: function(payload) {
+    this.activePage = payload.activePage;
+    this.emit("change");
   },
 
   onAddPersonalization: function() {

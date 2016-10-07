@@ -1,16 +1,27 @@
 var SendPage = require('./send_page.jsx');
 var ReceivePage = require('./receive_page.jsx');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Article = React.createClass({
-  propTypes: {
-    activePage: React.PropTypes.string.isRequired
+  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+  getStateFromFlux: function() {
+    var store = this.getFlux().store("DemoboxStore");
+    return {
+      activePage: store.activePage
+    }
   },
+
+  propTypes: {
+  },
+
   render: function() {
-    if (this.props.activePage === 'send') {
+    if (this.state.activePage === 'send') {
       return (
         <SendPage />
       );
-    } else if (this.props.activePage === 'receive') {
+    } else if (this.state.activePage === 'receive') {
       return (
         <ReceivePage />
       );

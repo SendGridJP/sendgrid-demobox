@@ -23,7 +23,8 @@
     "babel": "~5.8.34",
     "fluxxor": "~1.7.3",
     "react": "~15.3.1",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "uri.js": "~1.18.2"
   },
   "exportsOverride":{
     "jquery": {
@@ -49,6 +50,9 @@
     },
     "underscore": {
       "js": "**/underscore*"
+    },
+    "uri.js": {
+      "js": "**/URI*.js"
     }
   }
 }

@@ -2,6 +2,10 @@ var constants = require('../constants.js');
 var DemoboxClient = require('../libs/DemoboxClient.js');
 
 var actions = {
+  updActivePage: function(activePage) {
+    this.dispatch(constants.UPD_ACTIVE_PAGE, {activePage: activePage});
+  },
+
   addPersonalization: function() {
     this.dispatch(
       constants.ADD_PERSONALIZATION, {to: [{email: "", name: ""}]}

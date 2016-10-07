@@ -8,10 +8,6 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var Root = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
 
-  _onSelectPage: function(pageId) {
-    this.setState({activePage: pageId});
-  },
-
   getInitialState: function() {
     return {activePage: 'send'};
   },
@@ -26,15 +22,24 @@ var Root = React.createClass({
   },
 
   componentDidMount: function() {
+    this.handleRouting(window.location.href);
     this.getFlux().actions.getSendInit();
+  },
+
+  handleRouting: function(href) {
+    var uri = new URI(href);
+    var activePage = "send";
+    var p = uri.search(true).p;
+    if (p != null) {
+      activePage = p;
+    }
+    this.getFlux().actions.updActivePage(activePage);
   },
 
   render: function() {
     return (
       <div className="Root">
-        <Header
-          activePage={this.state.activePage}
-          onSelectPage={this._onSelectPage} />
+        <Header />
         <Article activePage={this.state.activePage} />
       </div>
     );
