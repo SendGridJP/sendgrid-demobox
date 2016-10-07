@@ -1,6 +1,7 @@
 var LeftMenuItem = React.createClass({
   propTypes: {
     pageId: React.PropTypes.string.isRequired,
+    href: React.PropTypes.string.isRequired,
     text: React.PropTypes.string.isRequired,
     activePage: React.PropTypes.string.isRequired,
     onSelectPage: React.PropTypes.func.isRequired
@@ -17,7 +18,7 @@ var LeftMenuItem = React.createClass({
       <li
         id={this.props.pageId}
         className={this.getActive(this.props.pageId, this.props.activePage)}>
-        <a href="#" className="subtree-name"
+        <a href={this.props.href} className="subtree-name"
           onClick={this._onSelectPage}>{this.props.text}</a>
       </li>
     );

@@ -14,13 +14,13 @@ var LeftMenu = React.createClass({
         <LeftMenuItem
           pageId="send"
           activePage={this.props.activePage}
-          href=""
+          href="/index.html"
           text="メールを送る"
           onSelectPage={this._onSelectPage} />
         <LeftMenuItem
           pageId="receive"
           activePage={this.props.activePage}
-          href=""
+          href="/parse.html"
           text="メールを受ける"
           onSelectPage={this._onSelectPage} />
       </ul>

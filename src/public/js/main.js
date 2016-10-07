@@ -190,13 +190,13 @@
 	      React.createElement(LeftMenuItem, {
 	        pageId: "send",
 	        activePage: this.props.activePage,
-	        href: "",
+	        href: "/index.html",
 	        text: "メールを送る",
 	        onSelectPage: this._onSelectPage }),
 	      React.createElement(LeftMenuItem, {
 	        pageId: "receive",
 	        activePage: this.props.activePage,
-	        href: "",
+	        href: "/parse.html",
 	        text: "メールを受ける",
 	        onSelectPage: this._onSelectPage })
 	    );
@@ -211,6 +211,7 @@
 	var LeftMenuItem = React.createClass({
 	  propTypes: {
 	    pageId: React.PropTypes.string.isRequired,
+	    href: React.PropTypes.string.isRequired,
 	    text: React.PropTypes.string.isRequired,
 	    activePage: React.PropTypes.string.isRequired,
 	    onSelectPage: React.PropTypes.func.isRequired
@@ -229,7 +230,7 @@
 	        className: this.getActive(this.props.pageId, this.props.activePage) },
 	      React.createElement(
 	        'a',
-	        { href: '#', className: 'subtree-name',
+	        { href: this.props.href, className: 'subtree-name',
 	          onClick: this._onSelectPage },
 	        this.props.text
 	      )
