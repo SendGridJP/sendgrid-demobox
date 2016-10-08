@@ -62,9 +62,9 @@ var DemoboxClient = {
     }
   },
 
-  getSendInit: function(success, failure) {
+  getFromServer(url, success, failure) {
     $.ajax({
-      url: '/send_init',
+      url: url,
       dataType: 'json',
       type: 'GET',
       data: null,

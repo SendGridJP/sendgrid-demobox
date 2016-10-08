@@ -43,6 +43,8 @@ var DemoboxStore = Fluxxor.createStore({
     this.result = "";
     this.showEvent = "json";
     this.events = [];
+    this.receiveAddress = "";
+    this.receiveMails = [];
 
     this.bindActions(
       constants.UPD_ACTIVE_PAGE, this.onUpdActivePage,
@@ -125,6 +127,8 @@ var DemoboxStore = Fluxxor.createStore({
 
       constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess,
       constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail,
+      constants.GET_RECEIVE_INIT_SUCCESS, this.onGetReceiveInitSuccess,
+      constants.GET_RECEIVE_INIT_FAIL, this.onGetReceiveInitFail,
 
       constants.SEND_MAIL, this.onSendMail,
       constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess,
@@ -569,6 +573,15 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onGetSendInitFail: function(payload) {
+
+  },
+
+  onGetReceiveInitSuccess: function(payload) {
+    this.receiveAddress = payload.result.receive_address;
+    this.emit("change");
+  },
+
+  onGetReceiveInitFail: function(payload) {
 
   },
 

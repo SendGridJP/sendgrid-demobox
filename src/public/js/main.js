@@ -46,17 +46,12 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(30);
-
+	var flux = __webpack_require__(28);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var Root = React.createClass({
 	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  getInitialState: function () {
-	    return { activePage: 'send' };
-	  },
 
 	  getStateFromFlux: function () {
 	    var store = this.getFlux().store("DemoboxStore");
@@ -69,7 +64,6 @@
 
 	  componentDidMount: function () {
 	    this.handleRouting(window.location.href);
-	    this.getFlux().actions.getSendInit();
 	  },
 
 	  handleRouting: function (href) {
@@ -87,7 +81,7 @@
 	      'div',
 	      { className: 'Root' },
 	      React.createElement(Header, null),
-	      React.createElement(Article, { activePage: this.state.activePage })
+	      React.createElement(Article, null)
 	    );
 	  }
 	});
@@ -241,7 +235,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(29);
+	var ReceivePage = __webpack_require__(27);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -272,7 +266,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendForm = __webpack_require__(6);
-	var EventsPain = __webpack_require__(25);
+	var EventsPain = __webpack_require__(23);
 
 	var SendPage = React.createClass({
 	  render: function () {
@@ -310,12 +304,16 @@
 	var KeyValueForm = __webpack_require__(13);
 	var AsmForm = __webpack_require__(18);
 	var MailSettingsForm = __webpack_require__(19);
-	var TrackingSettingsForm = __webpack_require__(35);
+	var TrackingSettingsForm = __webpack_require__(21);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var SendForm = React.createClass({
 	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  componentDidMount: function () {
+	    this.getFlux().actions.getSendInit();
+	  },
 
 	  getInitialState: function () {
 	    return {};
@@ -1862,16 +1860,262 @@
 	module.exports = MailSettingsItem;
 
 /***/ },
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(26);
-	var EventItemTable = __webpack_require__(27);
-	var EventItemJson = __webpack_require__(28);
+	var TrackingSettingsItem = __webpack_require__(22);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var TrackingSettingsForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      tracking_settings: store.mailData.tracking_settings
+	    };
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        "tracking_settings"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement("div", { className: "fixed" }),
+	        React.createElement(
+	          "div",
+	          { className: "flex" },
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "click_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "open_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "subscription_tracking" }),
+	          React.createElement(TrackingSettingsItem, {
+	            data: this.state.tracking_settings,
+	            parent: "ganalytics" })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = TrackingSettingsForm;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var TrackingSettingsItem = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  propTypes: {
+	    data: React.PropTypes.array.isRequired,
+	    parent: React.PropTypes.string.isRequired
+	  },
+
+	  getStateFromFlux: function () {
+	    return {};
+	  },
+
+	  handleAdd: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.addTrackingSettingsItem(this.props.parent);
+	  },
+
+	  handleDel: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.delTrackingSettingsItem(this.props.parent);
+	  },
+
+	  handleUpdEnable: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, e.target.value == 'true');
+	  },
+
+	  handleUpdTrackingSettings: function (e) {
+	    e.preventDefault();
+	    var value = e.target.value;
+	    if (this.props.name === "enable") {
+	      value = e.target.value == "true";
+	    }
+	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, value);
+	  },
+
+	  render: function () {
+	    var add;
+	    var del;
+	    if (this.props.data[this.props.parent] === null) {
+	      add = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleAdd },
+	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	      );
+	    } else {
+	      var items;
+	      switch (this.props.parent) {
+	        case "click_tracking":
+	          items = React.createElement(
+	            "select",
+	            { className: "form-control", name: "enable_text",
+	              value: this.props.data[this.props.parent].enable_text,
+	              onChange: this.handleUpdTrackingSettings },
+	            React.createElement(
+	              "option",
+	              { value: "false" },
+	              "false"
+	            ),
+	            React.createElement(
+	              "option",
+	              { value: "true" },
+	              "true"
+	            )
+	          );
+	          break;
+	        case "open_tracking":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "substitution_tag",
+	              className: "form-control",
+	              placeholder: "substitution_tag",
+	              defaultValue: this.props.data[this.props.parent].substitution_tag,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	          break;
+	        case "subscription_tracking":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "text",
+	              className: "form-control",
+	              placeholder: "text",
+	              defaultValue: this.props.data[this.props.parent].text,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "html",
+	              className: "form-control",
+	              placeholder: "html",
+	              defaultValue: this.props.data[this.props.parent].html,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "substitution_tag",
+	              className: "form-control",
+	              placeholder: "substitution_tag",
+	              defaultValue: this.props.data[this.props.parent].substitution_tag,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	          break;
+	        case "ganalytics":
+	          items = React.createElement(
+	            "div",
+	            null,
+	            React.createElement("input", { type: "text",
+	              name: "utm_source",
+	              className: "form-control",
+	              placeholder: "utm_source",
+	              defaultValue: this.props.data[this.props.parent].utm_source,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_medium",
+	              className: "form-control",
+	              placeholder: "utm_medium",
+	              defaultValue: this.props.data[this.props.parent].utm_medium,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_term",
+	              className: "form-control",
+	              placeholder: "utm_term",
+	              defaultValue: this.props.data[this.props.parent].utm_term,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_content",
+	              className: "form-control",
+	              placeholder: "utm_content",
+	              defaultValue: this.props.data[this.props.parent].utm_content,
+	              onChange: this.handleUpdTrackingSettings }),
+	            React.createElement("input", { type: "text",
+	              name: "utm_campaign",
+	              className: "form-control",
+	              placeholder: "utm_campaign",
+	              defaultValue: this.props.data[this.props.parent].utm_campaign,
+	              onChange: this.handleUpdTrackingSettings })
+	          );
+	      }
+	      var form = React.createElement(
+	        "div",
+	        { className: "flex" },
+	        React.createElement(
+	          "select",
+	          { className: "form-control", name: "enable",
+	            value: this.props.data[this.props.parent].enable,
+	            onChange: this.handleUpdEnable },
+	          React.createElement(
+	            "option",
+	            { value: "false" },
+	            "false"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "true" },
+	            "true"
+	          )
+	        ),
+	        items
+	      );
+	      del = React.createElement(
+	        "a",
+	        { href: "javascript:void(0)", onClick: this.handleDel,
+	          className: "removeIcon" },
+	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	      );
+	    }
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        this.props.parent
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "wrapper" },
+	        React.createElement(
+	          "div",
+	          { className: "fixed" },
+	          del
+	        ),
+	        form
+	      ),
+	      add
+	    );
+	  }
+	});
+	module.exports = TrackingSettingsItem;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ShowButton = __webpack_require__(24);
+	var EventItemTable = __webpack_require__(25);
+	var EventItemJson = __webpack_require__(26);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -1881,8 +2125,6 @@
 
 	  getStateFromFlux: function () {
 	    var store = this.getFlux().store("DemoboxStore");
-	    // console.log("EventsPain.getStateFromFlux() store.showEvent: " + store.showEvent);
-	    // console.log("EventsPain.getStateFromFlux() store.events: " + JSON.stringify(store.events));
 	    return {
 	      showEvent: store.showEvent,
 	      events: store.events
@@ -1891,7 +2133,6 @@
 
 	  getTable: function (showEvent, events) {
 	    var table = '';
-	    // console.log('getTable(): ' + JSON.stringify(events));
 	    if (showEvent == "table") {
 	      table = React.createElement(
 	        ReactCSSTransitionGroup,
@@ -2106,7 +2347,6 @@
 	  },
 
 	  handleShowButton: function (buttonId) {
-	    // console.log("handleShowButton: " + buttonId);
 	    this.getFlux().actions.toggleShowEvent(buttonId);
 	  },
 
@@ -2140,7 +2380,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var ShowButton = React.createClass({
@@ -2170,7 +2410,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 27 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -2332,7 +2572,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 28 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -2366,26 +2606,194 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 29 */
-/***/ function(module, exports) {
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ReceiveMailItem = __webpack_require__(33);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 	var ReceivePage = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  componentDidMount: function () {
+	    this.getFlux().actions.getReceiveInit();
+	  },
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      receiveAddress: store.receiveAddress,
+	      receiveMails: store.receiveMails
+	    };
+	  },
+
+	  getMailTo: function (receiveAddress) {
+	    console.log(receiveAddress);
+	    return "mailto:" + receiveAddress + "?subject=メール受信テスト&amp;body=メール受信テストの本文";
+	  },
+
 	  render: function () {
 	    return React.createElement(
 	      "div",
-	      null,
-	      "Active page is Receive page"
+	      { className: "container-fluid" },
+	      React.createElement(
+	        "div",
+	        { className: "row" },
+	        React.createElement(
+	          "div",
+	          { className: "row" },
+	          React.createElement(
+	            "div",
+	            { className: "alert alert-warning" },
+	            "Mailto: ",
+	            React.createElement(
+	              "a",
+	              { href: this.getMailTo(this.state.receiveAddress) },
+	              this.state.receiveAddress
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          "table",
+	          { id: "receive-table",
+	            className: "table table-striped table-bordered table-condensed" },
+	          React.createElement(
+	            "thead",
+	            null,
+	            React.createElement(
+	              "tr",
+	              null,
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "to"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "from"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "subject"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "text"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "html"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "charsets"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "attachments"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "envelope"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "sender_ip"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "dkim"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "SPF"
+	                )
+	              ),
+	              React.createElement(
+	                "th",
+	                null,
+	                React.createElement(
+	                  "small",
+	                  null,
+	                  "headers"
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            "tbody",
+	            null,
+	            this.state.receiveMails.map(function (mail) {
+	              return React.createElement(ReceiveMailItem, { mail: mail });
+	            }, this)
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
 	module.exports = ReceivePage;
 
 /***/ },
-/* 30 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(31);
-	var DemoboxActions = __webpack_require__(33);
+	var DemoboxStore = __webpack_require__(29);
+	var DemoboxActions = __webpack_require__(31);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -2410,13 +2818,18 @@
 	  // $("#event-json td div").slideDown(500);
 	});
 
+	io.on("receive", function (value) {
+	  console.log("RocketIOReceiver receive: " + value);
+	  flux.actions.addReceiveMail(value);
+	});
+
 	module.exports = flux;
 
 /***/ },
-/* 31 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(32);
+	var constants = __webpack_require__(30);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -2458,8 +2871,10 @@
 	    this.result = "";
 	    this.showEvent = "json";
 	    this.events = [];
+	    this.receiveAddress = "";
+	    this.receiveMails = [];
 
-	    this.bindActions(constants.UPD_ACTIVE_PAGE, this.onUpdActivePage, constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.UPD_ACTIVE_PAGE, this.onUpdActivePage, constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.GET_RECEIVE_INIT_SUCCESS, this.onGetReceiveInitSuccess, constants.GET_RECEIVE_INIT_FAIL, this.onGetReceiveInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
 	  },
 
 	  onUpdActivePage: function (payload) {
@@ -2888,6 +3303,13 @@
 
 	  onGetSendInitFail: function (payload) {},
 
+	  onGetReceiveInitSuccess: function (payload) {
+	    this.receiveAddress = payload.result.receive_address;
+	    this.emit("change");
+	  },
+
+	  onGetReceiveInitFail: function (payload) {},
+
 	  onSendMail: function (payload) {
 	    this.status = '送信中...';
 	    this.request = payload.param;
@@ -2932,7 +3354,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 32 */
+/* 30 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -3016,6 +3438,8 @@
 
 	  GET_SEND_INIT_SUCCESS: "GET_SEND_INIT_SUCCESS",
 	  GET_SEND_INIT_FAIL: "GET_SEND_INIT_FAIL",
+	  GET_RECEIVE_INIT_SUCCESS: "GET_RECEIVE_INIT_SUCCESS",
+	  GET_RECEIVE_INIT_FAIL: "GET_RECEIVE_INIT_FAIL",
 
 	  SEND_MAIL: "SEND_MAIL",
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
@@ -3027,11 +3451,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 33 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(32);
-	var DemoboxClient = __webpack_require__(34);
+	var constants = __webpack_require__(30);
+	var DemoboxClient = __webpack_require__(32);
 
 	var actions = {
 	  updActivePage: function (activePage) {
@@ -3291,10 +3715,21 @@
 	  },
 
 	  getSendInit: function () {
-	    DemoboxClient.getSendInit(function (result) {
+	    DemoboxClient.getFromServer('/send_init', function (result) {
 	      this.dispatch(constants.GET_SEND_INIT_SUCCESS, { result: result });
 	    }.bind(this), function (xhr, status, err) {
 	      this.dispatch(constants.GET_SEND_INIT_FAIL, {
+	        responseCode: xhr.status,
+	        responseBody: err.message
+	      });
+	    }.bind(this));
+	  },
+
+	  getReceiveInit: function () {
+	    DemoboxClient.getFromServer('/receive_init', function (result) {
+	      this.dispatch(constants.GET_RECEIVE_INIT_SUCCESS, { result: result });
+	    }.bind(this), function (xhr, status, err) {
+	      this.dispatch(constants.GET_RECEIVE_INIT_FAIL, {
 	        responseCode: xhr.status,
 	        responseBody: err.message
 	      });
@@ -3326,7 +3761,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 34 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
@@ -3395,9 +3830,9 @@
 	    }
 	  },
 
-	  getSendInit: function (success, failure) {
+	  getFromServer(url, success, failure) {
 	    $.ajax({
-	      url: '/send_init',
+	      url: url,
 	      dataType: 'json',
 	      type: 'GET',
 	      data: null,
@@ -3410,254 +3845,130 @@
 	module.exports = DemoboxClient;
 
 /***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
+/* 33 */
+/***/ function(module, exports) {
 
-	var TrackingSettingsItem = __webpack_require__(36);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var TrackingSettingsForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {
-	      tracking_settings: store.mailData.tracking_settings
-	    };
+	var ReceiveMailItem = React.createClass({
+	  propTypes: {
+	    mail: React.PropTypes.object.isRequired
 	  },
 
 	  render: function () {
 	    return React.createElement(
-	      "div",
+	      "tr",
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "tracking_settings"
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.to
+	        )
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement("div", { className: "fixed" }),
+	        "td",
+	        null,
 	        React.createElement(
-	          "div",
-	          { className: "flex" },
-	          React.createElement(TrackingSettingsItem, {
-	            data: this.state.tracking_settings,
-	            parent: "click_tracking" }),
-	          React.createElement(TrackingSettingsItem, {
-	            data: this.state.tracking_settings,
-	            parent: "open_tracking" }),
-	          React.createElement(TrackingSettingsItem, {
-	            data: this.state.tracking_settings,
-	            parent: "subscription_tracking" }),
-	          React.createElement(TrackingSettingsItem, {
-	            data: this.state.tracking_settings,
-	            parent: "ganalytics" })
+	          "small",
+	          null,
+	          this.props.mail.from
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.subject
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.text
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.html
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.charsets
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.attachments
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.envelope
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.sender_ip
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.dkim
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.SPF
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.headers
 	        )
 	      )
 	    );
 	  }
 	});
-	module.exports = TrackingSettingsForm;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var TrackingSettingsItem = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  propTypes: {
-	    data: React.PropTypes.array.isRequired,
-	    parent: React.PropTypes.string.isRequired
-	  },
-
-	  getStateFromFlux: function () {
-	    return {};
-	  },
-
-	  handleAdd: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.addTrackingSettingsItem(this.props.parent);
-	  },
-
-	  handleDel: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.delTrackingSettingsItem(this.props.parent);
-	  },
-
-	  handleUpdEnable: function (e) {
-	    e.preventDefault();
-	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, e.target.value == 'true');
-	  },
-
-	  handleUpdTrackingSettings: function (e) {
-	    e.preventDefault();
-	    var value = e.target.value;
-	    if (this.props.name === "enable") {
-	      value = e.target.value == "true";
-	    }
-	    this.getFlux().actions.updTrackingSettings(this.props.parent, e.target.name, value);
-	  },
-
-	  render: function () {
-	    var add;
-	    var del;
-	    if (this.props.data[this.props.parent] === null) {
-	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	      );
-	    } else {
-	      var items;
-	      switch (this.props.parent) {
-	        case "click_tracking":
-	          items = React.createElement(
-	            "select",
-	            { className: "form-control", name: "enable_text",
-	              value: this.props.data[this.props.parent].enable_text,
-	              onChange: this.handleUpdTrackingSettings },
-	            React.createElement(
-	              "option",
-	              { value: "false" },
-	              "false"
-	            ),
-	            React.createElement(
-	              "option",
-	              { value: "true" },
-	              "true"
-	            )
-	          );
-	          break;
-	        case "open_tracking":
-	          items = React.createElement(
-	            "div",
-	            null,
-	            React.createElement("input", { type: "text",
-	              name: "substitution_tag",
-	              className: "form-control",
-	              placeholder: "substitution_tag",
-	              defaultValue: this.props.data[this.props.parent].substitution_tag,
-	              onChange: this.handleUpdTrackingSettings })
-	          );
-	          break;
-	        case "subscription_tracking":
-	          items = React.createElement(
-	            "div",
-	            null,
-	            React.createElement("input", { type: "text",
-	              name: "text",
-	              className: "form-control",
-	              placeholder: "text",
-	              defaultValue: this.props.data[this.props.parent].text,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "html",
-	              className: "form-control",
-	              placeholder: "html",
-	              defaultValue: this.props.data[this.props.parent].html,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "substitution_tag",
-	              className: "form-control",
-	              placeholder: "substitution_tag",
-	              defaultValue: this.props.data[this.props.parent].substitution_tag,
-	              onChange: this.handleUpdTrackingSettings })
-	          );
-	          break;
-	        case "ganalytics":
-	          items = React.createElement(
-	            "div",
-	            null,
-	            React.createElement("input", { type: "text",
-	              name: "utm_source",
-	              className: "form-control",
-	              placeholder: "utm_source",
-	              defaultValue: this.props.data[this.props.parent].utm_source,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_medium",
-	              className: "form-control",
-	              placeholder: "utm_medium",
-	              defaultValue: this.props.data[this.props.parent].utm_medium,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_term",
-	              className: "form-control",
-	              placeholder: "utm_term",
-	              defaultValue: this.props.data[this.props.parent].utm_term,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_content",
-	              className: "form-control",
-	              placeholder: "utm_content",
-	              defaultValue: this.props.data[this.props.parent].utm_content,
-	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_campaign",
-	              className: "form-control",
-	              placeholder: "utm_campaign",
-	              defaultValue: this.props.data[this.props.parent].utm_campaign,
-	              onChange: this.handleUpdTrackingSettings })
-	          );
-	      }
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
-	        React.createElement(
-	          "select",
-	          { className: "form-control", name: "enable",
-	            value: this.props.data[this.props.parent].enable,
-	            onChange: this.handleUpdEnable },
-	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
-	          )
-	        ),
-	        items
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        this.props.parent
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
-	        form
-	      ),
-	      add
-	    );
-	  }
-	});
-	module.exports = TrackingSettingsItem;
+	module.exports = ReceiveMailItem;
 
 /***/ }
 /******/ ]);

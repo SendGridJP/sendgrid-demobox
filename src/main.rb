@@ -59,6 +59,14 @@ class Main < Sinatra::Base
     res.to_json
   end
 
+  get '/receive_init' do
+    puts 'get receive_init'
+    setting = Setting.new
+    res = {}
+    res['receive_address'] = "test@#{setting.parse_host}"
+    res.to_json
+  end
+
   get '/receive' do
     # setting = Setting.new
     @receive_address = "demo@#{setting.parse_host}"

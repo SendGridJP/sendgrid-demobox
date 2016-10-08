@@ -13,6 +13,10 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var SendForm = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
 
+    componentDidMount: function() {
+      this.getFlux().actions.getSendInit();
+    },
+
     getInitialState: function() {
       return {};
     },

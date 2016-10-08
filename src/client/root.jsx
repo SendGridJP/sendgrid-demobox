@@ -1,16 +1,11 @@
 var Header = require('./components/header.jsx');
 var Article = require('./components/article.jsx');
 var flux = require("./Flux.js");
-
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Root = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-  getInitialState: function() {
-    return {activePage: 'send'};
-  },
 
   getStateFromFlux: function() {
     var store = this.getFlux().store("DemoboxStore");
@@ -23,7 +18,6 @@ var Root = React.createClass({
 
   componentDidMount: function() {
     this.handleRouting(window.location.href);
-    this.getFlux().actions.getSendInit();
   },
 
   handleRouting: function(href) {
@@ -40,7 +34,7 @@ var Root = React.createClass({
     return (
       <div className="Root">
         <Header />
-        <Article activePage={this.state.activePage} />
+        <Article />
       </div>
     );
   }

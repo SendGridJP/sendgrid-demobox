@@ -306,13 +306,32 @@ var actions = {
   },
 
   getSendInit: function() {
-    DemoboxClient.getSendInit(
+    DemoboxClient.getFromServer(
+      '/send_init',
       function(result) {
         this.dispatch(constants.GET_SEND_INIT_SUCCESS, {result: result});
       }.bind(this),
       function(xhr, status, err) {
         this.dispatch(
           constants.GET_SEND_INIT_FAIL,
+          {
+            responseCode: xhr.status,
+            responseBody: err.message
+          }
+        );
+      }.bind(this)
+    );
+  },
+
+  getReceiveInit: function() {
+    DemoboxClient.getFromServer(
+      '/receive_init',
+      function(result) {
+        this.dispatch(constants.GET_RECEIVE_INIT_SUCCESS, {result: result});
+      }.bind(this),
+      function(xhr, status, err) {
+        this.dispatch(
+          constants.GET_RECEIVE_INIT_FAIL,
           {
             responseCode: xhr.status,
             responseBody: err.message

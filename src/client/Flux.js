@@ -24,4 +24,9 @@ io.on("event", function(value){
   // $("#event-json td div").slideDown(500);
 });
 
+io.on("receive", function(value) {
+  console.log("RocketIOReceiver receive: " + value);
+  flux.actions.addReceiveMail(value);
+});
+
 module.exports = flux;
