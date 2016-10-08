@@ -13,12 +13,6 @@ var SimpleTextForm = React.createClass({
     max: React.PropTypes.number,
   },
 
-  getInitialState: function() {
-    return {
-      disabled: true
-    };
-  },
-
   handleDel: function(e) {
     e.preventDefault();
     this.props.handleDel();
@@ -29,21 +23,15 @@ var SimpleTextForm = React.createClass({
     this.props.handleUpd(this.props.index, e.target.value);
   },
 
-  render: function() {
-    var del;
-    if (typeof(this.props.handleDel) == "function") {
-      del = (
-        <a href="javascript:void(0)" onClick={this.handleDel}
-          className="removeIcon">
-          <span className="glyphicon glyphicon-remove"></span>
-        </a>
-      );
-    }
-
+  getRq: function() {
     var rq = '';
     if (this.props.required) {
       rq = <span className="text-danger">*</span>;
     }
+    return rq;
+  },
+
+  render: function() {
     var add;
     var items;
     if (Array.isArray(this.props.value)) {
@@ -80,7 +68,7 @@ var SimpleTextForm = React.createClass({
     }
     return (
       <div>
-        <label className="control-label">{rq}{this.props.title}</label>
+        <label className="control-label">{this.getRq}{this.props.title}</label>
         <div>
           {items}
         </div>

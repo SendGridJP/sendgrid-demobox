@@ -6,11 +6,6 @@ var ContentItem = React.createClass({
     handleUpd: React.PropTypes.func.isRequired,
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   handleDel: function() {
     this.props.handleDel(this.props.data.type);
   },
@@ -30,7 +25,6 @@ var ContentItem = React.createClass({
         </a>
       );
     }
-
     return (
       <div className="wrapper">
         <div className="fixed">

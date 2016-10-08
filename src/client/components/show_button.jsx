@@ -1,23 +1,37 @@
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
 var ShowButton = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+  getStateFromFlux: function() {
+    var store = this.getFlux().store("DemoboxStore");
+    return {
+      showEvent: store.showEvent
+    }
+  },
+
   propTypes: {
     buttonId: React.PropTypes.string.isRequired,
-    text: React.PropTypes.string.isRequired,
-    active: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func.isRequired
+    text: React.PropTypes.string.isRequired
   },
-  handleSelect: function() {
-    this.props.onClick(this.props.buttonId);
+
+  handleClick: function(e) {
+    e.preventDefault();
+    this.getFlux().actions.toggleShowEvent(this.props.buttonId);
   },
+
   getActive: function(buttonId, active) {
     if (buttonId === active) return 'btn btn-default active';
     else return 'btn btn-default';
   },
+
   render: function() {
     return(
       <button
-        className={this.getActive(this.props.buttonId, this.props.active)}
+        className={this.getActive(this.props.buttonId, this.state.showEvent)}
         id={this.props.buttonId}
-        onClick={this.handleSelect}>{this.props.text}</button>
+        onClick={this.handleClick}>{this.props.text}</button>
     );
   }
 });

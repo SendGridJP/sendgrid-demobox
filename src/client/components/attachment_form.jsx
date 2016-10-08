@@ -8,11 +8,6 @@ var AttachmentForm = React.createClass({
     handleUpd: React.PropTypes.func.isRequired,
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   render: function() {
     return (
       <div>

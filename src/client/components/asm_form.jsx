@@ -11,11 +11,6 @@ var AsmForm = React.createClass({
     handleDel: React.PropTypes.func.isRequired,
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   getStateFromFlux: function() {
     return {};
   },

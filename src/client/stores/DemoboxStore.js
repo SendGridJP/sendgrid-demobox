@@ -136,7 +136,8 @@ var DemoboxStore = Fluxxor.createStore({
 
       constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent,
 
-      constants.ADD_EVENTS, this.onAddEvents
+      constants.ADD_EVENTS, this.onAddEvents,
+      constants.ADD_RECEIVE_MAIL, this.onAddReceiveMail
     );
   },
 
@@ -158,7 +159,6 @@ var DemoboxStore = Fluxxor.createStore({
     );
     this.emit("change");
   },
-
   onDelPersonalization: function(index) {
     this.mailData.personalizations.splice(index, 1);
     this.emit("change");
@@ -168,12 +168,10 @@ var DemoboxStore = Fluxxor.createStore({
     this.mailData.personalizations[index].to.push({email: "", name: ""});
     this.emit("change");
   },
-
   onDelToInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].to.splice(payload.index, 1);
     this.emit("change");
   },
-
   onUpdToInpersonal: function(payload) {
     this.mailData.personalizations[payload.parentIndex].to[payload.index][payload.key] = payload.value;
     this.emit("change");
@@ -277,7 +275,6 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onUpdFrom: function(payload) {
-    console.log("onUpdFrom: " + JSON.stringify(payload));
     this.mailData.from[payload.key] = payload.value;
     this.emit("change");
   },
@@ -286,12 +283,10 @@ var DemoboxStore = Fluxxor.createStore({
     this.mailData["reply-to"] = {email: "", name: ""};
     this.emit("change");
   },
-
   onDelReplyto: function() {
     this.mailData["reply-to"] = null;
     this.emit("change");
   },
-
   onUpdReplyto: function(payload) {
     this.mailData["reply-to"][payload.key] = payload.value;
     this.emit("change");
@@ -356,7 +351,6 @@ var DemoboxStore = Fluxxor.createStore({
       }
     );
     this.emit("change");
-
   },
   onDelAttachment: function(payload) {
     this.mailData.attachments.splice(payload.index, 1);
@@ -595,7 +589,6 @@ var DemoboxStore = Fluxxor.createStore({
 
   onSendMailSuccess: function(payload) {
     this.status = '送信完了';
-    //this.request = payload.result.request;
     this.responseCode = payload.result.responseCode;
     this.responseBody = payload.result.responseBody;
     this.emit("change");
@@ -609,20 +602,21 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onToggleShowEvent: function(payload) {
-    // console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
     this.showEvent = payload.buttonId;
     this.emit("change");
   },
 
   onAddEvents: function(payload) {
-    // console.log("DemoboxStore#onAddEvents()1: " + payload.events);
     var events = JSON.parse(payload.events);
-    // console.log("DemoboxStore#onAddEvents()2: " + events);
     events.map(function(event) {
       this.events.unshift(event);
     }.bind(this));
-    // console.log(JSON.stringify(this.events));
     this.emit("change");
+  },
+
+  onAddReceiveMail: function(payload) {
+    var receiveMail = JSON.parse(payload.receiveMail);
+    // TODO
   }
 });
 

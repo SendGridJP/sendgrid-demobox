@@ -1,8 +1,6 @@
 var LeftMenuItem = require('./left_menu_item.jsx');
 
 var LeftMenu = React.createClass({
-  propTypes: {
-  },
   render: function() {
     return(
       <ul className="nav navbar-nav">

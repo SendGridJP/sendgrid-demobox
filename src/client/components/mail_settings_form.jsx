@@ -41,8 +41,6 @@ var MailSettingsForm = React.createClass({
             <MailSettingsItem
               data={this.state.mail_settings}
               parent="spam_check" />
-
-
           </div>
         </div>
       </div>

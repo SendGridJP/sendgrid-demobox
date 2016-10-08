@@ -8,11 +8,6 @@ var ContentForm = React.createClass({
     handleUpd: React.PropTypes.func,
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   render: function() {
     var add;
     if (this.props.data.length < 2) {

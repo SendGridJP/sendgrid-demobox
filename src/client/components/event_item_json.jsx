@@ -2,8 +2,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var EventItemJson = React.createClass({
   propTypes: {
-    event: React.PropTypes.object.isRequired,
-    firstRow: React.PropTypes.bool.isRequired
+    event: React.PropTypes.object.isRequired
   },
 
   render: function() {

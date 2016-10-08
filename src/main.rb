@@ -98,7 +98,9 @@ class Main < Sinatra::Base
   post '/event' do
     begin
       request.body.rewind
-      io.push :event, request.body.read
+      events = request.body.read
+      logger.info events
+      io.push :event, events
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
@@ -109,23 +111,21 @@ class Main < Sinatra::Base
   # TODO fix return 500 if received mail has attachment from Gmail
   post '/receive' do
     begin
+      # TODO
       # push the received email to the clients
-      logger.info JSON.generate(params)
-      io.push :receive, JSON.generate(params)
+      #logger.info JSON.generate(params)
+      request.body.rewind
+      receiveMail = request.body.read
+      logger.info receiveMail
+      io.push :receive, receiveMail#JSON.generate(params)
       # insert to datastore
+      mail = Mail.create_new(receiveMail)
       dba = MailCollection.new
-      mail = Mail.create_new(params)
       dba.insert(mail.to_array)
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
     end
     'Success'
-  end
-
-  get '/eventtest' do
-
-    io.push :event, JSON.generate("{\"timestamp\": #{Time.now.to_i}}")
-    'hello'
   end
 end

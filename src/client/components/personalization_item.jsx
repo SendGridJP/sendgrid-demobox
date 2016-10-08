@@ -11,22 +11,12 @@ var PersonalizationItem = React.createClass({
     index: React.PropTypes.number.isRequired
   },
 
-  getInitialState: function() {
-    return {};
-  },
-
   getStateFromFlux: function() {
     var store = this.getFlux().store("DemoboxStore");
     var state = {};
     if (store.mailData.personalizations[this.props.index] != null) {
       state = {
         personalization: store.mailData.personalizations[this.props.index],
-        // to: store.mailData.personalizations[this.props.index].to,
-        // cc: store.mailData.personalizations[this.props.index].cc,
-        // bcc: store.mailData.personalizations[this.props.index].bcc,
-        // headers: store.mailData.personalizations[this.props.index].headers,
-        // substitutions: store.mailData.personalizations[this.props.index].substitutions,
-        // custom_args: store.mailData.personalizations[this.props.index].custom_args
       };
     }
     return state;

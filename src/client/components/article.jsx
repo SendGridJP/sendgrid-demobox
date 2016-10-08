@@ -10,22 +10,20 @@ var Article = React.createClass({
     var store = this.getFlux().store("DemoboxStore");
     return {
       activePage: store.activePage
-    }
+    };
   },
 
   propTypes: {
   },
 
   render: function() {
+    var page = "";
     if (this.state.activePage === 'send') {
-      return (
-        <SendPage />
-      );
+      page = (<SendPage />);
     } else if (this.state.activePage === 'receive') {
-      return (
-        <ReceivePage />
-      );
+      page = (<ReceivePage />);
     }
+    return page;
   }
 });
 module.exports = Article;

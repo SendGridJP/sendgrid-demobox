@@ -1,4 +1,4 @@
-var PersonalizationList = require('./personalization_list.jsx');
+var PersonalizationForm = require('./personalization_form.jsx');
 var EmailForm = require('./email_form.jsx');
 var SimpleTextForm = require('./simple_text_form.jsx');
 var ContentForm = require('./content_form.jsx');
@@ -15,10 +15,6 @@ var SendForm = React.createClass({
 
     componentDidMount: function() {
       this.getFlux().actions.getSendInit();
-    },
-
-    getInitialState: function() {
-      return {};
     },
 
     getStateFromFlux: function() {
@@ -174,7 +170,7 @@ var SendForm = React.createClass({
 
           <form id="param" className="form-horizontal">
 
-            <PersonalizationList />
+            <PersonalizationForm />
 
             <EmailForm
               title="from"
@@ -297,7 +293,6 @@ var SendForm = React.createClass({
             <MailSettingsForm />
 
             <TrackingSettingsForm />
-
           </form>
 
           <button

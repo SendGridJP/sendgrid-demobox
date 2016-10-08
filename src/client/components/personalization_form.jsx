@@ -2,7 +2,7 @@ var PersonalizationItem = require('./personalization_item.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-var PersonalizationList = React.createClass({
+var PersonalizationForm = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
 
   getStateFromFlux: function() {
@@ -20,7 +20,7 @@ var PersonalizationList = React.createClass({
     return (
       <div>
         <label className="control-label">
-          <span className="text-danger">*</span>Personalizations
+          <span className="text-danger">*</span>personalizations
         </label>
 
         {this.state.personalizations.map(function(personalization, index) {
@@ -38,4 +38,4 @@ var PersonalizationList = React.createClass({
     );
   }
 });
-module.exports = PersonalizationList;
+module.exports = PersonalizationForm;

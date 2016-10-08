@@ -1,8 +1,6 @@
 var LeftMenu = require('./left_menu.jsx');
 
 var Header = React.createClass({
-  propTypes: {
-  },
   render: function() {
     return (
       <nav className="navbar navbar-default">
@@ -17,7 +15,6 @@ var Header = React.createClass({
           </button>
           <a className="navbar-brand" href="">DemoBox</a>
         </div>
-
         <div className="collapse navbar-collapse target">
           <LeftMenu />
           <ul className="nav navbar-nav navbar-right">

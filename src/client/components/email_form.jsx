@@ -11,11 +11,6 @@ var EmailForm = React.createClass({
     max: React.PropTypes.number
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   render: function() {
     var rq = '';
     if (this.props.required) {
@@ -42,7 +37,7 @@ var EmailForm = React.createClass({
         <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
         </a>
-      )
+      );
     } else {
       if (this.props.data != null) {
         items = <KeyValueItem
@@ -60,7 +55,7 @@ var EmailForm = React.createClass({
           <a href="javascript:void(0)" onClick={this.props.handleAdd}>
             <span className="glyphicon glyphicon-plus"></span>
           </a>
-        )
+        );
       }
     }
     return (

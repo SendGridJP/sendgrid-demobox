@@ -20,11 +20,6 @@ var KeyValueItem = React.createClass({
     };
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   handleDel: function(e) {
     e.preventDefault();
     this.props.handleDel(this.props.index);

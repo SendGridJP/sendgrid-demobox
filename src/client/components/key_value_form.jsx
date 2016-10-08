@@ -10,11 +10,6 @@ var KeyValueForm = React.createClass({
     handleUpd: React.PropTypes.func.isRequired
   },
 
-  getInitialState: function() {
-    return {
-    };
-  },
-
   render: function() {
     var rq = '';
     if (this.props.required) {

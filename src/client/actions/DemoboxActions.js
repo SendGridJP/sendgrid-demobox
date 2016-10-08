@@ -367,6 +367,10 @@ var actions = {
 
   addEvents: function(events) {
     this.dispatch(constants.ADD_EVENTS, {events: events});
+  },
+
+  addReceiveMail: function(receiveMail) {
+    this.dispatch(constants.ADD_RECEIVE_MAIL, {receiveMail: receiveMail});
   }
 };
 

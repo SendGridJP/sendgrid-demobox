@@ -95,7 +95,6 @@
 	var LeftMenu = __webpack_require__(2);
 
 	var Header = React.createClass({
-	  propTypes: {},
 	  render: function () {
 	    return React.createElement(
 	      "nav",
@@ -167,7 +166,6 @@
 	var LeftMenuItem = __webpack_require__(3);
 
 	var LeftMenu = React.createClass({
-	  propTypes: {},
 	  render: function () {
 	    return React.createElement(
 	      "ul",
@@ -252,11 +250,13 @@
 	  propTypes: {},
 
 	  render: function () {
+	    var page = "";
 	    if (this.state.activePage === 'send') {
-	      return React.createElement(SendPage, null);
+	      page = React.createElement(SendPage, null);
 	    } else if (this.state.activePage === 'receive') {
-	      return React.createElement(ReceivePage, null);
+	      page = React.createElement(ReceivePage, null);
 	    }
+	    return page;
 	  }
 	});
 	module.exports = Article;
@@ -296,7 +296,7 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PersonalizationList = __webpack_require__(7);
+	var PersonalizationForm = __webpack_require__(34);
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
 	var ContentForm = __webpack_require__(14);
@@ -313,10 +313,6 @@
 
 	  componentDidMount: function () {
 	    this.getFlux().actions.getSendInit();
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  getStateFromFlux: function () {
@@ -473,7 +469,7 @@
 	      React.createElement(
 	        'form',
 	        { id: 'param', className: 'form-horizontal' },
-	        React.createElement(PersonalizationList, null),
+	        React.createElement(PersonalizationForm, null),
 	        React.createElement(EmailForm, {
 	          title: 'from',
 	          required: true,
@@ -615,59 +611,7 @@
 	module.exports = SendForm;
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var PersonalizationItem = __webpack_require__(8);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var PersonalizationList = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {
-	      personalizations: store.mailData.personalizations
-	    };
-	  },
-
-	  handleAddPersonalization: function () {
-	    this.getFlux().actions.addPersonalization();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        React.createElement(
-	          "span",
-	          { className: "text-danger" },
-	          "*"
-	        ),
-	        "Personalizations"
-	      ),
-	      this.state.personalizations.map(function (personalization, index) {
-	        return React.createElement(PersonalizationItem, { index: index });
-	      }),
-	      React.createElement(
-	        "div",
-	        null,
-	        React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization },
-	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	        )
-	      )
-	    );
-	  }
-	});
-	module.exports = PersonalizationList;
-
-/***/ },
+/* 7 */,
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -682,10 +626,6 @@
 
 	  propTypes: {
 	    index: React.PropTypes.number.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  getStateFromFlux: function () {
@@ -886,10 +826,6 @@
 	    max: React.PropTypes.number
 	  },
 
-	  getInitialState: function () {
-	    return {};
-	  },
-
 	  render: function () {
 	    var rq = '';
 	    if (this.props.required) {
@@ -985,10 +921,6 @@
 	    };
 	  },
 
-	  getInitialState: function () {
-	    return {};
-	  },
-
 	  handleDel: function (e) {
 	    e.preventDefault();
 	    this.props.handleDel(this.props.index);
@@ -1060,12 +992,6 @@
 	    max: React.PropTypes.number
 	  },
 
-	  getInitialState: function () {
-	    return {
-	      disabled: true
-	    };
-	  },
-
 	  handleDel: function (e) {
 	    e.preventDefault();
 	    this.props.handleDel();
@@ -1076,25 +1002,19 @@
 	    this.props.handleUpd(this.props.index, e.target.value);
 	  },
 
-	  render: function () {
-	    var del;
-	    if (typeof this.props.handleDel == "function") {
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
-	      );
-	    }
-
+	  getRq: function () {
 	    var rq = '';
 	    if (this.props.required) {
 	      rq = React.createElement(
-	        "span",
-	        { className: "text-danger" },
-	        "*"
+	        'span',
+	        { className: 'text-danger' },
+	        '*'
 	      );
 	    }
+	    return rq;
+	  },
+
+	  render: function () {
 	    var add;
 	    var items;
 	    if (Array.isArray(this.props.value)) {
@@ -1107,37 +1027,37 @@
 	          handleUpd: this.props.handleUpd });
 	      }.bind(this));
 	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
 	      if (this.props.value != null) {
 	        items = React.createElement(SimpleTextItem, {
 	          value: this.props.value,
-	          placeholder: "Value",
+	          placeholder: 'Value',
 	          handleDel: this.props.handleDel,
 	          handleUpd: this.props.handleUpd });
 	      }
 	      if (this.props.value == null && this.props.max == 1) {
 	        add = React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	          'a',
+	          { href: 'javascript:void(0)', onClick: this.props.handleAdd },
+	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	        );
 	      }
 	    }
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        rq,
+	        'label',
+	        { className: 'control-label' },
+	        this.getRq,
 	        this.props.title
 	      ),
 	      React.createElement(
-	        "div",
+	        'div',
 	        null,
 	        items
 	      ),
@@ -1165,10 +1085,6 @@
 	      name: "value",
 	      placeholder: "Value"
 	    };
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  handleDel: function (e) {
@@ -1232,10 +1148,6 @@
 	    handleUpd: React.PropTypes.func.isRequired
 	  },
 
-	  getInitialState: function () {
-	    return {};
-	  },
-
 	  render: function () {
 	    var rq = '';
 	    if (this.props.required) {
@@ -1292,10 +1204,6 @@
 	    handleUpd: React.PropTypes.func
 	  },
 
-	  getInitialState: function () {
-	    return {};
-	  },
-
 	  render: function () {
 	    var add;
 	    if (this.props.data.length < 2) {
@@ -1348,10 +1256,6 @@
 	    handleUpd: React.PropTypes.func.isRequired
 	  },
 
-	  getInitialState: function () {
-	    return {};
-	  },
-
 	  handleDel: function () {
 	    this.props.handleDel(this.props.data.type);
 	  },
@@ -1371,7 +1275,6 @@
 	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
 	      );
 	    }
-
 	    return React.createElement(
 	      "div",
 	      { className: "wrapper" },
@@ -1411,10 +1314,6 @@
 	    handleAdd: React.PropTypes.func.isRequired,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  render: function () {
@@ -1457,10 +1356,6 @@
 	    index: React.PropTypes.number.isRequired,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  handleDel: function () {
@@ -1546,10 +1441,6 @@
 	    data: React.PropTypes.array.isRequired,
 	    handleAdd: React.PropTypes.func.isRequired,
 	    handleDel: React.PropTypes.func.isRequired
-	  },
-
-	  getInitialState: function () {
-	    return {};
 	  },
 
 	  getStateFromFlux: function () {
@@ -2118,7 +2009,6 @@
 	var EventItemJson = __webpack_require__(26);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var EventsPain = React.createClass({
 	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
@@ -2135,219 +2025,200 @@
 	    var table = '';
 	    if (showEvent == "table") {
 	      table = React.createElement(
-	        ReactCSSTransitionGroup,
-	        {
-	          transitionName: 'example', transitionAppear: true,
-	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
-	          transitionLeaveTimeout: 300 },
+	        'table',
+	        { className: 'table table-striped table-bordered table-condensed', id: 'event-table', key: 'event-table' },
 	        React.createElement(
-	          'table',
-	          { className: 'table table-striped table-bordered table-condensed', id: 'event-table', key: 'event-table' },
+	          'thead',
+	          null,
 	          React.createElement(
-	            'thead',
+	            'tr',
 	            null,
 	            React.createElement(
-	              'tr',
+	              'th',
 	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'timestamp'
-	                )
-	              ),
+	                'timestamp'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'event'
-	                )
-	              ),
+	                'event'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'email'
-	                )
-	              ),
+	                'email'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'smtp-id'
-	                )
-	              ),
+	                'smtp-id'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'response'
-	                )
-	              ),
+	                'response'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'sg_event_id'
-	                )
-	              ),
+	                'sg_event_id'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'sg_message_id'
-	                )
-	              ),
+	                'sg_message_id'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'useragent'
-	                )
-	              ),
+	                'useragent'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'ip'
-	                )
-	              ),
+	                'ip'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'attempt'
-	                )
-	              ),
+	                'attempt'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'category'
-	                )
-	              ),
+	                'category'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'url'
-	                )
-	              ),
+	                'url'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'status'
-	                )
-	              ),
+	                'status'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'reason'
-	                )
-	              ),
+	                'reason'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'type'
-	                )
-	              ),
+	                'type'
+	              )
+	            ),
+	            React.createElement(
+	              'th',
+	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'send_at'
-	                )
+	                'send_at'
 	              )
 	            )
-	          ),
-	          React.createElement(
-	            'tbody',
-	            null,
-	            events.map(function (event) {
-	              return React.createElement(EventItemTable, { event: event });
-	            }, this)
 	          )
+	        ),
+	        React.createElement(
+	          'tbody',
+	          null,
+	          events.map(function (event) {
+	            return React.createElement(EventItemTable, { event: event });
+	          }, this)
 	        )
 	      );
 	    }
-
 	    if (showEvent == "json") {
 	      table = React.createElement(
-	        ReactCSSTransitionGroup,
-	        {
-	          transitionName: 'example', transitionAppear: true,
-	          transitionAppearTimeout: 500, transitionEnterTimeout: 500,
-	          transitionLeaveTimeout: 300 },
+	        'table',
+	        { className: 'table table-striped table-bordered table-condensed', id: 'event-json', key: 'event-json' },
 	        React.createElement(
-	          'table',
-	          { className: 'table table-striped table-bordered table-condensed', id: 'event-json', key: 'event-json' },
+	          'thead',
+	          null,
 	          React.createElement(
-	            'thead',
+	            'tr',
 	            null,
 	            React.createElement(
-	              'tr',
+	              'th',
 	              null,
 	              React.createElement(
-	                'th',
+	                'small',
 	                null,
-	                React.createElement(
-	                  'small',
-	                  null,
-	                  'JSON'
-	                )
+	                'JSON'
 	              )
 	            )
-	          ),
-	          React.createElement(
-	            'tbody',
-	            null,
-	            events.map(function (event, index) {
-	              return React.createElement(EventItemJson, { event: event, firstRow: index == 0 ? true : false });
-	            }, this)
 	          )
+	        ),
+	        React.createElement(
+	          'tbody',
+	          null,
+	          events.map(function (event, index) {
+	            return React.createElement(EventItemJson, { event: event });
+	          }, this)
 	        )
 	      );
 	    }
 	    return table;
-	  },
-
-	  handleShowButton: function (buttonId) {
-	    this.getFlux().actions.toggleShowEvent(buttonId);
 	  },
 
 	  render: function () {
@@ -2360,16 +2231,8 @@
 	        React.createElement(
 	          'div',
 	          { className: 'btn-group', 'data-toggle': 'buttons-radio' },
-	          React.createElement(ShowButton, {
-	            buttonId: 'table',
-	            text: 'Table',
-	            active: this.state.showEvent,
-	            onClick: this.handleShowButton }),
-	          React.createElement(ShowButton, {
-	            buttonId: 'json',
-	            text: 'JSON',
-	            active: this.state.showEvent,
-	            onClick: this.handleShowButton })
+	          React.createElement(ShowButton, { buttonId: 'table', text: 'Table' }),
+	          React.createElement(ShowButton, { buttonId: 'json', text: 'JSON' })
 	        )
 	      ),
 	      this.getTable(this.state.showEvent, this.state.events)
@@ -2383,26 +2246,40 @@
 /* 24 */
 /***/ function(module, exports) {
 
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
 	var ShowButton = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      showEvent: store.showEvent
+	    };
+	  },
+
 	  propTypes: {
 	    buttonId: React.PropTypes.string.isRequired,
-	    text: React.PropTypes.string.isRequired,
-	    active: React.PropTypes.string.isRequired,
-	    onClick: React.PropTypes.func.isRequired
+	    text: React.PropTypes.string.isRequired
 	  },
-	  handleSelect: function () {
-	    this.props.onClick(this.props.buttonId);
+
+	  handleClick: function (e) {
+	    e.preventDefault();
+	    this.getFlux().actions.toggleShowEvent(this.props.buttonId);
 	  },
+
 	  getActive: function (buttonId, active) {
 	    if (buttonId === active) return 'btn btn-default active';else return 'btn btn-default';
 	  },
+
 	  render: function () {
 	    return React.createElement(
-	      'button',
+	      "button",
 	      {
-	        className: this.getActive(this.props.buttonId, this.props.active),
+	        className: this.getActive(this.props.buttonId, this.state.showEvent),
 	        id: this.props.buttonId,
-	        onClick: this.handleSelect },
+	        onClick: this.handleClick },
 	      this.props.text
 	    );
 	  }
@@ -2426,144 +2303,208 @@
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.timestamp
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.timestamp
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.event
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.event
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.email
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.email
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event["smtp-id"]
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event["smtp-id"]
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.response
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.response
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.sg_event_id
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.sg_event_id
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.sg_message_id
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.sg_message_id
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.useragent
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.useragent
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.ip
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.ip
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.attempt
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.attempt
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.category
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.category
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.url
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.url
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.status
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.status
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.reason
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.reason
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.type
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.type
+	          )
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "small",
+	          "div",
 	          null,
-	          this.props.event.send_at
+	          React.createElement(
+	            "small",
+	            null,
+	            this.props.event.send_at
+	          )
 	        )
 	      )
 	    );
@@ -2579,8 +2520,7 @@
 
 	var EventItemJson = React.createClass({
 	  propTypes: {
-	    event: React.PropTypes.object.isRequired,
-	    firstRow: React.PropTypes.bool.isRequired
+	    event: React.PropTypes.object.isRequired
 	  },
 
 	  render: function () {
@@ -2874,7 +2814,7 @@
 	    this.receiveAddress = "";
 	    this.receiveMails = [];
 
-	    this.bindActions(constants.UPD_ACTIVE_PAGE, this.onUpdActivePage, constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.GET_RECEIVE_INIT_SUCCESS, this.onGetReceiveInitSuccess, constants.GET_RECEIVE_INIT_FAIL, this.onGetReceiveInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents);
+	    this.bindActions(constants.UPD_ACTIVE_PAGE, this.onUpdActivePage, constants.ADD_PERSONALIZATION, this.onAddPersonalization, constants.DEL_PERSONALIZATION, this.onDelPersonalization, constants.ADD_TO_INPERSONAL, this.onAddToInpersonal, constants.DEL_TO_INPERSONAL, this.onDelToInpersonal, constants.UPD_TO_INPERSONAL, this.onUpdToInpersonal, constants.ADD_CC_INPERSONAL, this.onAddCcInpersonal, constants.DEL_CC_INPERSONAL, this.onDelCcInpersonal, constants.UPD_CC_INPERSONAL, this.onUpdCcInpersonal, constants.ADD_BCC_INPERSONAL, this.onAddBccInpersonal, constants.DEL_BCC_INPERSONAL, this.onDelBccInpersonal, constants.UPD_BCC_INPERSONAL, this.onUpdBccInpersonal, constants.ADD_SUBJECT_INPERSONAL, this.onAddSubjectInpersonal, constants.DEL_SUBJECT_INPERSONAL, this.onDelSubjectInpersonal, constants.UPD_SUBJECT_INPERSONAL, this.onUpdSubjectInpersonal, constants.ADD_HEADER_INPERSONAL, this.onAddHeaderInpersonal, constants.DEL_HEADER_INPERSONAL, this.onDelHeaderInpersonal, constants.UPD_HEADER_INPERSONAL, this.onUpdHeaderInpersonal, constants.ADD_SUBSTITUTION_INPERSONAL, this.onAddSubstitutionInpersonal, constants.DEL_SUBSTITUTION_INPERSONAL, this.onDelSubstitutionInpersonal, constants.UPD_SUBSTITUTION_INPERSONAL, this.onUpdSubstitutionInpersonal, constants.ADD_CUSTOMARG_INPERSONAL, this.onAddCustomargInpersonal, constants.DEL_CUSTOMARG_INPERSONAL, this.onDelCustomargInpersonal, constants.UPD_CUSTOMARG_INPERSONAL, this.onUpdCustomargInpersonal, constants.ADD_SEND_AT_INPERSONAL, this.onAddSendAtInpersonal, constants.DEL_SEND_AT_INPERSONAL, this.onDelSendAtInpersonal, constants.UPD_SEND_AT_INPERSONAL, this.onUpdSendAtInpersonal, constants.ADD_REPLYTO, this.onAddReplyto, constants.DEL_REPLYTO, this.onDelReplyto, constants.UPD_REPLYTO, this.onUpdReplyto, constants.UPD_FROM, this.onUpdFrom, constants.ADD_SUBJECT, this.onAddSubject, constants.DEL_SUBJECT, this.onDelSubject, constants.UPD_SUBJECT, this.onUpdSubject, constants.ADD_CONTENT, this.onAddContent, constants.DEL_CONTENT, this.onDelContent, constants.UPD_CONTENT, this.onUpdContent, constants.ADD_ATTACHMENT, this.onAddAttachment, constants.DEL_ATTACHMENT, this.onDelAttachment, constants.UPD_ATTACHMENT, this.onUpdAttachment, constants.ADD_TEMPLATE_ID, this.onAddTemplateId, constants.DEL_TEMPLATE_ID, this.onDelTemplateId, constants.UPD_TEMPLATE_ID, this.onUpdTemplateId, constants.ADD_SECTIONS, this.onAddSections, constants.DEL_SECTIONS, this.onDelSections, constants.UPD_SECTIONS, this.onUpdSections, constants.ADD_HEADERS, this.onAddHeaders, constants.DEL_HEADERS, this.onDelHeaders, constants.UPD_HEADERS, this.onUpdHeaders, constants.ADD_CATEGORIES, this.onAddCategories, constants.DEL_CATEGORIES, this.onDelCategories, constants.UPD_CATEGORIES, this.onUpdCategories, constants.ADD_CUSTOM_ARGS, this.onAddCustomArgs, constants.DEL_CUSTOM_ARGS, this.onDelCustomArgs, constants.UPD_CUSTOM_ARGS, this.onUpdCustomArgs, constants.ADD_SEND_AT, this.onAddSendAt, constants.DEL_SEND_AT, this.onDelSendAt, constants.UPD_SEND_AT, this.onUpdSendAt, constants.ADD_BATCH_ID, this.onAddBatchId, constants.DEL_BATCH_ID, this.onDelBatchId, constants.UPD_BATCH_ID, this.onUpdBatchId, constants.ADD_ASM, this.onAddAsm, constants.DEL_ASM, this.onDelAsm, constants.UPD_GROUP_ID, this.onUpdGroupId, constants.ADD_GROUPS_TO_DISPLAY, this.onAddGroupsToDisplay, constants.DEL_GROUPS_TO_DISPLAY, this.onDelGroupsToDisplay, constants.UPD_GROUPS_TO_DISPLAY, this.onUpdGroupsToDisplay, constants.ADD_IP_POOL_NAME, this.onAddIpPoolName, constants.DEL_IP_POOL_NAME, this.onDelIpPoolName, constants.UPD_IP_POOL_NAME, this.onUpdIpPoolName, constants.UPD_MAIL_SETTINGS, this.onUpdMailSettings, constants.ADD_MAIL_SETTINGS_ITEM, this.onAddMailSettingsItem, constants.DEL_MAIL_SETTINGS_ITEM, this.onDelMailSettingsItem, constants.UPD_TRACKING_SETTINGS, this.onUpdTrackingSettings, constants.ADD_TRACKING_SETTINGS_ITEM, this.onAddTrackingSettingsItem, constants.DEL_TRACKING_SETTINGS_ITEM, this.onDelTrackingSettingsItem, constants.GET_SEND_INIT_SUCCESS, this.onGetSendInitSuccess, constants.GET_SEND_INIT_FAIL, this.onGetSendInitFail, constants.GET_RECEIVE_INIT_SUCCESS, this.onGetReceiveInitSuccess, constants.GET_RECEIVE_INIT_FAIL, this.onGetReceiveInitFail, constants.SEND_MAIL, this.onSendMail, constants.SEND_MAIL_SUCCESS, this.onSendMailSuccess, constants.SEND_MAIL_FAIL, this.onSendMailFail, constants.TOGGLE_SHOW_EVENT, this.onToggleShowEvent, constants.ADD_EVENTS, this.onAddEvents, constants.ADD_RECEIVE_MAIL, this.onAddReceiveMail);
 	  },
 
 	  onUpdActivePage: function (payload) {
@@ -2893,7 +2833,6 @@
 	    });
 	    this.emit("change");
 	  },
-
 	  onDelPersonalization: function (index) {
 	    this.mailData.personalizations.splice(index, 1);
 	    this.emit("change");
@@ -2903,12 +2842,10 @@
 	    this.mailData.personalizations[index].to.push({ email: "", name: "" });
 	    this.emit("change");
 	  },
-
 	  onDelToInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].to.splice(payload.index, 1);
 	    this.emit("change");
 	  },
-
 	  onUpdToInpersonal: function (payload) {
 	    this.mailData.personalizations[payload.parentIndex].to[payload.index][payload.key] = payload.value;
 	    this.emit("change");
@@ -3012,7 +2949,6 @@
 	  },
 
 	  onUpdFrom: function (payload) {
-	    console.log("onUpdFrom: " + JSON.stringify(payload));
 	    this.mailData.from[payload.key] = payload.value;
 	    this.emit("change");
 	  },
@@ -3021,12 +2957,10 @@
 	    this.mailData["reply-to"] = { email: "", name: "" };
 	    this.emit("change");
 	  },
-
 	  onDelReplyto: function () {
 	    this.mailData["reply-to"] = null;
 	    this.emit("change");
 	  },
-
 	  onUpdReplyto: function (payload) {
 	    this.mailData["reply-to"][payload.key] = payload.value;
 	    this.emit("change");
@@ -3320,7 +3254,6 @@
 
 	  onSendMailSuccess: function (payload) {
 	    this.status = '送信完了';
-	    //this.request = payload.result.request;
 	    this.responseCode = payload.result.responseCode;
 	    this.responseBody = payload.result.responseBody;
 	    this.emit("change");
@@ -3334,20 +3267,21 @@
 	  },
 
 	  onToggleShowEvent: function (payload) {
-	    // console.log("DemoboxStore#onToggleShowEvent()1: " + payload.buttonId);
 	    this.showEvent = payload.buttonId;
 	    this.emit("change");
 	  },
 
 	  onAddEvents: function (payload) {
-	    // console.log("DemoboxStore#onAddEvents()1: " + payload.events);
 	    var events = JSON.parse(payload.events);
-	    // console.log("DemoboxStore#onAddEvents()2: " + events);
 	    events.map(function (event) {
 	      this.events.unshift(event);
 	    }.bind(this));
-	    // console.log(JSON.stringify(this.events));
 	    this.emit("change");
+	  },
+
+	  onAddReceiveMail: function (payload) {
+	    var receiveMail = JSON.parse(payload.receiveMail);
+	    // TODO
 	  }
 	});
 
@@ -3445,7 +3379,8 @@
 	  SEND_MAIL_SUCCESS: "SEND_MAIL_SUCCESS",
 	  SEND_MAIL_FAIL: "SEND_MAIL_FAIL",
 	  TOGGLE_SHOW_EVENT: "TOGGLE_SHOW_EVENT",
-	  ADD_EVENTS: "ADD_EVENTS"
+	  ADD_EVENTS: "ADD_EVENTS",
+	  ADD_RECEIVE_MAIL: "ADD_RECEIVE_MAIL"
 	};
 
 	module.exports = constants;
@@ -3755,6 +3690,10 @@
 
 	  addEvents: function (events) {
 	    this.dispatch(constants.ADD_EVENTS, { events: events });
+	  },
+
+	  addReceiveMail: function (receiveMail) {
+	    this.dispatch(constants.ADD_RECEIVE_MAIL, { receiveMail: receiveMail });
 	  }
 	};
 
@@ -3969,6 +3908,59 @@
 	  }
 	});
 	module.exports = ReceiveMailItem;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PersonalizationItem = __webpack_require__(8);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var PersonalizationForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      personalizations: store.mailData.personalizations
+	    };
+	  },
+
+	  handleAddPersonalization: function () {
+	    this.getFlux().actions.addPersonalization();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        React.createElement(
+	          "span",
+	          { className: "text-danger" },
+	          "*"
+	        ),
+	        "personalizations"
+	      ),
+	      this.state.personalizations.map(function (personalization, index) {
+	        return React.createElement(PersonalizationItem, { index: index });
+	      }),
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization },
+	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = PersonalizationForm;
 
 /***/ }
 /******/ ]);
