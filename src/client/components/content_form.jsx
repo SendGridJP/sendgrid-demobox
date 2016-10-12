@@ -10,7 +10,7 @@ var ContentForm = React.createClass({
 
   render: function() {
     var add;
-    if (this.props.data.length < 2) {
+    if (_.compact(this.props.data).length < 2) {
       add = (
         <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
@@ -23,7 +23,7 @@ var ContentForm = React.createClass({
         <label className="control-label">
           <span className="text-danger">*</span>content
         </label>
-        <div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {this.props.data.map(function(data, index) {
             return(
               <ContentItem
@@ -33,7 +33,7 @@ var ContentForm = React.createClass({
                 handleUpd={this.props.handleUpd} />
             );
           }.bind(this))}
-        </div>
+        </FlipMove>
         {add}
       </div>
     );

@@ -9,6 +9,12 @@ var MailSettingsItem = React.createClass({
     parent: React.PropTypes.string.isRequired,
   },
 
+  getDefaultProps: function() {
+    return {
+      key: _.uniqueId('mail_settings_item')
+    }
+  },
+
   getStateFromFlux: function() {
     return {
     }
@@ -47,7 +53,7 @@ var MailSettingsItem = React.createClass({
 
   render: function() {
     var add;
-    var del;
+    var form;
     if (this.props.data[this.props.parent] === null) {
       add = (
         <a href="javascript:void(0)" onClick={this.handleAdd}>
@@ -104,33 +110,32 @@ var MailSettingsItem = React.createClass({
           );
           break;
       }
-      var form = (
-        <div className="flex">
-          <select className="form-control" name="enable"
-            value={this.props.data[this.props.parent].enable}
-            onChange={this.handleUpdEnable}>
-            <option value="false">false</option>
-            <option value="true">true</option>
-          </select>
-          {items}
+      form = (
+        <div className="wrapper">
+          <div className="fixed">
+            <a href="javascript:void(0)" onClick={this.handleDel}
+              className="removeIcon">
+              <span className="glyphicon glyphicon-remove"></span>
+            </a>
+          </div>
+          <div className="flex">
+            <select className="form-control" name="enable"
+              value={this.props.data[this.props.parent].enable}
+              onChange={this.handleUpdEnable}>
+              <option value="false">false</option>
+              <option value="true">true</option>
+            </select>
+            {items}
+          </div>
         </div>
-      );
-      del = (
-        <a href="javascript:void(0)" onClick={this.handleDel}
-          className="removeIcon">
-          <span className="glyphicon glyphicon-remove"></span>
-        </a>
       );
     }
     return (
       <div>
         <label className="control-label">{this.props.parent}</label>
-        <div className="wrapper">
-          <div className="fixed">
-            {del}
-          </div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {form}
-        </div>
+        </FlipMove>
         {add}
       </div>
     );

@@ -31,6 +31,14 @@ var SimpleTextForm = React.createClass({
     return rq;
   },
 
+  getAdd: function() {
+    return (
+      <a href="javascript:void(0)" onClick={this.props.handleAdd}>
+        <span className="glyphicon glyphicon-plus"></span>
+      </a>
+    );
+  },
+
   render: function() {
     var add;
     var items;
@@ -45,33 +53,26 @@ var SimpleTextForm = React.createClass({
             handleUpd={this.props.handleUpd} />
         )
       }.bind(this));
-      add = (
-        <a href="javascript:void(0)" onClick={this.props.handleAdd}>
-          <span className="glyphicon glyphicon-plus"></span>
-        </a>
-      )
+      add = this.getAdd();
     } else {
       if (this.props.value != null) {
         items = <SimpleTextItem
+          index={0}
           value={this.props.value}
           placeholder="Value"
           handleDel={this.props.handleDel}
           handleUpd={this.props.handleUpd} />
       }
       if (this.props.value == null && this.props.max == 1) {
-        add = (
-          <a href="javascript:void(0)" onClick={this.props.handleAdd}>
-            <span className="glyphicon glyphicon-plus"></span>
-          </a>
-        )
+        add = this.getAdd();
       }
     }
     return (
       <div>
         <label className="control-label">{this.getRq}{this.props.title}</label>
-        <div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {items}
-        </div>
+        </FlipMove>
         {add}
       </div>
     );

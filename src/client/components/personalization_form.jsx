@@ -23,11 +23,13 @@ var PersonalizationForm = React.createClass({
           <span className="text-danger">*</span>personalizations
         </label>
 
-        {this.state.personalizations.map(function(personalization, index) {
-          return (
-            <PersonalizationItem index={index} />
-          );
-        })}
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
+          {this.state.personalizations.map(function(personalization, index) {
+            return (
+              <PersonalizationItem index={index} />
+            );
+          })}
+        </FlipMove>
 
         <div>
           <a href="javascript:void(0)" onClick={this.handleAddPersonalization}>

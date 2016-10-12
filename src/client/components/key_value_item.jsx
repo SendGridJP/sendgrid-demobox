@@ -13,6 +13,12 @@ var KeyValueItem = React.createClass({
 
   getDefaultProps: function() {
     return {
+      key: _.uniqueId('key_value_item')
+    }
+  },
+
+  getDefaultProps: function() {
+    return {
       nameKey: "key",
       nameValue: "value",
       placeholderKey: "Key",
@@ -42,7 +48,7 @@ var KeyValueItem = React.createClass({
     }
     var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className={className}>
+      <div className={className} key={this.props.key}>
         <div className="fixed">
           {del}
         </div>

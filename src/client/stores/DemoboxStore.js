@@ -160,7 +160,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelPersonalization: function(index) {
-    this.mailData.personalizations.splice(index, 1);
+    delete this.mailData.personalizations[index];
     this.emit("change");
   },
 
@@ -169,7 +169,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelToInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].to.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].to[payload.index];
     this.emit("change");
   },
   onUpdToInpersonal: function(payload) {
@@ -183,7 +183,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onDelCcInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].cc.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].cc[payload.index];
     this.emit("change");
   },
 
@@ -197,7 +197,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelBccInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].bcc[payload.index];
     this.emit("change");
   },
   onUpdBccInpersonal: function(payload) {
@@ -223,7 +223,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelHeaderInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].headers[payload.index];
     this.emit("change");
   },
   onUpdHeaderInpersonal: function(payload) {
@@ -237,7 +237,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onDelSubstitutionInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].substitutions.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].substitutions[payload.index];
     this.emit("change");
   },
 
@@ -252,7 +252,7 @@ var DemoboxStore = Fluxxor.createStore({
   },
 
   onDelCustomargInpersonal: function(payload) {
-    this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+    delete this.mailData.personalizations[payload.parentIndex].custom_args[payload.index];
     this.emit("change");
   },
 
@@ -323,8 +323,9 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onDelContent: function(payload) {
     for (var i = 0; i < this.mailData.content.length; i++) {
-      if (this.mailData.content[i].type === payload.type) {
-        this.mailData.content.splice(i, 1);
+      if (this.mailData.content[i] !== undefined &&
+        this.mailData.content[i].type === payload.type) {
+        delete this.mailData.content[i];
         break;
       }
     }
@@ -332,7 +333,8 @@ var DemoboxStore = Fluxxor.createStore({
   },
   onUpdContent: function(payload) {
     for (var i = 0; i < this.mailData.content.length; i++) {
-      if (this.mailData.content[i].type === payload.type) {
+      if (this.mailData.content[i] !== undefined &&
+        this.mailData.content[i].type === payload.type) {
         this.mailData.content[i].value = payload.value;
         break;
       }
@@ -353,7 +355,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelAttachment: function(payload) {
-    this.mailData.attachments.splice(payload.index, 1);
+    delete this.mailData.attachments[payload.index];
     this.emit("change");
   },
   onUpdAttachment: function(payload) {
@@ -379,7 +381,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelSections: function(payload) {
-    this.mailData.sections.splice(payload.index, 1);
+    delete this.mailData.sections[payload.index];
     this.emit("change");
   },
   onUpdSections: function(payload) {
@@ -392,7 +394,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelHeaders: function(payload) {
-    this.mailData.headers.splice(payload.index, 1);
+    delete this.mailData.headers[payload.index];
     this.emit("change");
   },
   onUpdHeaders: function(payload) {
@@ -405,7 +407,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelCategories: function(payload) {
-    this.mailData.categories.splice(payload.index, 1);
+    delete this.mailData.categories[payload.index];
     this.emit("change");
   },
   onUpdCategories: function(payload) {
@@ -418,7 +420,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelCustomArgs: function(payload) {
-    this.mailData.custom_args.splice(payload.index, 1);
+    delete this.mailData.custom_args[payload.index];
     this.emit("change");
   },
   onUpdCustomArgs: function(payload) {
@@ -471,7 +473,7 @@ var DemoboxStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDelGroupsToDisplay: function(payload) {
-    this.mailData.asm.groups_to_display.splice(payload.index, 1);
+    delete this.mailData.asm.groups_to_display[payload.index];
     this.emit("change");
   },
   onUpdGroupsToDisplay: function(payload) {
@@ -608,9 +610,10 @@ var DemoboxStore = Fluxxor.createStore({
 
   onAddEvents: function(payload) {
     var events = JSON.parse(payload.events);
-    events.map(function(event) {
-      this.events.unshift(event);
-    }.bind(this));
+    this.events = _.union(this.events, events);
+    this.events = _.sortBy(this.events, function(event) {
+      return -event.timestamp;
+    });
     this.emit("change");
   },
 

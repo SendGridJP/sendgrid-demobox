@@ -18,7 +18,7 @@ var KeyValueForm = React.createClass({
     return (
       <div>
         <label className="control-label">{rq}{this.props.title}</label>
-        <div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {this.props.data.map(function(data, index) {
             return (
               <KeyValueItem
@@ -31,7 +31,7 @@ var KeyValueForm = React.createClass({
                 handleUpd={this.props.handleUpd} />
             );
           }.bind(this))}
-        </div>
+        </FlipMove>
         <a href="javascript:void(0)" onClick={this.props.handleAdd}>
           <span className="glyphicon glyphicon-plus"></span>
         </a>

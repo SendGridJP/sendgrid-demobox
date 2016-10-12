@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(28);
+	var flux = __webpack_require__(30);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -173,11 +173,11 @@
 	      React.createElement(LeftMenuItem, {
 	        pageId: "send",
 	        href: "/index.html?p=send",
-	        text: "メールを送る" }),
+	        text: "\u30E1\u30FC\u30EB\u3092\u9001\u308B" }),
 	      React.createElement(LeftMenuItem, {
 	        pageId: "receive",
 	        href: "/index.html?p=receive",
-	        text: "メールを受ける" })
+	        text: "\u30E1\u30FC\u30EB\u3092\u53D7\u3051\u308B" })
 	    );
 	  }
 	});
@@ -233,7 +233,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(27);
+	var ReceivePage = __webpack_require__(28);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -296,7 +296,7 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PersonalizationForm = __webpack_require__(34);
+	var PersonalizationForm = __webpack_require__(7);
 	var EmailForm = __webpack_require__(9);
 	var SimpleTextForm = __webpack_require__(11);
 	var ContentForm = __webpack_require__(14);
@@ -363,8 +363,8 @@
 	  handleAddAttachment: function () {
 	    this.getFlux().actions.addAttachment();
 	  },
-	  handleDelAttachment: function () {
-	    this.getFlux().actions.delAttachment();
+	  handleDelAttachment: function (index) {
+	    this.getFlux().actions.delAttachment(index);
 	  },
 	  handleUpdAttachment: function (index, key, value) {
 	    this.getFlux().actions.updAttachment(index, key, value);
@@ -583,7 +583,7 @@
 	          id: 'send',
 	          className: 'btn btn-primary center-block',
 	          onClick: this.handleSendMail },
-	        '送信'
+	        '\u9001\u4FE1'
 	      ),
 	      React.createElement(
 	        'div',
@@ -611,7 +611,63 @@
 	module.exports = SendForm;
 
 /***/ },
-/* 7 */,
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PersonalizationItem = __webpack_require__(8);
+	var FluxMixin = Fluxxor.FluxMixin(React);
+	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+	var PersonalizationForm = React.createClass({
+	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
+
+	  getStateFromFlux: function () {
+	    var store = this.getFlux().store("DemoboxStore");
+	    return {
+	      personalizations: store.mailData.personalizations
+	    };
+	  },
+
+	  handleAddPersonalization: function () {
+	    this.getFlux().actions.addPersonalization();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "label",
+	        { className: "control-label" },
+	        React.createElement(
+	          "span",
+	          { className: "text-danger" },
+	          "*"
+	        ),
+	        "personalizations"
+	      ),
+	      React.createElement(
+	        FlipMove,
+	        { enterAnimation: "accordianVertical", leaveAnimation: "accordianVertical" },
+	        this.state.personalizations.map(function (personalization, index) {
+	          return React.createElement(PersonalizationItem, { index: index });
+	        })
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "a",
+	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization },
+	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = PersonalizationForm;
+
+/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -626,6 +682,12 @@
 
 	  propTypes: {
 	    index: React.PropTypes.number.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('personalization_item')
+	    };
 	  },
 
 	  getStateFromFlux: function () {
@@ -727,7 +789,7 @@
 	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      'div',
-	      { className: className },
+	      { className: className, key: this.props.key },
 	      React.createElement(
 	        'div',
 	        { className: 'fixed' },
@@ -885,8 +947,8 @@
 	        this.props.title
 	      ),
 	      React.createElement(
-	        'div',
-	        null,
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        items
 	      ),
 	      add
@@ -910,6 +972,12 @@
 	    placeholderValue: React.PropTypes.string,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('key_value_item')
+	    };
 	  },
 
 	  getDefaultProps: function () {
@@ -944,7 +1012,7 @@
 	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: className },
+	      { className: className, key: this.props.key },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1014,6 +1082,14 @@
 	    return rq;
 	  },
 
+	  getAdd: function () {
+	    return React.createElement(
+	      'a',
+	      { href: 'javascript:void(0)', onClick: this.props.handleAdd },
+	      React.createElement('span', { className: 'glyphicon glyphicon-plus' })
+	    );
+	  },
+
 	  render: function () {
 	    var add;
 	    var items;
@@ -1026,25 +1102,18 @@
 	          handleDel: this.props.handleDel,
 	          handleUpd: this.props.handleUpd });
 	      }.bind(this));
-	      add = React.createElement(
-	        'a',
-	        { href: 'javascript:void(0)', onClick: this.props.handleAdd },
-	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
-	      );
+	      add = this.getAdd();
 	    } else {
 	      if (this.props.value != null) {
 	        items = React.createElement(SimpleTextItem, {
+	          index: 0,
 	          value: this.props.value,
 	          placeholder: 'Value',
 	          handleDel: this.props.handleDel,
 	          handleUpd: this.props.handleUpd });
 	      }
 	      if (this.props.value == null && this.props.max == 1) {
-	        add = React.createElement(
-	          'a',
-	          { href: 'javascript:void(0)', onClick: this.props.handleAdd },
-	          React.createElement('span', { className: 'glyphicon glyphicon-plus' })
-	        );
+	        add = this.getAdd();
 	      }
 	    }
 	    return React.createElement(
@@ -1057,8 +1126,8 @@
 	        this.props.title
 	      ),
 	      React.createElement(
-	        'div',
-	        null,
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        items
 	      ),
 	      add
@@ -1083,7 +1152,8 @@
 	  getDefaultProps: function () {
 	    return {
 	      name: "value",
-	      placeholder: "Value"
+	      placeholder: "Value",
+	      key: _.uniqueId('simple_text_item')
 	    };
 	  },
 
@@ -1110,7 +1180,7 @@
 	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: className },
+	      { className: className, key: this.props.key },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1167,8 +1237,8 @@
 	        this.props.title
 	      ),
 	      React.createElement(
-	        'div',
-	        null,
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        this.props.data.map(function (data, index) {
 	          return React.createElement(KeyValueItem, {
 	            index: index,
@@ -1206,7 +1276,7 @@
 
 	  render: function () {
 	    var add;
-	    if (this.props.data.length < 2) {
+	    if (_.compact(this.props.data).length < 2) {
 	      add = React.createElement(
 	        "a",
 	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
@@ -1228,8 +1298,8 @@
 	        "content"
 	      ),
 	      React.createElement(
-	        "div",
-	        null,
+	        FlipMove,
+	        { enterAnimation: "accordianVertical", leaveAnimation: "accordianVertical" },
 	        this.props.data.map(function (data, index) {
 	          return React.createElement(ContentItem, {
 	            index: index,
@@ -1254,6 +1324,12 @@
 	    index: React.PropTypes.number,
 	    handleDel: React.PropTypes.func.isRequired,
 	    handleUpd: React.PropTypes.func.isRequired
+	  },
+
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('content_item')
+	    };
 	  },
 
 	  handleDel: function () {
@@ -1326,8 +1402,8 @@
 	        "attachments"
 	      ),
 	      React.createElement(
-	        "div",
-	        null,
+	        FlipMove,
+	        { enterAnimation: "accordianVertical", leaveAnimation: "accordianVertical" },
 	        this.props.data.map(function (data, index) {
 	          return React.createElement(AttachmentItem, {
 	            index: index,
@@ -1358,6 +1434,12 @@
 	    handleUpd: React.PropTypes.func.isRequired
 	  },
 
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('attachment_item')
+	    };
+	  },
+
 	  handleDel: function () {
 	    this.props.handleDel(this.props.index);
 	  },
@@ -1371,7 +1453,7 @@
 	    var className = "wrapper " + (this.props.index % 2 == 0 ? "even" : "odd");
 	    return React.createElement(
 	      "div",
-	      { className: className },
+	      { className: className, key: this.props.key },
 	      React.createElement(
 	        "div",
 	        { className: "fixed" },
@@ -1443,6 +1525,12 @@
 	    handleDel: React.PropTypes.func.isRequired
 	  },
 
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('asm')
+	    };
+	  },
+
 	  getStateFromFlux: function () {
 	    return {};
 	  },
@@ -1468,69 +1556,69 @@
 	    var items;
 	    if (this.props.data === null) {
 	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.props.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.props.handleAdd },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
 	      items = this.props.data.groups_to_display.map(function (data, index) {
 	        return React.createElement(SimpleTextItem, {
 	          index: index,
 	          value: data,
-	          placeholder: "groups_to_display",
+	          placeholder: 'groups_to_display',
 	          handleDel: this.handleDelGroupsToDisplay,
 	          handleUpd: this.handleUpdGroupsToDisplay });
 	      }.bind(this));
 	      form = React.createElement(
-	        "div",
-	        { className: "wrapper" },
+	        'div',
+	        { className: 'wrapper' },
 	        React.createElement(
-	          "div",
-	          { className: "fixed" },
+	          'div',
+	          { className: 'fixed' },
 	          React.createElement(
-	            "a",
-	            { href: "javascript:void(0)", onClick: this.props.handleDel,
-	              className: "removeIcon" },
-	            React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	            'a',
+	            { href: 'javascript:void(0)', onClick: this.props.handleDel,
+	              className: 'removeIcon' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-remove' })
 	          )
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "flex" },
+	          'div',
+	          { className: 'flex' },
 	          React.createElement(
-	            "div",
-	            { className: "wrapper" },
-	            React.createElement("input", { type: "text",
-	              name: "group_id",
-	              className: "form-control",
-	              placeholder: "group_id",
+	            'div',
+	            { className: 'wrapper' },
+	            React.createElement('input', { type: 'text',
+	              name: 'group_id',
+	              className: 'form-control',
+	              placeholder: 'group_id',
 	              defaultValue: this.props.data.group_id,
 	              onChange: this.handleUpdGroupId })
 	          ),
 	          React.createElement(
-	            "div",
-	            null,
+	            FlipMove,
+	            { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	            items
 	          ),
 	          React.createElement(
-	            "a",
-	            { href: "javascript:void(0)", onClick: this.handleAddGroupsToDisplay },
-	            React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	            'a',
+	            { href: 'javascript:void(0)', onClick: this.handleAddGroupsToDisplay },
+	            React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	          )
 	        )
 	      );
 	    }
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        "asm"
+	        'label',
+	        { className: 'control-label' },
+	        'asm'
 	      ),
 	      React.createElement(
-	        "div",
-	        null,
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        form
 	      ),
 	      add
@@ -1610,6 +1698,12 @@
 	    parent: React.PropTypes.string.isRequired
 	  },
 
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('mail_settings_item')
+	    };
+	  },
+
 	  getStateFromFlux: function () {
 	    return {};
 	  },
@@ -1643,105 +1737,108 @@
 
 	  render: function () {
 	    var add;
-	    var del;
+	    var form;
 	    if (this.props.data[this.props.parent] === null) {
 	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.handleAdd },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
 	      var items;
 	      switch (this.props.parent) {
 	        case "bcc":
-	          items = React.createElement("input", { type: "text",
-	            name: "email",
-	            className: "form-control",
-	            placeholder: "email",
+	          items = React.createElement('input', { type: 'text',
+	            name: 'email',
+	            className: 'form-control',
+	            placeholder: 'email',
 	            defaultValue: this.props.data[this.props.parent].email,
 	            onChange: this.handleUpdMailSettings });
 	          break;
 	        case "footer":
 	          items = React.createElement(
-	            "div",
+	            'div',
 	            null,
-	            React.createElement("input", { type: "text",
-	              name: "text",
-	              className: "form-control",
-	              placeholder: "text",
+	            React.createElement('input', { type: 'text',
+	              name: 'text',
+	              className: 'form-control',
+	              placeholder: 'text',
 	              defaultValue: this.props.data[this.props.parent].text,
 	              onChange: this.handleUpdMailSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "html",
-	              className: "form-control",
-	              placeholder: "html",
+	            React.createElement('input', { type: 'text',
+	              name: 'html',
+	              className: 'form-control',
+	              placeholder: 'html',
 	              defaultValue: this.props.data[this.props.parent].html,
 	              onChange: this.handleUpdMailSettings })
 	          );
 	          break;
 	        case "spam_check":
 	          items = React.createElement(
-	            "div",
+	            'div',
 	            null,
-	            React.createElement("input", { type: "text",
-	              name: "threshold",
-	              className: "form-control",
-	              placeholder: "threshold",
+	            React.createElement('input', { type: 'text',
+	              name: 'threshold',
+	              className: 'form-control',
+	              placeholder: 'threshold',
 	              defaultValue: this.props.data[this.props.parent].threshold,
 	              onChange: this.handleUpdMailSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "post_to_url",
-	              className: "form-control",
-	              placeholder: "post_to_url",
+	            React.createElement('input', { type: 'text',
+	              name: 'post_to_url',
+	              className: 'form-control',
+	              placeholder: 'post_to_url',
 	              defaultValue: this.props.data[this.props.parent].post_to_url,
 	              onChange: this.handleUpdMailSettings })
 	          );
 	          break;
 	      }
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
+	      form = React.createElement(
+	        'div',
+	        { className: 'wrapper' },
 	        React.createElement(
-	          "select",
-	          { className: "form-control", name: "enable",
-	            value: this.props.data[this.props.parent].enable,
-	            onChange: this.handleUpdEnable },
+	          'div',
+	          { className: 'fixed' },
 	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
+	            'a',
+	            { href: 'javascript:void(0)', onClick: this.handleDel,
+	              className: 'removeIcon' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-remove' })
 	          )
 	        ),
-	        items
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        React.createElement(
+	          'div',
+	          { className: 'flex' },
+	          React.createElement(
+	            'select',
+	            { className: 'form-control', name: 'enable',
+	              value: this.props.data[this.props.parent].enable,
+	              onChange: this.handleUpdEnable },
+	            React.createElement(
+	              'option',
+	              { value: 'false' },
+	              'false'
+	            ),
+	            React.createElement(
+	              'option',
+	              { value: 'true' },
+	              'true'
+	            )
+	          ),
+	          items
+	        )
 	      );
 	    }
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
+	        'label',
+	        { className: 'control-label' },
 	        this.props.parent
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        form
 	      ),
 	      add
@@ -1818,6 +1915,12 @@
 	    parent: React.PropTypes.string.isRequired
 	  },
 
+	  getDefaultProps: function () {
+	    return {
+	      key: _.uniqueId('tracking_settings_item')
+	    };
+	  },
+
 	  getStateFromFlux: function () {
 	    return {};
 	  },
@@ -1848,150 +1951,157 @@
 
 	  render: function () {
 	    var add;
-	    var del;
+	    var form;
 	    if (this.props.data[this.props.parent] === null) {
 	      add = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleAdd },
-	        React.createElement("span", { className: "glyphicon glyphicon-plus" })
+	        'a',
+	        { href: 'javascript:void(0)', onClick: this.handleAdd },
+	        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	      );
 	    } else {
 	      var items;
 	      switch (this.props.parent) {
 	        case "click_tracking":
 	          items = React.createElement(
-	            "select",
-	            { className: "form-control", name: "enable_text",
+	            'select',
+	            { className: 'form-control', name: 'enable_text',
 	              value: this.props.data[this.props.parent].enable_text,
 	              onChange: this.handleUpdTrackingSettings },
 	            React.createElement(
-	              "option",
-	              { value: "false" },
-	              "false"
+	              'option',
+	              { value: 'false' },
+	              'false'
 	            ),
 	            React.createElement(
-	              "option",
-	              { value: "true" },
-	              "true"
+	              'option',
+	              { value: 'true' },
+	              'true'
 	            )
 	          );
 	          break;
 	        case "open_tracking":
 	          items = React.createElement(
-	            "div",
+	            'div',
 	            null,
-	            React.createElement("input", { type: "text",
-	              name: "substitution_tag",
-	              className: "form-control",
-	              placeholder: "substitution_tag",
+	            React.createElement('input', { type: 'text',
+	              name: 'substitution_tag',
+	              className: 'form-control',
+	              placeholder: 'substitution_tag',
 	              defaultValue: this.props.data[this.props.parent].substitution_tag,
 	              onChange: this.handleUpdTrackingSettings })
 	          );
 	          break;
 	        case "subscription_tracking":
 	          items = React.createElement(
-	            "div",
+	            'div',
 	            null,
-	            React.createElement("input", { type: "text",
-	              name: "text",
-	              className: "form-control",
-	              placeholder: "text",
+	            React.createElement('input', { type: 'text',
+	              name: 'text',
+	              className: 'form-control',
+	              placeholder: 'text',
 	              defaultValue: this.props.data[this.props.parent].text,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "html",
-	              className: "form-control",
-	              placeholder: "html",
+	            React.createElement('input', { type: 'text',
+	              name: 'html',
+	              className: 'form-control',
+	              placeholder: 'html',
 	              defaultValue: this.props.data[this.props.parent].html,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "substitution_tag",
-	              className: "form-control",
-	              placeholder: "substitution_tag",
+	            React.createElement('input', { type: 'text',
+	              name: 'substitution_tag',
+	              className: 'form-control',
+	              placeholder: 'substitution_tag',
 	              defaultValue: this.props.data[this.props.parent].substitution_tag,
 	              onChange: this.handleUpdTrackingSettings })
 	          );
 	          break;
 	        case "ganalytics":
 	          items = React.createElement(
-	            "div",
+	            'div',
 	            null,
-	            React.createElement("input", { type: "text",
-	              name: "utm_source",
-	              className: "form-control",
-	              placeholder: "utm_source",
+	            React.createElement('input', { type: 'text',
+	              name: 'utm_source',
+	              className: 'form-control',
+	              placeholder: 'utm_source',
 	              defaultValue: this.props.data[this.props.parent].utm_source,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_medium",
-	              className: "form-control",
-	              placeholder: "utm_medium",
+	            React.createElement('input', { type: 'text',
+	              name: 'utm_medium',
+	              className: 'form-control',
+	              placeholder: 'utm_medium',
 	              defaultValue: this.props.data[this.props.parent].utm_medium,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_term",
-	              className: "form-control",
-	              placeholder: "utm_term",
+	            React.createElement('input', { type: 'text',
+	              name: 'utm_term',
+	              className: 'form-control',
+	              placeholder: 'utm_term',
 	              defaultValue: this.props.data[this.props.parent].utm_term,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_content",
-	              className: "form-control",
-	              placeholder: "utm_content",
+	            React.createElement('input', { type: 'text',
+	              name: 'utm_content',
+	              className: 'form-control',
+	              placeholder: 'utm_content',
 	              defaultValue: this.props.data[this.props.parent].utm_content,
 	              onChange: this.handleUpdTrackingSettings }),
-	            React.createElement("input", { type: "text",
-	              name: "utm_campaign",
-	              className: "form-control",
-	              placeholder: "utm_campaign",
+	            React.createElement('input', { type: 'text',
+	              name: 'utm_campaign',
+	              className: 'form-control',
+	              placeholder: 'utm_campaign',
 	              defaultValue: this.props.data[this.props.parent].utm_campaign,
 	              onChange: this.handleUpdTrackingSettings })
 	          );
 	      }
-	      var form = React.createElement(
-	        "div",
-	        { className: "flex" },
+	      form = React.createElement(
+	        'div',
+	        { className: 'wrapper', key: this.props.key },
 	        React.createElement(
-	          "select",
-	          { className: "form-control", name: "enable",
-	            value: this.props.data[this.props.parent].enable,
-	            onChange: this.handleUpdEnable },
+	          'div',
+	          { className: 'fixed' },
 	          React.createElement(
-	            "option",
-	            { value: "false" },
-	            "false"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "true" },
-	            "true"
+	            'a',
+	            { href: 'javascript:void(0)', onClick: this.handleDel,
+	              className: 'removeIcon' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-remove' })
 	          )
 	        ),
-	        items
-	      );
-	      del = React.createElement(
-	        "a",
-	        { href: "javascript:void(0)", onClick: this.handleDel,
-	          className: "removeIcon" },
-	        React.createElement("span", { className: "glyphicon glyphicon-remove" })
+	        React.createElement(
+	          'div',
+	          { className: 'flex' },
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	              'select',
+	              { className: 'form-control', name: 'enable',
+	                value: this.props.data[this.props.parent].enable,
+	                onChange: this.handleUpdEnable },
+	              React.createElement(
+	                'option',
+	                { value: 'false' },
+	                'false'
+	              ),
+	              React.createElement(
+	                'option',
+	                { value: 'true' },
+	                'true'
+	              )
+	            ),
+	            items
+	          )
+	        )
 	      );
 	    }
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "label",
-	        { className: "control-label" },
+	        'label',
+	        { className: 'control-label' },
 	        this.props.parent
 	      ),
 	      React.createElement(
-	        "div",
-	        { className: "wrapper" },
-	        React.createElement(
-	          "div",
-	          { className: "fixed" },
-	          del
-	        ),
+	        FlipMove,
+	        { enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical' },
 	        form
 	      ),
 	      add
@@ -2004,9 +2114,9 @@
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(24);
-	var EventItemTable = __webpack_require__(25);
-	var EventItemJson = __webpack_require__(26);
+	var ShowButton = __webpack_require__(25);
+	var EventItemTable = __webpack_require__(26);
+	var EventItemJson = __webpack_require__(27);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -2180,8 +2290,10 @@
 	          )
 	        ),
 	        React.createElement(
-	          'tbody',
-	          null,
+	          FlipMove,
+	          {
+	            enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical',
+	            typeName: 'tbody' },
 	          events.map(function (event) {
 	            return React.createElement(EventItemTable, { event: event });
 	          }, this)
@@ -2210,8 +2322,10 @@
 	          )
 	        ),
 	        React.createElement(
-	          'tbody',
-	          null,
+	          FlipMove,
+	          {
+	            enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical',
+	            typeName: 'tbody' },
 	          events.map(function (event, index) {
 	            return React.createElement(EventItemJson, { event: event });
 	          }, this)
@@ -2243,7 +2357,8 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 24 */
+/* 24 */,
+/* 25 */
 /***/ function(module, exports) {
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
@@ -2287,7 +2402,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -2296,215 +2411,152 @@
 	  },
 
 	  render: function () {
+	    var key = this.props.event.event + String(this.props.event.timestamp);
 	    return React.createElement(
 	      "tr",
-	      null,
+	      { key: key },
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.timestamp
-	          )
+	          this.props.event.timestamp
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.event
-	          )
+	          this.props.event.event
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.email
-	          )
+	          this.props.event.email
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event["smtp-id"]
-	          )
+	          this.props.event["smtp-id"]
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.response
-	          )
+	          this.props.event.response
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.sg_event_id
-	          )
+	          this.props.event.sg_event_id
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.sg_message_id
-	          )
+	          this.props.event.sg_message_id
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.useragent
-	          )
+	          this.props.event.useragent
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.ip
-	          )
+	          this.props.event.ip
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.attempt
-	          )
+	          this.props.event.attempt
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.category
-	          )
+	          this.props.event.category
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.url
-	          )
+	          this.props.event.url
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.status
-	          )
+	          this.props.event.status
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.reason
-	          )
+	          this.props.event.reason
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.type
-	          )
+	          this.props.event.type
 	        )
 	      ),
 	      React.createElement(
 	        "td",
 	        null,
 	        React.createElement(
-	          "div",
+	          "small",
 	          null,
-	          React.createElement(
-	            "small",
-	            null,
-	            this.props.event.send_at
-	          )
+	          this.props.event.send_at
 	        )
 	      )
 	    );
@@ -2513,7 +2565,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -2524,9 +2576,10 @@
 	  },
 
 	  render: function () {
+	    var key = this.props.event.event + String(this.props.event.timestamp);
 	    return React.createElement(
 	      "tr",
-	      null,
+	      { key: key },
 	      React.createElement(
 	        "td",
 	        null,
@@ -2546,10 +2599,10 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ReceiveMailItem = __webpack_require__(33);
+	var ReceiveMailItem = __webpack_require__(29);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -2569,7 +2622,6 @@
 	  },
 
 	  getMailTo: function (receiveAddress) {
-	    console.log(receiveAddress);
 	    return "mailto:" + receiveAddress + "?subject=メール受信テスト&amp;body=メール受信テストの本文";
 	  },
 
@@ -2729,11 +2781,137 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 28 */
+/* 29 */
+/***/ function(module, exports) {
+
+	var ReceiveMailItem = React.createClass({
+	  propTypes: {
+	    mail: React.PropTypes.object.isRequired
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "tr",
+	      null,
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.to
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.from
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.subject
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.text
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.html
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.charsets
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.attachments
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.envelope
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.sender_ip
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.dkim
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.SPF
+	        )
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        React.createElement(
+	          "small",
+	          null,
+	          this.props.mail.headers
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = ReceiveMailItem;
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(29);
-	var DemoboxActions = __webpack_require__(31);
+	var DemoboxStore = __webpack_require__(31);
+	var DemoboxActions = __webpack_require__(33);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -2749,13 +2927,7 @@
 
 	var io = new RocketIO().connect(); // WebSocketとCometの適当な方が使われる
 	io.on("event", function (value) {
-	  console.log("RocketIOReceiver event: " + value);
 	  flux.actions.addEvents(value);
-	  // var event = JSON.parse(value);
-	  // $("#event-table").prepend(getRow(event));
-	  // $("#event-table td div").slideDown(500);
-	  // $("#event-json").prepend("<tr><td><small><div style='display:none'>"+value+"</div></small></td></tr>");
-	  // $("#event-json td div").slideDown(500);
 	});
 
 	io.on("receive", function (value) {
@@ -2766,10 +2938,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(30);
+	var constants = __webpack_require__(32);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -2834,7 +3006,7 @@
 	    this.emit("change");
 	  },
 	  onDelPersonalization: function (index) {
-	    this.mailData.personalizations.splice(index, 1);
+	    delete this.mailData.personalizations[index];
 	    this.emit("change");
 	  },
 
@@ -2843,7 +3015,7 @@
 	    this.emit("change");
 	  },
 	  onDelToInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].to.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].to[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdToInpersonal: function (payload) {
@@ -2857,7 +3029,7 @@
 	  },
 
 	  onDelCcInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].cc.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].cc[payload.index];
 	    this.emit("change");
 	  },
 
@@ -2871,7 +3043,7 @@
 	    this.emit("change");
 	  },
 	  onDelBccInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].bcc.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].bcc[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdBccInpersonal: function (payload) {
@@ -2897,7 +3069,7 @@
 	    this.emit("change");
 	  },
 	  onDelHeaderInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].headers.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].headers[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdHeaderInpersonal: function (payload) {
@@ -2911,7 +3083,7 @@
 	  },
 
 	  onDelSubstitutionInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].substitutions.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].substitutions[payload.index];
 	    this.emit("change");
 	  },
 
@@ -2926,7 +3098,7 @@
 	  },
 
 	  onDelCustomargInpersonal: function (payload) {
-	    this.mailData.personalizations[payload.parentIndex].custom_args.splice(payload.index, 1);
+	    delete this.mailData.personalizations[payload.parentIndex].custom_args[payload.index];
 	    this.emit("change");
 	  },
 
@@ -2996,8 +3168,8 @@
 	  },
 	  onDelContent: function (payload) {
 	    for (var i = 0; i < this.mailData.content.length; i++) {
-	      if (this.mailData.content[i].type === payload.type) {
-	        this.mailData.content.splice(i, 1);
+	      if (this.mailData.content[i] !== undefined && this.mailData.content[i].type === payload.type) {
+	        delete this.mailData.content[i];
 	        break;
 	      }
 	    }
@@ -3005,7 +3177,7 @@
 	  },
 	  onUpdContent: function (payload) {
 	    for (var i = 0; i < this.mailData.content.length; i++) {
-	      if (this.mailData.content[i].type === payload.type) {
+	      if (this.mailData.content[i] !== undefined && this.mailData.content[i].type === payload.type) {
 	        this.mailData.content[i].value = payload.value;
 	        break;
 	      }
@@ -3024,7 +3196,7 @@
 	    this.emit("change");
 	  },
 	  onDelAttachment: function (payload) {
-	    this.mailData.attachments.splice(payload.index, 1);
+	    delete this.mailData.attachments[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdAttachment: function (payload) {
@@ -3050,7 +3222,7 @@
 	    this.emit("change");
 	  },
 	  onDelSections: function (payload) {
-	    this.mailData.sections.splice(payload.index, 1);
+	    delete this.mailData.sections[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdSections: function (payload) {
@@ -3063,7 +3235,7 @@
 	    this.emit("change");
 	  },
 	  onDelHeaders: function (payload) {
-	    this.mailData.headers.splice(payload.index, 1);
+	    delete this.mailData.headers[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdHeaders: function (payload) {
@@ -3076,7 +3248,7 @@
 	    this.emit("change");
 	  },
 	  onDelCategories: function (payload) {
-	    this.mailData.categories.splice(payload.index, 1);
+	    delete this.mailData.categories[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdCategories: function (payload) {
@@ -3089,7 +3261,7 @@
 	    this.emit("change");
 	  },
 	  onDelCustomArgs: function (payload) {
-	    this.mailData.custom_args.splice(payload.index, 1);
+	    delete this.mailData.custom_args[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdCustomArgs: function (payload) {
@@ -3142,7 +3314,7 @@
 	    this.emit("change");
 	  },
 	  onDelGroupsToDisplay: function (payload) {
-	    this.mailData.asm.groups_to_display.splice(payload.index, 1);
+	    delete this.mailData.asm.groups_to_display[payload.index];
 	    this.emit("change");
 	  },
 	  onUpdGroupsToDisplay: function (payload) {
@@ -3273,9 +3445,10 @@
 
 	  onAddEvents: function (payload) {
 	    var events = JSON.parse(payload.events);
-	    events.map(function (event) {
-	      this.events.unshift(event);
-	    }.bind(this));
+	    this.events = _.union(this.events, events);
+	    this.events = _.sortBy(this.events, function (event) {
+	      return -event.timestamp;
+	    });
 	    this.emit("change");
 	  },
 
@@ -3288,7 +3461,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -3386,11 +3559,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(30);
-	var DemoboxClient = __webpack_require__(32);
+	var constants = __webpack_require__(32);
+	var DemoboxClient = __webpack_require__(34);
 
 	var actions = {
 	  updActivePage: function (activePage) {
@@ -3700,7 +3873,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {
@@ -3718,26 +3891,32 @@
 	  makeParam: function (mailData) {
 	    var mailData2 = $.extend(true, {}, mailData);
 	    for (var i = 0; i < mailData.personalizations.length; i++) {
-	      mailData2.personalizations[i].headers = this.array2hash(mailData.personalizations[i].headers);
-	      mailData2.personalizations[i].substitutions = this.array2hash(mailData.personalizations[i].substitutions);
-	      mailData2.personalizations[i].custom_args = this.array2hash(mailData.personalizations[i].custom_args);
+	      if (mailData.personalizations[i] !== undefined) {
+	        mailData2.personalizations[i].headers = this.array2hash(mailData.personalizations[i].headers);
+	        mailData2.personalizations[i].substitutions = this.array2hash(mailData.personalizations[i].substitutions);
+	        mailData2.personalizations[i].custom_args = this.array2hash(mailData.personalizations[i].custom_args);
+	      }
 	    }
 	    mailData2.sections = this.array2hash(mailData.sections);
 	    mailData2.headers = this.array2hash(mailData.headers);
 	    mailData2.custom_args = this.array2hash(mailData.custom_args);
 
-	    console.log(JSON.stringify(mailData));
-	    this.removeEmpty(mailData2);
+	    // remove empty element in array
+	    var mailData3 = this.deepCompact(mailData2);
 
-	    var requestParam = JSON.stringify(mailData2);
-	    console.log(requestParam);
+	    // remove empty value in object
+	    this.removeEmpty(mailData3);
+
+	    var requestParam = JSON.stringify(mailData3);
 	    return requestParam;
 	  },
 
 	  array2hash: function (array) {
 	    var hash = {};
 	    for (var j = 0; j < array.length; j++) {
-	      hash[array[j].key] = array[j].value;
+	      if (!_.isEmpty(array[j])) {
+	        hash[array[j].key] = array[j].value;
+	      }
 	    }
 	    return hash;
 	  },
@@ -3754,8 +3933,8 @@
 	    if (_.isObject(element)) {
 	      // Loop with object property
 	      _.each(_.keys(element), function (key) {
-	        if (element[key] === null || _.isObject(element[key]) && _.isEmpty(element[key])) {
-	          // delete property if the property value is null,[],{}
+	        if (element[key] === undefined || element[key] === null || _.isObject(element[key]) && _.isEmpty(element[key]) || element[key] === "") {
+	          // delete property if the property value is null,[],{},""
 	          delete element[key];
 	        } else if (_.isObject(element[key]) && _.reject(_.values(element[key]), function (value) {
 	          return value === null;
@@ -3769,7 +3948,26 @@
 	    }
 	  },
 
-	  getFromServer(url, success, failure) {
+	  deepCompact: function (mailData) {
+	    var mailData3 = $.extend(true, {}, mailData);
+	    mailData3.personalizations = _.compact(mailData.personalizations);
+	    for (var i = 0; i < mailData3.personalizations.length; i++) {
+	      if (mailData.personalizations[i] !== undefined) {
+	        mailData3.personalizations[i].to = _.compact(mailData.personalizations[i].to);
+	        mailData3.personalizations[i].cc = _.compact(mailData.personalizations[i].cc);
+	        mailData3.personalizations[i].bcc = _.compact(mailData.personalizations[i].bcc);
+	      }
+	    }
+	    mailData3.content = _.compact(mailData.content);
+	    mailData3.attachments = _.compact(mailData.attachments);
+	    mailData3.categories = _.compact(mailData.categories);
+	    if (mailData.asm !== null) {
+	      mailData3.asm.groups_to_display = _.compact(mailData.asm.groups_to_display);
+	    }
+	    return mailData3;
+	  },
+
+	  getFromServer: function (url, success, failure) {
 	    $.ajax({
 	      url: url,
 	      dataType: 'json',
@@ -3782,185 +3980,6 @@
 	};
 
 	module.exports = DemoboxClient;
-
-/***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-	var ReceiveMailItem = React.createClass({
-	  propTypes: {
-	    mail: React.PropTypes.object.isRequired
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      "tr",
-	      null,
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.to
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.from
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.subject
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.text
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.html
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.charsets
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.attachments
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.envelope
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.sender_ip
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.dkim
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.SPF
-	        )
-	      ),
-	      React.createElement(
-	        "td",
-	        null,
-	        React.createElement(
-	          "small",
-	          null,
-	          this.props.mail.headers
-	        )
-	      )
-	    );
-	  }
-	});
-	module.exports = ReceiveMailItem;
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var PersonalizationItem = __webpack_require__(8);
-	var FluxMixin = Fluxxor.FluxMixin(React);
-	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-	var PersonalizationForm = React.createClass({
-	  mixins: [FluxMixin, StoreWatchMixin("DemoboxStore")],
-
-	  getStateFromFlux: function () {
-	    var store = this.getFlux().store("DemoboxStore");
-	    return {
-	      personalizations: store.mailData.personalizations
-	    };
-	  },
-
-	  handleAddPersonalization: function () {
-	    this.getFlux().actions.addPersonalization();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "label",
-	        { className: "control-label" },
-	        React.createElement(
-	          "span",
-	          { className: "text-danger" },
-	          "*"
-	        ),
-	        "personalizations"
-	      ),
-	      this.state.personalizations.map(function (personalization, index) {
-	        return React.createElement(PersonalizationItem, { index: index });
-	      }),
-	      React.createElement(
-	        "div",
-	        null,
-	        React.createElement(
-	          "a",
-	          { href: "javascript:void(0)", onClick: this.handleAddPersonalization },
-	          React.createElement("span", { className: "glyphicon glyphicon-plus" })
-	        )
-	      )
-	    );
-	  }
-	});
-	module.exports = PersonalizationForm;
 
 /***/ }
 /******/ ]);

@@ -61,9 +61,9 @@ var EmailForm = React.createClass({
     return (
       <div>
         <label className="control-label">{rq}{this.props.title}</label>
-        <div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {items}
-        </div>
+        </FlipMove>
         {add}
       </div>
     );

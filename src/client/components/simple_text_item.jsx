@@ -11,6 +11,7 @@ var SimpleTextItem = React.createClass({
     return {
       name: "value",
       placeholder: "Value",
+      key: _.uniqueId('simple_text_item')
     };
   },
 
@@ -36,7 +37,7 @@ var SimpleTextItem = React.createClass({
     }
     var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className={className}>
+      <div className={className} key={this.props.key}>
         <div className="fixed">
           {del}
         </div>

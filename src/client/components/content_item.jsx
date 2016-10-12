@@ -6,6 +6,12 @@ var ContentItem = React.createClass({
     handleUpd: React.PropTypes.func.isRequired,
   },
 
+  getDefaultProps: function() {
+    return {
+      key: _.uniqueId('content_item')
+    }
+  },
+
   handleDel: function() {
     this.props.handleDel(this.props.data.type);
   },

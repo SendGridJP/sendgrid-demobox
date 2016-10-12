@@ -11,6 +11,12 @@ var PersonalizationItem = React.createClass({
     index: React.PropTypes.number.isRequired
   },
 
+  getDefaultProps: function() {
+    return {
+      key: _.uniqueId('personalization_item')
+    }
+  },
+
   getStateFromFlux: function() {
     var store = this.getFlux().store("DemoboxStore");
     var state = {};
@@ -109,7 +115,7 @@ var PersonalizationItem = React.createClass({
   render: function() {
     var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className={className}>
+      <div className={className} key={this.props.key}>
         <div className="fixed">
           <a href="javascript:void(0)" onClick={this.handleDelPersonalization}
             className="removeIcon">

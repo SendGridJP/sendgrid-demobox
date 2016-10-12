@@ -11,6 +11,12 @@ var AsmForm = React.createClass({
     handleDel: React.PropTypes.func.isRequired,
   },
 
+  getDefaultProps: function() {
+    return {
+      key: _.uniqueId('asm')
+    }
+  },
+
   getStateFromFlux: function() {
     return {};
   },
@@ -68,9 +74,9 @@ var AsmForm = React.createClass({
                 defaultValue={this.props.data.group_id}
                 onChange={this.handleUpdGroupId} />
             </div>
-            <div>
+            <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
               {items}
-            </div>
+            </FlipMove>
             <a href="javascript:void(0)" onClick={this.handleAddGroupsToDisplay}>
               <span className="glyphicon glyphicon-plus"></span>
             </a>
@@ -81,9 +87,9 @@ var AsmForm = React.createClass({
     return (
       <div>
         <label className="control-label">asm</label>
-        <div>
+        <FlipMove enterAnimation="accordianVertical" leaveAnimation="accordianVertical">
           {form}
-        </div>
+        </FlipMove>
         {add}
       </div>
     );

@@ -40,13 +40,15 @@ var EventsPain = React.createClass({
               <th><small>send_at</small></th>
             </tr>
           </thead>
-          <tbody>
+          <FlipMove
+            enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
+            typeName="tbody">
             {events.map(function(event) {
               return (
                 <EventItemTable event={event} />
               );
             }, this)}
-          </tbody>
+          </FlipMove>
         </table>
       );
     }
@@ -56,13 +58,15 @@ var EventsPain = React.createClass({
           <thead>
             <tr><th><small>JSON</small></th></tr>
           </thead>
-          <tbody>
+          <FlipMove
+            enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
+            typeName="tbody">
             {events.map(function(event, index) {
               return (
                 <EventItemJson event={event} />
               );
             }, this)}
-          </tbody>
+          </FlipMove>
         </table>
       );
     }

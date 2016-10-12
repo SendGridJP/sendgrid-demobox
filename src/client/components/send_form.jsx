@@ -65,8 +65,8 @@ var SendForm = React.createClass({
     handleAddAttachment: function() {
       this.getFlux().actions.addAttachment();
     },
-    handleDelAttachment: function() {
-      this.getFlux().actions.delAttachment();
+    handleDelAttachment: function(index) {
+      this.getFlux().actions.delAttachment(index);
     },
     handleUpdAttachment: function(index, key, value) {
       this.getFlux().actions.updAttachment(index, key, value);

@@ -18,7 +18,6 @@ var ReceivePage = React.createClass({
   },
 
   getMailTo: function(receiveAddress) {
-    console.log(receiveAddress);
     return "mailto:" + receiveAddress + "?subject=メール受信テスト&amp;body=メール受信テストの本文"
   },
 

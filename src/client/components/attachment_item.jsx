@@ -6,6 +6,12 @@ var AttachmentItem = React.createClass({
     handleUpd: React.PropTypes.func.isRequired,
   },
 
+  getDefaultProps: function() {
+    return {
+      key: _.uniqueId('attachment_item')
+    }
+  },
+
   handleDel: function() {
     this.props.handleDel(this.props.index);
   },
@@ -18,7 +24,7 @@ var AttachmentItem = React.createClass({
   render: function() {
     var className="wrapper " + ((this.props.index % 2 == 0) ? "even" : "odd");
     return (
-      <div className={className}>
+      <div className={className} key={this.props.key}>
         <div className="fixed">
           <a href="javascript:void(0)" onClick={this.handleDel}
             className="removeIcon">

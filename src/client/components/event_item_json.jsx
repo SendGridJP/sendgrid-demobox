@@ -6,8 +6,9 @@ var EventItemJson = React.createClass({
   },
 
   render: function() {
+    var key = this.props.event.event + String(this.props.event.timestamp);
     return (
-      <tr>
+      <tr key={key}>
         <td>
           <div>
             <small>{JSON.stringify(this.props.event)}</small>
