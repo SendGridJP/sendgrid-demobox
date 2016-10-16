@@ -6,7 +6,7 @@ var EventItemTable = React.createClass({
   render: function() {
     var key = this.props.event.event + String(this.props.event.timestamp);
     return (
-      <tr key={key}>
+      <tr>
         <td><small>{this.props.event.timestamp}</small></td>
         <td><small>{this.props.event.event}</small></td>
         <td><small>{this.props.event.email}</small></td>

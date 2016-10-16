@@ -19,7 +19,7 @@ var EventsPain = React.createClass({
     var table = '';
     if (showEvent == "table") {
       table = (
-        <table className="table table-striped table-bordered table-condensed" id="event-table" key="event-table">
+        <table className="table table-striped table-bordered table-condensed">
           <thead>
             <tr>
               <th><small>timestamp</small></th>
@@ -44,8 +44,9 @@ var EventsPain = React.createClass({
             enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
             typeName="tbody">
             {events.map(function(event) {
+              var key = event.event + String(event.timestamp);
               return (
-                <EventItemTable event={event} />
+                <EventItemTable key={key} event={event} />
               );
             }, this)}
           </FlipMove>
@@ -54,7 +55,7 @@ var EventsPain = React.createClass({
     }
     if (showEvent == "json") {
       table = (
-        <table className="table table-striped table-bordered table-condensed" id="event-json" key="event-json">
+        <table className="table table-striped table-bordered table-condensed">
           <thead>
             <tr><th><small>JSON</small></th></tr>
           </thead>
@@ -62,8 +63,9 @@ var EventsPain = React.createClass({
             enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
             typeName="tbody">
             {events.map(function(event, index) {
+              var key = event.event + String(event.timestamp);
               return (
-                <EventItemJson event={event} />
+                <EventItemJson key={key} event={event} />
               );
             }, this)}
           </FlipMove>

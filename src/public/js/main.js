@@ -2136,7 +2136,7 @@
 	    if (showEvent == "table") {
 	      table = React.createElement(
 	        'table',
-	        { className: 'table table-striped table-bordered table-condensed', id: 'event-table', key: 'event-table' },
+	        { className: 'table table-striped table-bordered table-condensed' },
 	        React.createElement(
 	          'thead',
 	          null,
@@ -2295,7 +2295,8 @@
 	            enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical',
 	            typeName: 'tbody' },
 	          events.map(function (event) {
-	            return React.createElement(EventItemTable, { event: event });
+	            var key = event.event + String(event.timestamp);
+	            return React.createElement(EventItemTable, { key: key, event: event });
 	          }, this)
 	        )
 	      );
@@ -2303,7 +2304,7 @@
 	    if (showEvent == "json") {
 	      table = React.createElement(
 	        'table',
-	        { className: 'table table-striped table-bordered table-condensed', id: 'event-json', key: 'event-json' },
+	        { className: 'table table-striped table-bordered table-condensed' },
 	        React.createElement(
 	          'thead',
 	          null,
@@ -2327,7 +2328,8 @@
 	            enterAnimation: 'accordianVertical', leaveAnimation: 'accordianVertical',
 	            typeName: 'tbody' },
 	          events.map(function (event, index) {
-	            return React.createElement(EventItemJson, { event: event });
+	            var key = event.event + String(event.timestamp);
+	            return React.createElement(EventItemJson, { key: key, event: event });
 	          }, this)
 	        )
 	      );
@@ -2414,7 +2416,7 @@
 	    var key = this.props.event.event + String(this.props.event.timestamp);
 	    return React.createElement(
 	      "tr",
-	      { key: key },
+	      null,
 	      React.createElement(
 	        "td",
 	        null,
@@ -2568,18 +2570,15 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 	var EventItemJson = React.createClass({
 	  propTypes: {
 	    event: React.PropTypes.object.isRequired
 	  },
 
 	  render: function () {
-	    var key = this.props.event.event + String(this.props.event.timestamp);
 	    return React.createElement(
 	      "tr",
-	      { key: key },
+	      null,
 	      React.createElement(
 	        "td",
 	        null,
