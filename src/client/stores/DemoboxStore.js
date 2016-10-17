@@ -619,7 +619,9 @@ var DemoboxStore = Fluxxor.createStore({
 
   onAddReceiveMail: function(payload) {
     var receiveMail = JSON.parse(payload.receiveMail);
-    // TODO
+    receiveMail.id = _.uniqueId('receive_mail');
+    this.receiveMails = [receiveMail].concat(this.receiveMails);
+    this.emit("change");
   }
 });
 

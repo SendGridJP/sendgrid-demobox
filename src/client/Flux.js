@@ -19,7 +19,6 @@ io.on("event", function(value){
 });
 
 io.on("receive", function(value) {
-  console.log("RocketIOReceiver receive: " + value);
   flux.actions.addReceiveMail(value);
 });
 

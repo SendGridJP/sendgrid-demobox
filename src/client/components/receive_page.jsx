@@ -48,13 +48,16 @@ var ReceivePage = React.createClass({
                 <th><small>headers</small></th>
               </tr>
             </thead>
-            <tbody>
+            <FlipMove
+              enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
+              typeName="tbody">
               {this.state.receiveMails.map(function(mail) {
+                var key = mail.id;
                 return (
-                  <ReceiveMailItem mail={mail} />
+                  <ReceiveMailItem key={key} mail={mail} />
                 );
               }, this)}
-            </tbody>
+            </FlipMove>
           </table>
         </div>
       </div>

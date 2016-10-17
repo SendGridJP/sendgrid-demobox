@@ -2766,10 +2766,13 @@
 	            )
 	          ),
 	          React.createElement(
-	            "tbody",
-	            null,
+	            FlipMove,
+	            {
+	              enterAnimation: "accordianVertical", leaveAnimation: "accordianVertical",
+	              typeName: "tbody" },
 	            this.state.receiveMails.map(function (mail) {
-	              return React.createElement(ReceiveMailItem, { mail: mail });
+	              var key = mail.id;
+	              return React.createElement(ReceiveMailItem, { key: key, mail: mail });
 	            }, this)
 	          )
 	        )
@@ -2930,7 +2933,6 @@
 	});
 
 	io.on("receive", function (value) {
-	  console.log("RocketIOReceiver receive: " + value);
 	  flux.actions.addReceiveMail(value);
 	});
 
@@ -3453,7 +3455,9 @@
 
 	  onAddReceiveMail: function (payload) {
 	    var receiveMail = JSON.parse(payload.receiveMail);
-	    // TODO
+	    receiveMail.id = _.uniqueId('receive_mail');
+	    this.receiveMails = [receiveMail].concat(this.receiveMails);
+	    this.emit("change");
 	  }
 	});
 
