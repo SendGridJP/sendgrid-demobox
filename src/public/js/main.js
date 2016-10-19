@@ -46,7 +46,7 @@
 
 	var Header = __webpack_require__(1);
 	var Article = __webpack_require__(4);
-	var flux = __webpack_require__(30);
+	var flux = __webpack_require__(29);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -233,7 +233,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SendPage = __webpack_require__(5);
-	var ReceivePage = __webpack_require__(28);
+	var ReceivePage = __webpack_require__(27);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -2114,9 +2114,9 @@
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ShowButton = __webpack_require__(25);
-	var EventItemTable = __webpack_require__(26);
-	var EventItemJson = __webpack_require__(27);
+	var ShowButton = __webpack_require__(24);
+	var EventItemTable = __webpack_require__(25);
+	var EventItemJson = __webpack_require__(26);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -2359,8 +2359,7 @@
 	module.exports = EventsPain;
 
 /***/ },
-/* 24 */,
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var FluxMixin = Fluxxor.FluxMixin(React);
@@ -2404,7 +2403,7 @@
 	module.exports = ShowButton;
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var EventItemTable = React.createClass({
@@ -2567,7 +2566,7 @@
 	module.exports = EventItemTable;
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var EventItemJson = React.createClass({
@@ -2598,10 +2597,10 @@
 	module.exports = EventItemJson;
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ReceiveMailItem = __webpack_require__(29);
+	var ReceiveMailItem = __webpack_require__(28);
 	var FluxMixin = Fluxxor.FluxMixin(React);
 	var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -2783,7 +2782,7 @@
 	module.exports = ReceivePage;
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	var ReceiveMailItem = React.createClass({
@@ -2909,11 +2908,11 @@
 	module.exports = ReceiveMailItem;
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DemoboxStore = __webpack_require__(31);
-	var DemoboxActions = __webpack_require__(33);
+	var DemoboxStore = __webpack_require__(30);
+	var DemoboxActions = __webpack_require__(32);
 
 	var stores = {
 	  DemoboxStore: new DemoboxStore()
@@ -2939,10 +2938,10 @@
 	module.exports = flux;
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(32);
+	var constants = __webpack_require__(31);
 
 	var DemoboxStore = Fluxxor.createStore({
 	  initialize: function () {
@@ -3464,7 +3463,7 @@
 	module.exports = DemoboxStore;
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	var constants = {
@@ -3562,11 +3561,11 @@
 	module.exports = constants;
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constants = __webpack_require__(32);
-	var DemoboxClient = __webpack_require__(34);
+	var constants = __webpack_require__(31);
+	var DemoboxClient = __webpack_require__(33);
 
 	var actions = {
 	  updActivePage: function (activePage) {
@@ -3876,7 +3875,7 @@
 	module.exports = actions;
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	var DemoboxClient = {

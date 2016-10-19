@@ -1,12 +1,18 @@
 {
+  "engines": {
+    "node": "6.4.0"
+  },
   "name": "sendgrid-demobox",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "devDependencies": {
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-react-jsx": "^6.8.0",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-npmcopy": "^0.1.0",
-    "webpack": "^1.13.2"
+    "grunt-webpack": "^1.0.18",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
   },
   "repository": {
     "type": "git",
@@ -29,7 +35,7 @@
     "react-flip-move": "^2.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "grunt"
   },
   "author": "Wataru Sato"
 }
