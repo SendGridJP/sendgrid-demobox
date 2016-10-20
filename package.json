@@ -26,6 +26,7 @@
   "homepage": "https://github.com/SendGridJP/sendgrid-demobox#readme",
   "main": "index.js",
   "dependencies": {
+    "bower": "^1.7.9",
     "grunt": "^1.0.1",
     "grunt-bower-task": "^0.4.0",
     "grunt-cli": "^1.2.0",
