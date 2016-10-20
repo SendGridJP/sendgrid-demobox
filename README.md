@@ -9,7 +9,9 @@ DemoBox
 - Ruby 2.3.1
 - Node.js 6.4.0
 - Git
-- インバウンドポート（TCP 9292、TCP 9000）
+- インバウンドポート
+  - TCP 9292:Rack
+  - TCP 9000:Web socket
 
 ### セットアップ手順
 
@@ -71,7 +73,6 @@ $ rackup
 ```bash
 $ RACK_ENV=production rackup
 ```
-
 
 - アプリケーションへのアクセス  
 ブラウザで以下のURLにアクセス。
