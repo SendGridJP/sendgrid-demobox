@@ -54,7 +54,7 @@ FROM=**your.address@domain.com**
 
 |パラメータ           |詳細                          |
 |:--------------------|:------------------------------------|
-|**SENDGRID_API_KEY**|SendGridのAPIキー。必要パーミッション：Mail Send、Template Engine、Inbound Parse、Mail Settings(Event Notification)|
+|**SENDGRID_API_KEY**|SendGridのAPIキー。必要パーミッション(全てFull Access)：Mail Send、Template Engine、Inbound Parse、Mail Settings(Event Notification)|
 |**APP_URL**          |アプリケーションのURL            |
 |**PARSE_HOST**       |メールを受信するドメイン名。例：demobox.hoge.com        |
 |**BASIC_AUTH_USERNAME**|基本認証のユーザ名（空白可）             |
