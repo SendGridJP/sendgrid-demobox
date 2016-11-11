@@ -1,6 +1,6 @@
 {
-  "name": "sendgrid-demo",
-  "version": "0.0.0",
+  "name": "sendgrid-demobox",
+  "version": "1.0.0",
   "homepage": "https://github.com/SendGridJP/sendgrid-demobox",
   "authors": [
     "awwa500@gmail.com <awwa500@gmail.com>"
@@ -18,6 +18,41 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.1.1"
+    "jquery-clockpicker": "~0.0.7",
+    "bootstrap": "~3.3.7",
+    "babel": "~5.8.34",
+    "fluxxor": "~1.7.3",
+    "react": "~15.3.1",
+    "underscore": "~1.8.3",
+    "uri.js": "~1.18.2"
+  },
+  "exportsOverride":{
+    "jquery": {
+      "js": "**/jquery*.js"
+    },
+    "jquery-clockpicker": {
+      "js": "**/jquery-clockpicker*.js",
+      "css": "**/jquery-clockpicker*.css"
+    },
+    "bootstrap": {
+      "js": "**/bootstrap*.js",
+      "fonts": "**/glyphicons-halflings-regular*",
+      "css": "**/bootstrap*.css*"
+    },
+    "babel": {
+      "js": "**/browser*.js"
+    },
+    "fluxxor": {
+      "js": "**/fluxxor*.js*"
+    },
+    "react": {
+      "js": "**/react*.js"
+    },
+    "underscore": {
+      "js": "**/underscore*"
+    },
+    "uri.js": {
+      "js": "**/URI*.js"
+    }
   }
 }

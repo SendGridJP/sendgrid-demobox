@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.3.1'
 
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'sendgrid_ruby'
-gem 'dotenv'
-gem 'sendgrid4r'
-gem 'sinatra-rocketio'
+gem 'sinatra', '~> 1.4'
+gem 'sinatra-contrib', '~> 1.4'
+gem 'sendgrid-ruby', '~> 4.0'
+gem 'dotenv', '~> 2.1'
+gem 'sinatra-rocketio', '~> 0.3'
 gem 'thin'
-gem 'mongo'
-gem 'bson_ext'
+# gem 'mongo'
+# gem 'bson_ext'
 group :test do
   gem 'rspec'
+  gem 'guard-rspec', require: false
   gem 'rack-test'
 end

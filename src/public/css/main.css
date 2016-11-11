@@ -1,0 +1,28 @@
+.wrapper {
+  display: -webkit-flex;
+	display: flex;
+  padding: 2px 0;
+}
+
+.fixed {
+  width: 14px;
+}
+
+.flex {
+  -webkit-flex: 1;
+	flex: 1;
+}
+
+.removeIcon{
+  padding-right: 0px;
+}
+
+.odd {
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.even {
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+}

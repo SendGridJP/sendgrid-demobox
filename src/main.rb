@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+require File.join(File.dirname(__FILE__), '.', 'demobox.rb')
+include SendGrid
 
 class Main < Sinatra::Base
 
@@ -36,52 +37,70 @@ class Main < Sinatra::Base
   end
 
   get '/' do
-    redirect to('/send')
+    redirect to('/index.html')
   end
 
   get '/send' do
     @now_time = Time.now.strftime("%H:%M")
-    setting = Setting.new
-    @tos = setting.tos
-    @from = setting.from
-    @bcc = setting.bcc
+    # setting = Setting.new
+    @tos = @setting.tos
+    @from = @setting.from
+    @bcc = @setting.bcc
     @timezone = Time.now.strftime("%Z")
     erb :send
   end
 
-  get '/receive' do
+  get '/send_init' do
+    puts 'get send_init'
     setting = Setting.new
+    res = {}
+    res['to'] = setting.to
+    res['from'] = setting.from
+    res.to_json
+  end
+
+  get '/receive_init' do
+    puts 'get receive_init'
+    setting = Setting.new
+    res = {}
+    res['receive_address'] = "test@#{setting.parse_host}"
+    res.to_json
+  end
+
+  get '/receive' do
+    # setting = Setting.new
     @receive_address = "demo@#{setting.parse_host}"
     erb :receive
   end
 
   post '/send' do
-    res = ""
+    res = {}
     begin
       request.body.rewind
       body = request.body.read
       if body.length > 0 then
         data = JSON.parse(body)
-        logger.info "data: #{data.inspect}"
-        mailer = Mailer.new
-        res = JSON.pretty_generate(mailer.send(to_kv(data)))
+        logger.info "body: #{body}"
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+        response = sg.client.mail._('send').post(request_body: data)
+        res['responseCode'] = response.status_code
+        res['responseBody'] = response.body
+        puts "MAIN/send #{res.inspect}"
       end
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
       res = e.inspect
     end
-    res
+    res.to_json
   end
 
   post '/event' do
     begin
       request.body.rewind
-      data = JSON.parse(request.body.read)
-      data.each{|event|
-        logger.info JSON.generate(event)
-        io.push :event, JSON.generate(event)
-      }
+      events = request.body.read
+      logger.info events
+      io.push :event, events
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
@@ -89,16 +108,10 @@ class Main < Sinatra::Base
     'Success'
   end
 
-  # TODO fix return 500 if received mail has attachment from Gmail
   post '/receive' do
     begin
-      # push the received email to the clients
       logger.info JSON.generate(params)
       io.push :receive, JSON.generate(params)
-      # insert to datastore
-      dba = MailCollection.new
-      mail = Mail.create_new(params)
-      dba.insert(mail.to_array)
     rescue => e
       logger.error e.backtrace
       logger.error e.inspect
