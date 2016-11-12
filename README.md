@@ -13,7 +13,7 @@ DemoBox
   - TCP 9292:Rack
   - TCP 9000:Web socket
 
-![](./demobox.svg)
+![](./demobox.png)
 
 ### セットアップ手順
 
