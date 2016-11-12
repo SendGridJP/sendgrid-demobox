@@ -13,6 +13,8 @@ DemoBox
   - TCP 9292:Rack
   - TCP 9000:Web socket
 
+![](./demobox.svg)
+
 ### セットアップ手順
 
 - 環境の確認
