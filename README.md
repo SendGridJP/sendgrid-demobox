@@ -81,3 +81,8 @@ $ RACK_ENV=production rackup
 ```text
 http://x.x.x.x:9292
 ```
+
+## 画面イメージ
+
+![](./sendemail.png)
+![](./receiveemail.png)
