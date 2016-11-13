@@ -84,5 +84,5 @@ http://x.x.x.x:9292
 
 ## 画面イメージ
 
-![](./sendemail.png)
-![](./receiveemail.png)
+![](./sendmail.png)
+![](./receivemail.png)
