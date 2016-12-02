@@ -1,13 +1,18 @@
 var DemoboxClient = {
   sendMail: function(mailData, success, failure) {
-    $.ajax({
-      url: '/send',
-      dataType: 'json',
-      type: 'POST',
-      data: mailData,
-      success: success,
-      error: failure,
-    });
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState == 4) {
+         if (xhr.status == 200) {
+           success(JSON.parse(xhr.responseText));
+         } else {
+           failure(xhr, xhr.status, xhr.responseText);
+         }
+      }
+    }.bind(this);
+    xhr.open( 'POST', '/send' );
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(mailData);
   },
 
   makeParam: function(mailData) {
@@ -93,14 +98,19 @@ var DemoboxClient = {
   },
 
   getFromServer: function(url, success, failure) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      type: 'GET',
-      data: null,
-      success: success,
-      error: failure,
-    });
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState == 4) {
+         if (xhr.status == 200) {
+           success(JSON.parse(xhr.responseText));
+         } else {
+           failure(xhr, xhr.status, xhr.responseText);
+         }
+      }
+    }.bind(this);
+    xhr.open( 'GET', url );
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(null);
   }
 };
 
