@@ -44,7 +44,7 @@ var EventsPain = React.createClass({
             enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
             typeName="tbody">
             {events.map(function(event) {
-              var key = event.event + String(event.timestamp);
+              var key = event["sg_event_id"];
               return (
                 <EventItemTable key={key} event={event} />
               );
@@ -63,7 +63,7 @@ var EventsPain = React.createClass({
             enterAnimation="accordianVertical" leaveAnimation="accordianVertical"
             typeName="tbody">
             {events.map(function(event, index) {
-              var key = event.event + String(event.timestamp);
+              var key = event["sg_event_id"];
               return (
                 <EventItemJson key={key} event={event} />
               );
