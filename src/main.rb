@@ -40,16 +40,6 @@ class Main < Sinatra::Base
     redirect to('/index.html')
   end
 
-  get '/send' do
-    @now_time = Time.now.strftime("%H:%M")
-    # setting = Setting.new
-    @tos = @setting.tos
-    @from = @setting.from
-    @bcc = @setting.bcc
-    @timezone = Time.now.strftime("%Z")
-    erb :send
-  end
-
   get '/send_init' do
     puts 'get send_init'
     setting = Setting.new
@@ -65,12 +55,6 @@ class Main < Sinatra::Base
     res = {}
     res['receive_address'] = "test@#{setting.parse_host}"
     res.to_json
-  end
-
-  get '/receive' do
-    # setting = Setting.new
-    @receive_address = "demo@#{setting.parse_host}"
-    erb :receive
   end
 
   post '/send' do
